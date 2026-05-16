@@ -6,7 +6,6 @@ from tinytag import TinyTag
 DISCORD_APP_ID = "1504946005764739092"
 
 IN_FLATPAK = bool(os.getenv("FLATPAK_ID"))
-IN_SNAP = bool(os.getenv("FLATPAK_ID"))
 
 def get_xdg_home(env: str, default: str) -> str:
     base = os.getenv(env) or os.path.expanduser(default)

@@ -1,44 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="nocturne">
 	<schema id="com.jeffser.Nocturne" path="/com/jeffser/Nocturne/">
-	  <key name="default-width" type="i">
-	    <default>800</default>
-	  </key>
-	  <key name="default-height" type="i">
-	    <default>600</default>
+	  <!--# Preferences-->
+	  <!--## Page: General -->
+	  <!--### Section: Behavior -->
+	  <key name="restore-session" type="b">
+	    <default>true</default>
 	  </key>
 	  <key name="hide-on-close" type="b">
 	    <default>false</default>
 	  </key>
-	  <key name="last-playback-checked" type="s">
-	    <default>''</default>
-	  </key>
-	  <key name="selected-instance-type" type="s">
-	    <default>''</default>
-	  </key>
-	  <key name="integration-ip" type="s">
-	    <default>'http://127.0.0.1:4533'</default>
-	  </key>
-	  <key name="integration-user" type="s">
-	    <default>''</default>
-	  </key>
-	  <key name="integration-library-dir" type="s">
-	    <default>''</default>
-	  </key>
-	  <key name="integration-trust-server" type="b">
+	  <key name="simulate-word-by-word-lyrics" type="b">
 	    <default>false</default>
-	  </key>
-	  <key name="auto-play" type="b">
-	    <default>true</default>
-	  </key>
-	  <key name="volume" type="d">
-	    <default>0.25</default>
-	  </key>
-	  <key name="playback-mode" type="s">
-	    <default>'consecutive'</default>
-	  </key>
-	  <key name="default-view-mode" type="s">
-	    <default>'list'</default>
 	  </key>
 	  <key name="default-page-tag" type="s">
 	    <default>'home'</default>
@@ -46,26 +19,38 @@
 	  <key name="max-bitrate" type="i">
 	    <default>0</default>
 	  </key>
-	  <key name="simulate-word-by-word-lyrics" type="b">
-	    <default>false</default>
-	  </key>
+	  <!--### Section: Session-->
 	  <key name="discord-rpc-enabled" type="b">
 	    <default>false</default>
 	  </key>
 	  <key name="discord-instance-art-share" type="b">
 	    <default>false</default>
 	  </key>
-	  <key name="show-playlists-in-sidebar" type="b">
-	    <default>true</default>
-	  </key>
+
+	  <!--## Page: Customization -->
+	  <!--### Section: Interface -->
 	  <key name="show-context-button" type="b">
 	    <default>true</default>
 	  </key>
 	  <key name="show-context-button-label" type="b">
 	    <default>true</default>
 	  </key>
-	  <key name="use-dynamic-accent" type="b">
+    <key name="show-playlists-in-sidebar" type="b">
 	    <default>true</default>
+	  </key>
+    <key name="use-big-footer" type="b">
+	    <default>false</default>
+	  </key>
+	  <key name="player-blur-bg" type="b">
+	    <!--This is translucent mode-->
+	    <default>false</default>
+	  </key>
+	  <key name="use-sidebar-player" type="b">
+	    <default>false</default>
+	  </key>
+	  <!--### Section: Dynamic Background-->
+    <key name="global-dynamic-bg-mode" type="s">
+	    <default>''</default>
 	  </key>
 	  <key name="player-dynamic-bg-mode" type="s">
 	    <default>'blur'</default>
@@ -73,42 +58,10 @@
 	  <key name="popout-dynamic-bg-mode" type="s">
 	    <default>'blur'</default>
 	  </key>
-	  <key name="global-dynamic-bg-mode" type="s">
-	    <default>''</default>
-	  </key>
-	  <key name="use-big-footer" type="b">
-	    <default>false</default>
-	  </key>
-	  <key name="player-blur-bg" type="b"> <!--This is translucent mode-->
-	    <default>false</default>
-	  </key>
-	  <key name="use-sidebar-player" type="b">
-	    <default>false</default>
-	  </key>
-	  <key name="show-visualizer" type="b">
-	    <default>false</default>
-	  </key>
-	  <key name="visualizer-bar-n" type="i">
-	    <default>18</default>
-	  </key>
-	  <key name="visualizer-type" type="s">
-	    <default>'wave'</default>
-	  </key>
-	  <key name="visualizer-auto-color" type="b">
+	  <key name="use-dynamic-accent" type="b">
 	    <default>true</default>
 	  </key>
-	  <key name="visualizer-auto-color-invert" type="b">
-	    <default>true</default>
-	  </key>
-	  <key name="visualizer-manual-color" type="s">
-	    <default>'0.11,0.44,0.85'</default>
-	  </key>
-	  <key name="visualizer-fill-mode" type="s">
-	    <default>'translucent'</default>
-	  </key>
-	  <key name="restore-session" type="b">
-	    <default>true</default>
-	  </key>
+	  <!--### Section: Homepage -->
 	  <key name="n-songs-home" type="i">
 	    <default>12</default>
 	  </key>
@@ -121,6 +74,44 @@
 	  <key name="n-playlists-home" type="i">
 	    <default>12</default>
 	  </key>
+
+	  <!--## Page: Visualizer -->
+	  <!--### Section: Preferences -->
+	  <key name="show-visualizer" type="b">
+	    <default>false</default>
+	  </key>
+	  <key name="visualizer-bar-n" type="i">
+	    <default>18</default>
+	  </key>
+	  <key name="visualizer-type" type="s">
+	    <default>'wave'</default>
+	  </key>
+	  <key name="visualizer-fill-mode" type="s">
+	    <default>'translucent'</default>
+	  </key>
+	  <!--### Section: Color -->
+	  <key name="visualizer-auto-color" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="visualizer-auto-color-invert" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="visualizer-manual-color" type="s">
+	    <default>'0.11,0.44,0.85'</default>
+	  </key>
+
+	  <!--# Player -->
+	  <!--## Page: Control -->
+    <key name="auto-play" type="b">
+	    <default>true</default>
+	  </key>
+	  <key name="volume" type="d">
+	    <default>0.25</default>
+	  </key>
+	  <key name="playback-mode" type="s">
+	    <default>'consecutive'</default>
+	  </key>
+	  <!--## Page: Equalizer -->
 	  <key name="eq-band-0" type="d">
 	    <default>0.0</default>
 	  </key>
@@ -138,6 +129,37 @@
 	  </key>
 	  <key name="eq-band-5" type="d">
 	    <default>0.0</default>
+	  </key>
+
+	  <!-- # Integration -->
+	  <key name="selected-instance-type" type="s">
+	    <default>''</default>
+	  </key>
+	  <key name="integration-ip" type="s">
+	    <default>'http://127.0.0.1:4533'</default>
+	  </key>
+	  <key name="integration-user" type="s">
+	    <default>''</default>
+	  </key>
+	  <key name="integration-library-dir" type="s">
+	    <default>''</default>
+	  </key>
+	  <key name="integration-trust-server" type="b">
+	    <default>false</default>
+	  </key>
+
+	  <!-- # Misc -->
+	  <key name="default-width" type="i">
+	    <default>800</default>
+	  </key>
+	  <key name="default-height" type="i">
+	    <default>600</default>
+	  </key>
+	  <key name="last-playback-checked" type="s">
+	    <default>''</default>
+	  </key>
+	  <key name="default-view-mode" type="s">
+	    <default>'list'</default>
 	  </key>
 	</schema>
 </schemalist>
