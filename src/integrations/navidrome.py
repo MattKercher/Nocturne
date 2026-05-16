@@ -209,6 +209,8 @@ class Navidrome(Base):
             base_artist = base_response.get('artist', {})
             detail_response = self.make_request('getArtistInfo2', {'id': model_id})
             detail_artist = detail_response.get('artistInfo2', {})
+            if not isinstance(detail_artist, dict):
+                detail_artist = {}
             artist_dict = {**base_artist, **detail_artist}
             if artist_dict.get('id'):
                 self.loaded_models.get(model_id).update_data(**artist_dict)
