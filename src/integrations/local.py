@@ -8,6 +8,10 @@ import requests, random, threading, io, pathlib, re, json, os, time, uuid, pwd, 
 from PIL import Image
 from tinytag import TinyTag
 from ..constants import DOWNLOADS_DIR, get_song_info_from_file
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import logging
+
+logger = logging.getLogger(__file__)
 
 class Local(Base):
     __gtype_name__ = 'NocturneIntegrationLocal'
@@ -63,25 +67,33 @@ class Local(Base):
 
         def load_songs():
             # load songs, albums, artists
-            threads = []
             self.set_property('loadingMessage', _("Loading Songs"))
-            for file_path in path_obj.rglob("*"):
-                # Exclude any hidden files/folders within the library path
-                if any(part.startswith(".") for part in file_path.relative_to(path_obj).parts):
-                    continue
-                if file_path.suffix.lower() in ('.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opus', '.wav'):
-                    song_id = 'SONG:{}'.format(file_path)
-                    self.loaded_models[song_id] = models.Song(
-                        id=song_id,
-                        path=file_path,
-                        coverArt=file_path,
-                        userRating=self.get_rating(song_id)
-                    )
-                    threads.append(threading.Thread(target=self.verifySong, args=(song_id,), daemon=True))
-                    threads[-1].start()
-            for t in threads:
-                t.join()
+
+            futures = {}
+            with ThreadPoolExecutor() as executor:
+                for file_path in path_obj.rglob("*"):
+                    # Exclude any hidden files/folders within the library path
+                    if any(part.startswith(".") for part in file_path.relative_to(path_obj).parts):
+                        continue
+                    if file_path.suffix.lower() in ('.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opus', '.wav'):
+                        song_id = 'SONG:{}'.format(file_path)
+                        self.loaded_models[song_id] = models.Song(
+                            id=song_id,
+                            path=file_path,
+                            coverArt=file_path,
+                            userRating=self.get_rating(song_id)
+                        )
+                        futures[executor.submit(self.verifySong, model_id=song_id, use_threading=False)] = song_id
+                
+                for future in as_completed(futures):
+                    song_id = futures[future]
+                    try:
+                        future.result()
+                    except Exception as e:
+                        logger.error(f"can't get image from {song_id}: {e}")
+    
             self.set_property('loadingMessage', "")
+
         threading.Thread(target=load_songs, daemon=True).start()
 
         # Load radios
@@ -158,7 +170,7 @@ class Local(Base):
                 model.set_property('gdkPaintable', texture)
                 return model.get_property('gdkPaintable')
             except Exception as e:
-                pass
+                logger.error(f"can't get image from {model_id=}: {e}")
         return None
 
     def getCoverArtUrl(self, model_id:str="", big:bool=False) -> str:
@@ -304,13 +316,15 @@ class Local(Base):
                 if artist.get('id'):
                     update_artist(artist.get('id'), artist.get('name'))
 
-        if force_update or not self.loaded_models.get(model_id).get_property('title'):
+            self.getCoverArt(model_id)
+
+        # safe check before loading
+        song = self.loaded_models.get(model_id)
+        if force_update or (song and not song.get_property('title')):
             if use_threading:
                 threading.Thread(target=run, daemon=True).start()
             else:
                 run()
-
-        threading.Thread(target=self.getCoverArt, args=(model_id,), daemon=True).start()
 
     def star(self, model_id:str) -> bool:
         conn, cursor = sql_instance.get_connection(self)
