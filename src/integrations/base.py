@@ -41,7 +41,7 @@ class Base(GObject.Object):
                 return json.load(f)
         except Exception:
             pass
-        return None
+        return fallback
 
     def save_json(self, filename:str, data:dict):
         # save JSON to instance specific file

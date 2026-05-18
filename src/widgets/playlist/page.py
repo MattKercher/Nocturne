@@ -121,3 +121,7 @@ class PlaylistPage(Adw.NavigationPage):
     def update_duration(self, duration:int):
         self.duration_el.set_label(get_display_time(duration))
         self.duration_el.set_visible(duration)
+
+    # needed to avoid error
+    def reload(self):
+        ...
