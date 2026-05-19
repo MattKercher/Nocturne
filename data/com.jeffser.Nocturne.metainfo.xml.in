@@ -91,6 +91,19 @@
   </keywords>
 
   <releases>
+    <release version="1.1.1" date="2026-05-18">
+      <url type="details">https://github.com/Jeffser/Nocturne/releases/tag/1.1.1</url>
+      <description translate="no">
+        <p>New</p>
+        <ul>
+          <li>Added option to show pan buttons on carousels</li>
+        </ul>
+        <p>Fixes</p>
+        <ul>
+          <li>Fixed problems with JSON reads</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.1.0" date="2026-05-16">
       <url type="details">https://github.com/Jeffser/Nocturne/releases/tag/1.1.0</url>
       <description translate="no">
