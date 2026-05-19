@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Nocturne\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-05-05 18:30-0600\n"
-"PO-Revision-Date: 2026-05-11 16:17+0200\n"
+"PO-Revision-Date: 2026-05-19 18:05+0200\n"
 "Last-Translator: Jordi Bultó <jbulto@gmail.com>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -70,7 +70,7 @@ msgstr "Obtenció automàtica de lletres"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:20
 msgid "Downloads and offline mode"
-msgstr "Descàrregues i mode fora de línia"
+msgstr "Baixades i mode sense connexió"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:21
 msgid "Cool interface"
@@ -92,7 +92,7 @@ msgstr "Cua de cançons"
 #: src/ui/playing/popout_window.blp:319 src/ui/window.blp:170
 #: src/ui/window.blp:222
 msgid "Lyrics"
-msgstr "Lletres"
+msgstr "Lletra"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:78
 msgid "Song list"
@@ -190,7 +190,7 @@ msgstr "URL de l'emissió"
 
 #: src/actions.py:352
 msgid "Update Radio Station"
-msgstr "Actualitza una emissora de ràdio"
+msgstr "Actualitza l'emissora de ràdio"
 
 #: src/actions.py:352
 msgid "Add Radio Station"
@@ -211,12 +211,12 @@ msgstr "S'ha produït un error en suprimir la ràdio"
 
 #: src/actions.py:386
 msgid "Delete Radio Station"
-msgstr "Suprimeix una emissora de ràdio"
+msgstr "Suprimeix l'emissora de ràdio"
 
 #: src/actions.py:387 src/actions.py:788
 #, python-brace-format
 msgid "Are you sure you want to delete '{}'?"
-msgstr "Voleu suprimir '{}'?"
+msgstr "Esteu segur que voleu suprimir '{}'?"
 
 #: src/actions.py:390 src/actions.py:791 src/constants.py:343
 #: src/constants.py:396
@@ -226,12 +226,12 @@ msgstr "Suprimeix"
 #: src/actions.py:420 src/actions.py:447 src/actions.py:452 src/actions.py:541
 #: src/actions.py:600
 msgid "Playing Next"
-msgstr "Reprodueix després"
+msgstr "Es reproduirà a continuació"
 
 #: src/actions.py:430 src/actions.py:463 src/actions.py:468 src/actions.py:556
 #: src/actions.py:615
 msgid "Playing Later"
-msgstr "Reprodueix més tard"
+msgstr "Es reproduirà més tard"
 
 #: src/actions.py:447 src/actions.py:463 src/actions.py:905 src/actions.py:1040
 #: src/widgets/playlist/button.py:50 src/widgets/playlist/button.py:52
@@ -242,20 +242,20 @@ msgstr "Reprodueix més tard"
 #, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} cançó"
+msgstr[1] "{} cançons"
 
 #: src/actions.py:497
 msgid "Lyrics Saved"
-msgstr "S'han desat les lletres"
+msgstr "S'ha desat la lletra"
 
 #: src/actions.py:647
 msgid "Playlist updated successfully"
-msgstr "La llista de reproducció s'ha actualitzat correctament"
+msgstr "La llista s'ha actualitzat correctament"
 
 #: src/actions.py:647
 msgid "Playlist created successfully"
-msgstr "La llista de reproducció s'ha creat correctament"
+msgstr "La llista s'ha creat correctament"
 
 #: src/actions.py:657
 msgid "Error updating playlist"
@@ -285,22 +285,22 @@ msgstr "Crea"
 #, python-brace-format
 msgid "{} Song Removed"
 msgid_plural "{} Songs Removed"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "S'ha eliminat {} cançó"
+msgstr[1] "S'han eliminat {} cançons"
 
 #: src/actions.py:732 src/actions.py:734 src/actions.py:754 src/actions.py:756
 #, python-brace-format
 msgid "{} Song Added"
 msgid_plural "{} Songs Added"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "S'ha afegit {} cançó"
+msgstr[1] "S'han afegit {} cançons"
 
 #: src/actions.py:761 src/actions.py:877 src/actions.py:910
 #, python-brace-format
 msgid "{} Song Skipped"
 msgid_plural "{} Songs Skipped"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "S'ha omès {} cançó"
+msgstr[1] "S'han omès {} cançons"
 
 #: src/actions.py:775
 msgid "Playlist Deleted"
@@ -321,25 +321,25 @@ msgstr "S'ha iniciat la baixada"
 #: src/actions.py:886 src/actions.py:917 src/actions.py:924 src/actions.py:959
 #: src/actions.py:995
 msgid "Already Downloaded"
-msgstr "Ja descarregats"
+msgstr "Ja s'ha baixat"
 
 #: src/actions.py:911
 #, python-brace-format
 msgid "{} Song ({})"
 msgid_plural "{} Songs ({})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} cançó ({})"
+msgstr[1] "{} cançons ({})"
 
 #: src/actions.py:923
 msgid "Download Skipped"
-msgstr "S'ha omès la descàrrega"
+msgstr "S'ha omès la baixada"
 
 #: src/actions.py:947 src/actions.py:983
 #, python-brace-format
 msgid "Download Started ({} Song Skipped)"
 msgid_plural "Download Started ({} Songs Skipped)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "S'ha iniciat la baixada (s'ha omès {} cançó)"
+msgstr[1] "S'ha iniciat la baixada (s'han omès {} cançons)"
 
 #: src/actions.py:1022 src/actions.py:1041
 msgid "Deleted"
@@ -347,7 +347,7 @@ msgstr "Eliminada"
 
 #: src/constants.py:159 src/ui/playing/playback_mode_button.blp:5
 msgid "Consecutive"
-msgstr "Consecutiu"
+msgstr "En ordre"
 
 #: src/constants.py:163
 msgid "Repeat All"
@@ -360,26 +360,26 @@ msgstr "Repeteix-ne una"
 #: src/constants.py:172
 #, python-brace-format
 msgid "Low ({})"
-msgstr ""
+msgstr "Baixa ({})"
 
 #: src/constants.py:173
 #, python-brace-format
 msgid "Medium ({})"
-msgstr ""
+msgstr "Mitjana ({})"
 
 #: src/constants.py:174
 #, python-brace-format
 msgid "High ({})"
-msgstr ""
+msgstr "Alta ({})"
 
 #: src/constants.py:175
 #, python-brace-format
 msgid "Ultra ({})"
-msgstr ""
+msgstr "Màxima ({})"
 
 #: src/constants.py:176
 msgid "Original File"
-msgstr ""
+msgstr "Fitxer original"
 
 #. Item
 #: src/constants.py:183 src/ui/pages/home.blp:5
@@ -410,12 +410,12 @@ msgstr "Àlbums"
 #. Item
 #: src/constants.py:203 src/constants.py:238 src/window.py:135
 msgid "All"
-msgstr "Tot"
+msgstr "Tots"
 
 #. Item
 #: src/constants.py:208
 msgid "Random"
-msgstr "Aleatori"
+msgstr "Aleatoris"
 
 #. Item
 #: src/constants.py:213 src/constants.py:243
@@ -459,7 +459,7 @@ msgstr "Reprodueix"
 
 #: src/constants.py:267 src/constants.py:300 src/constants.py:318
 msgid "Shuffle"
-msgstr "Aleatori"
+msgstr "Barreja"
 
 #: src/constants.py:272 src/constants.py:323 src/constants.py:356
 #: src/ui/song/queue.blp:55 src/ui/song/queue.blp:57
@@ -481,7 +481,7 @@ msgstr "Afegeix a la llista"
 #: src/ui/playing/lyrics_page.blp:150 src/ui/song/queue.blp:79
 #: src/ui/song/queue.blp:81
 msgid "Download"
-msgstr "Descarrega"
+msgstr "Baixa"
 
 #: src/constants.py:292 src/constants.py:391
 #: src/ui/playing/control_page.blp:102
@@ -503,7 +503,7 @@ msgstr "Selecciona"
 
 #: src/constants.py:371
 msgid "Edit Lyrics"
-msgstr "Edita les lletres"
+msgstr "Edita la lletra"
 
 #: src/constants.py:386 src/ui/album/button.blp:51
 #: src/ui/playing/control_page.blp:117
@@ -516,7 +516,7 @@ msgstr "Elimina"
 
 #: src/constants.py:407 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
 msgid "Delete Download"
-msgstr "Esborra la descàrrega"
+msgstr "Esborra la baixada"
 
 #: src/constants.py:416
 msgid "Visit Webpage"
@@ -532,7 +532,7 @@ msgstr "Suprimeix el servidor"
 
 #: src/integrations/jellyfin.py:15
 msgid "Connect to a Jellyfin server."
-msgstr "Connecta un servidor Jellyfin"
+msgstr "Connecteu-vos a un servidor Jellyfin"
 
 #: src/integrations/jellyfin.py:19
 msgid "Jellyfin"
@@ -540,7 +540,7 @@ msgstr "Jellyfin"
 
 #: src/integrations/jellyfin.py:20
 msgid "Use an existing Jellyfin instance"
-msgstr "Utilitza una instància ja existent de Jellyfin"
+msgstr "Utilitzeu una instància ja existent de Jellyfin"
 
 #: src/integrations/local.py:17 src/integrations/local.py:23
 #: src/integrations/local.py:509
@@ -552,8 +552,8 @@ msgid ""
 "Let Nocturne load your local files directly, for big libraries it is "
 "recommended to use a dedicated server."
 msgstr ""
-"Permet que Nocturne carregui els fitxers locals. Si la biblioteca és gran, "
-"utilitza un servidor dedicat."
+"Permet que el Nocturne carregui els fitxers locals. Si la biblioteca és "
+"gran, utilitzeu un servidor dedicat."
 
 #: src/integrations/local.py:20 src/ui/pages/setup.blp:67
 #: src/ui/pages/setup.blp:68
@@ -562,7 +562,7 @@ msgstr "Continua"
 
 #: src/integrations/local.py:24
 msgid "Limited functionality"
-msgstr "Funcionalitat limitada"
+msgstr "Amb funcionalitat limitada"
 
 #: src/integrations/local.py:36
 msgid "Loading Songs"
@@ -574,11 +574,11 @@ msgstr "Cap àlbum"
 
 #: src/integrations/local.py:525 src/integrations/local.py:534
 msgid "Offline Mode"
-msgstr ""
+msgstr "Mode sense connexió"
 
 #: src/integrations/local.py:526
 msgid "Access your downloads"
-msgstr ""
+msgstr "Accedeix a les teves baixades"
 
 #: src/integrations/navidrome.py:18
 msgid "Connect to an OpenSubsonic server like Navidrome."
@@ -590,7 +590,7 @@ msgstr "Servidor extern"
 
 #: src/integrations/navidrome.py:23
 msgid "Use an existing OpenSubsonic / Navidrome instance"
-msgstr "Utilitza una instància ja existent de Navidrome / Subsonic"
+msgstr "Utilitzeu una instància ja existent de Navidrome / Subsonic"
 
 #: src/integrations/navidrome.py:550 src/integrations/navidrome.py:559
 msgid "Managed Server"
@@ -599,7 +599,8 @@ msgstr "Servidor gestionat"
 #: src/integrations/navidrome.py:551
 msgid "Connect to a Navidrome instance directly managed by Nocturne."
 msgstr ""
-"Connecta una instància de Navidrome gestionada directament pel Nocturne"
+"Connecteu-vos a una instància de Navidrome gestionada directament pel "
+"Nocturne"
 
 #: src/integrations/navidrome.py:554
 msgid "Manage Server"
@@ -607,7 +608,7 @@ msgstr "Gestiona el servidor"
 
 #: src/integrations/navidrome.py:560
 msgid "Create and use a Navidrome instance"
-msgstr "Crea i utilitza una instància de Navidrome"
+msgstr "Creeu i utilitzeu una instància de Navidrome"
 
 #: src/main.py:69
 msgid "Music is Playing"
@@ -623,7 +624,7 @@ msgstr "Configuració"
 
 #: src/preferences.py:314
 msgid "User Token"
-msgstr "Token d'usuari"
+msgstr "Testimoni d'usuari"
 
 #: src/preferences.py:318
 msgid "Link ListenBrainz"
@@ -631,7 +632,7 @@ msgstr "Enllaça amb ListenBrainz"
 
 #: src/preferences.py:319
 msgid "Connect your ListenBrainz account with a user token"
-msgstr "Connecta el compte de ListenBrainz amb un token d'usuari"
+msgstr "Connecteu el compte de ListenBrainz amb un testimoni d'usuari"
 
 #: src/ui/album/button.blp:22
 msgid "Play Album"
@@ -707,7 +708,7 @@ msgstr "Llista"
 
 #: src/ui/containers/download_row.blp:31
 msgid "Downloaded"
-msgstr "Descarregat"
+msgstr "S'ha baixat"
 
 #: src/ui/containers/download_row.blp:52
 msgid "Remove From Queue"
@@ -715,15 +716,15 @@ msgstr "Elimina de la cua"
 
 #: src/ui/containers/downloads_queue_button.blp:10
 msgid "Downloads Queue"
-msgstr "Cua de descàrregues"
+msgstr "Cua de baixades"
 
 #: src/ui/containers/downloads_queue_button.blp:11
 msgid "Downloaded songs are available in offline mode"
-msgstr "Les cançons descarregades estan disponibles en el mode fora de línia"
+msgstr "Les cançons baixades estan disponibles en el mode sense connexió"
 
 #: src/ui/containers/downloads_queue_button.blp:19
 msgid "Clear Done Downloads"
-msgstr "Neteja les descàrregues finalitzades"
+msgstr "Neteja les baixades finalitzades"
 
 #: src/ui/lyrics/dialog.blp:5
 msgid "Lyrics Editor"
@@ -749,13 +750,12 @@ msgstr "Afegeix una línia a la marca de temps"
 
 #: src/ui/lyrics/dialog.blp:133
 msgid "No Lyrics"
-msgstr "No hi ha lletres"
+msgstr "Sense lletra"
 
 #: src/ui/lyrics/dialog.blp:134
 msgid "No lyrics found for this track, to get started add a new line"
 msgstr ""
-"No s'han trobat lletres per a aquesta pista; per començar, afegeix una línia "
-"nova"
+"No s'ha trobat lletra d'aquesta pista. Per començar, afegiu una línia nova"
 
 #: src/ui/lyrics/edit_row.blp:9
 msgid "Timestamp"
@@ -853,7 +853,7 @@ msgstr "Contrasenya"
 
 #: src/ui/pages/login.blp:112 src/ui/pages/login.blp:113
 msgid "Use Quick Connect"
-msgstr ""
+msgstr "Utilitza la connexió ràpida"
 
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
@@ -881,19 +881,19 @@ msgstr "Configuració"
 
 #: src/ui/pages/setup.blp:19
 msgid "Navidrome Download"
-msgstr "Descàrrega de Navidrome"
+msgstr "Baixada del Navidrome"
 
 #: src/ui/pages/setup.blp:20
 msgid "Nocturne will download Navidrome automatically"
-msgstr "Nocturne descarregarà Navidrome automàticament"
+msgstr "El Nocturne baixarà el Navidrome automàticament"
 
 #: src/ui/pages/setup.blp:22
 msgid "Download (~20 mb)"
-msgstr "Descàrrega (~20 mb)"
+msgstr "Baixada (~20 mb)"
 
 #: src/ui/pages/setup.blp:34
 msgid "Downloading"
-msgstr "S'està descarregant"
+msgstr "S'està baixant"
 
 #: src/ui/pages/setup.blp:46
 msgid "An Error Occurred"
@@ -905,7 +905,7 @@ msgstr "Torna-ho a provar més tard"
 
 #: src/ui/pages/setup.blp:55
 msgid "Download Successful"
-msgstr "La descàrrega s'ha fet correctament"
+msgstr "La baixada s'ha fet correctament"
 
 #: src/ui/pages/setup.blp:56
 msgid ""
@@ -938,7 +938,7 @@ msgstr "Cerca cançons preferides"
 
 #: src/ui/pages/welcome.blp:5
 msgid "Welcome"
-msgstr "Benvinguda"
+msgstr "Us donem la benvinguda"
 
 #: src/ui/pages/welcome.blp:16
 msgid "Welcome to Nocturne"
@@ -946,7 +946,7 @@ msgstr "Us donem la benvinguda al Nocturne"
 
 #: src/ui/pages/welcome.blp:17
 msgid "Select an instance type to get started"
-msgstr "Selecciona un tipus d'instància per començar"
+msgstr "Seleccioneu un tipus d'instància per començar"
 
 #: src/ui/playing/control_page.blp:5
 msgid "Playing"
@@ -968,7 +968,7 @@ msgstr "Anterior"
 #: src/ui/playing/control_page.blp:273 src/ui/playing/footer.blp:132
 #: src/ui/playing/popout_window.blp:156
 msgid "Next"
-msgstr "Pròxim"
+msgstr "Següent"
 
 #: src/ui/playing/control_page.blp:293
 msgid "Star"
@@ -1030,19 +1030,19 @@ msgstr "Instrumental"
 
 #: src/ui/playing/lyrics_page.blp:134
 msgid "Not Downloaded"
-msgstr "No s'ha descarregat"
+msgstr "No s'ha baixat"
 
 #: src/ui/playing/lyrics_page.blp:136
 msgid ""
 "The lyrics for this song have not been downloaded yet, they might be "
 "available for download"
 msgstr ""
-"Les lletres d'aquesta cançó encara no s'han descarregat, però poden estar "
-"disponibles per descarregar"
+"La lletra d'aquesta cançó encara no s'ha baixat, és possible que estigui "
+"disponible per a la baixada"
 
 #: src/ui/playing/lyrics_page.blp:160 src/ui/playing/lyrics_page.blp:163
 msgid "Load Lyrics File"
-msgstr "Carrega un fitxer de lletres"
+msgstr "Carrega un fitxer de lletra"
 
 #: src/ui/playing/popout_window.blp:5
 msgid "Pop-out Window"
@@ -1081,7 +1081,7 @@ msgstr "Reproducció automàtica"
 
 #: src/ui/playing/queue_page.blp:25
 msgid "Generate a new queue when the current one ends"
-msgstr "Genera una cua nova quan acabi l'actual"
+msgstr "Genereu una cua nova quan acabi l'actual"
 
 #: src/ui/playing/volume_button.blp:5
 msgid "Volume"
@@ -1147,11 +1147,11 @@ msgstr "Amaga en tancar"
 
 #: src/ui/preferences.blp:18
 msgid "Simulate Word by Word Lyrics"
-msgstr ""
+msgstr "Simula la lletra paraula per paraula"
 
 #: src/ui/preferences.blp:19
 msgid "Used when only line by line lyrics are available"
-msgstr ""
+msgstr "S'aplica quan la lletra està disponible línia per línia"
 
 #: src/ui/preferences.blp:22
 msgid "Default Page on Login"
@@ -1159,7 +1159,7 @@ msgstr "Pàgina per defecte en iniciar la sessió"
 
 #: src/ui/preferences.blp:27
 msgid "Maximum Bitrate"
-msgstr ""
+msgstr "Taxa màxima de bits"
 
 #: src/ui/preferences.blp:33
 msgid "Session"
@@ -1171,7 +1171,7 @@ msgstr "Enllaça amb ListenBrainz"
 
 #: src/ui/preferences.blp:37
 msgid "Keep track of your playback history"
-msgstr "Mantén un registre de l'historial de reproducció"
+msgstr "Manteniu un registre de l'historial de reproducció"
 
 #: src/ui/preferences.blp:43 src/ui/preferences.blp:44
 msgid "Link"
@@ -1203,11 +1203,13 @@ msgstr "Mostra el botó contextual a cada fila"
 
 #: src/ui/preferences.blp:101
 msgid "The menu can also be shown by right clicking / long pressing"
-msgstr "Menú també disponible amb clic dret o pulsació llarga"
+msgstr ""
+"El menú també es pot mostrar fent clic amb el botó dret o prement de manera "
+"mantinguda"
 
 #: src/ui/preferences.blp:104
 msgid "Show Labels in Buttons of Pages"
-msgstr ""
+msgstr "Mostra les etiquetes als botons de les pàgines"
 
 #: src/ui/preferences.blp:107
 msgid "Show Playlists in Sidebar"
@@ -1219,15 +1221,17 @@ msgstr "Mostra la barra de progrés al reproductor"
 
 #: src/ui/preferences.blp:113
 msgid "Make Background Translucent in Player"
-msgstr ""
+msgstr "Fes translúcid el fons del reproductor"
 
 #: src/ui/preferences.blp:116
 msgid "Use Sidebar Player When Possible"
-msgstr ""
+msgstr "Utilitza el reproductor de la barra lateral si és possible"
 
 #: src/ui/preferences.blp:117
 msgid "Sidebar player is only available when the window is wide enough"
 msgstr ""
+"El reproductor de la barra lateral només està disponible si la finestra és "
+"prou ampla"
 
 #: src/ui/preferences.blp:122
 msgid "Dynamic Background"
@@ -1235,15 +1239,15 @@ msgstr "Fons dinàmic"
 
 #: src/ui/preferences.blp:123
 msgid "Background generated based on the album art of the current song"
-msgstr ""
+msgstr "Fons generat a partir de la caràtula de la cançó actual"
 
 #: src/ui/preferences.blp:126
 msgid "Use in Main Window"
-msgstr ""
+msgstr "Utilitza'l a la finestra principal"
 
 #: src/ui/preferences.blp:127
 msgid "Experimental"
-msgstr ""
+msgstr "Experimental"
 
 #: src/ui/preferences.blp:133 src/ui/preferences.blp:134
 #: src/ui/preferences.blp:157 src/ui/preferences.blp:158
@@ -1281,7 +1285,7 @@ msgstr "Pàgina d'inici"
 
 #: src/ui/preferences.blp:205
 msgid "Reload homepage to see changes"
-msgstr "Restaura la pàgina d'inici per veure els canvis"
+msgstr "Restaureu la pàgina d'inici per veure els canvis"
 
 #: src/ui/preferences.blp:241
 msgid "Visualizer"
@@ -1298,8 +1302,8 @@ msgstr "Mostra el visualitzador al reproductor"
 #: src/ui/preferences.blp:248
 msgid "Show an audio spectrum visualizer on top of the album art in the player"
 msgstr ""
-"Mostra un visualitzador de l'espectre d'àudio sobre la caràtula de l'àlbum "
-"al reproductor"
+"Mostreu un visualitzador de l'espectre d'àudio sobre la caràtula de l'àlbum "
+"del reproductor"
 
 #: src/ui/preferences.blp:253
 msgid "Appearance"
@@ -1315,7 +1319,7 @@ msgstr "Tipus de visualitzador"
 
 #: src/ui/preferences.blp:274 src/ui/preferences.blp:275
 msgid "Wave"
-msgstr "Ona"
+msgstr "Ones"
 
 #: src/ui/preferences.blp:279 src/ui/preferences.blp:280
 msgid "Bars"
@@ -1375,7 +1379,7 @@ msgstr "Mostra els paràmetres"
 
 #: src/ui/shortcuts-dialog.blp:20 src/ui/window.blp:250
 msgid "Open Pop-Out Window"
-msgstr ""
+msgstr "Obre un una finestra emergent"
 
 #: src/ui/shortcuts-dialog.blp:24
 msgid "Quit"
@@ -1444,18 +1448,18 @@ msgstr "No preferit"
 #: src/widgets/album/page.py:18
 #, python-brace-format
 msgid "Disc {}"
-msgstr ""
+msgstr "Disc {}"
 
 #: src/widgets/artist/button.py:43 src/widgets/artist/row.py:48
 #, python-brace-format
 msgid "{} Album"
 msgid_plural "{} Albums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} Àlbum"
+msgstr[1] "{} Àlbums"
 
 #: src/widgets/artist/page.py:50
 msgid "Top Songs"
-msgstr "Les millors cançons"
+msgstr "Cançons més populars"
 
 #: src/widgets/artist/page.py:60
 msgid "Related Artists"
@@ -1491,15 +1495,15 @@ msgstr "Errada"
 
 #: src/widgets/pages/login.py:143
 msgid "Quick Connect"
-msgstr ""
+msgstr "Connexió ràpida"
 
 #: src/widgets/pages/login.py:144
 msgid "Error getting code"
-msgstr ""
+msgstr "S'ha produït un error en obtenir el codi"
 
 #: src/widgets/pages/login.py:146
 msgid "Quick Connect Page"
-msgstr ""
+msgstr "Pàgina de connexió ràpida"
 
 #: src/widgets/pages/setup.py:62
 msgid "Installing"
