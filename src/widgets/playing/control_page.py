@@ -136,23 +136,14 @@ class PlayingControlPage(Adw.NavigationPage):
         self.radio_homepage_el.set_tooltip_text(homepage_url)
         self.radio_homepage_el.set_action_target_value(GLib.Variant.new_string(homepage_url))
 
-    def update_artists(self, artists:list):
-        artist_id = ""
-        artist_name = ""
-        if len(artists) > 0:
-            artist_id = artists[0].get('id')
-            artist_name = artists[0].get('name')
-
-        self.artist_el.set_visible(artist_id and artist_name)
-        if artist_id:
-            self.artist_el.set_action_target_value(GLib.Variant.new_string(artist_id))
+    def update_artistId(self, artistId:str):
+        if artistId:
+            self.artist_el.set_action_target_value(GLib.Variant.new_string(artistId))
             self.artist_el.set_action_name("app.show_artist")
             self.artist_el.set_sensitive(True)
         else:
             self.artist_el.set_action_name("")
             self.artist_el.set_sensitive(False)
-        self.artist_el.get_child().set_label(artist_name)
-        self.artist_el.set_tooltip_text(artist_name)
 
     def update_album(self, album:str):
         self.album_el.get_child().set_label(album)
@@ -194,13 +185,17 @@ class PlayingControlPage(Adw.NavigationPage):
         self.title_el.set_tooltip_text(display_title)
 
     def display_artist_changed(self, display_artist:str):
+        self.radio_homepage_el.set_visible(display_artist)
+        self.artist_el.set_visible(display_artist)
         self.radio_homepage_el.get_child().set_label(display_artist)
+        self.artist_el.get_child().set_label(display_artist)
+        self.artist_el.set_tooltip_text(display_artist)
 
     def song_changed(self, song_id:str):
         def run():
             integration = get_current_integration()
             integration.verifySong(song_id, use_threading=False)
-            if model := integration.loaded_models.get(song_id):
+            if song_id in integration.loaded_models:
                 # Set CoverArt
                 paintable = integration.getCoverArt(song_id, big=True)
                 if paintable:
@@ -234,7 +229,7 @@ class PlayingControlPage(Adw.NavigationPage):
                 # Connect UI
                 connections = {
                     'radioStreamUrl': self.update_radioStreamUrl,
-                    'artists': self.update_artists,
+                    'artistId': self.update_artistId,
                     'album': self.update_album,
                     'albumId': self.update_albumId,
                     'isExternalFile': self.update_isExternalFile,

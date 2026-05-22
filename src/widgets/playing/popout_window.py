@@ -4,6 +4,7 @@ from gi.repository import Gtk, Adw, GLib, Gst, Gio, GObject, Pango, Gdk
 from . import PlayingControlPage
 from ...integrations import get_current_integration
 from ...constants import get_display_time
+import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playing/popout_window.ui')
 class PopoutWindow(Adw.ApplicationWindow):
@@ -31,6 +32,11 @@ class PopoutWindow(Adw.ApplicationWindow):
     cover_el = Gtk.Template.Child()
     sidebar_stack = Gtk.Template.Child()
     toggle_fullscreen_el = Gtk.Template.Child()
+
+    song_connections = {
+        'songId': '',
+        'connections': []
+    }
 
     def __init__(self, application, fullscreened):
         super().__init__(
@@ -109,49 +115,90 @@ class PopoutWindow(Adw.ApplicationWindow):
         else:
             self.fullscreen()
 
-    def song_changed(self, id:str):
-        integration = get_current_integration()
-        if model := integration.loaded_models.get(id):
-            self.fs_progress_el.get_adjustment().set_upper(model.get_property('duration'))
-            self.set_title(model.get_property('title'))
-            self.fs_album_el.get_child().set_label(model.get_property('album'))
-            self.fs_album_el.set_tooltip_text(model.get_property('album'))
-            self.fs_album_el.set_action_target_value(GLib.Variant.new_string(model.get_property('albumId')))
-            self.fs_album_el.set_action_name("app.show_album")
-            artist = model.get_property('artists')[0] if len(model.get_property('artists')) > 0 else {'name': model.get_property('artist'), 'id': model.get_property('artistId')}
-            self.fs_artist_el.set_action_target_value(GLib.Variant.new_string(artist.get('id')))
+    def update_radioStreamUrl(self, radioStreamUrl:str):
+        isRadio = bool(radioStreamUrl)
+        self.fs_artist_el.set_visible(not isRadio)
+        self.fs_album_el.set_visible(not isRadio)
+        self.fs_timestamp_el.set_visible(not isRadio)
+        self.fs_progress_el.set_visible(not isRadio)
+
+    def update_artistId(self, artistId:list):
+        if artistId:
+            self.fs_artist_el.set_action_target_value(GLib.Variant.new_string(artistId))
             self.fs_artist_el.set_action_name("app.show_artist")
+            self.fs_artist_el.set_sensitive(True)
+        else:
+            self.fs_artist_el.set_action_name("")
+            self.fs_artist_el.set_sensitive(False)
 
-            # Paintable
-            paintable = integration.getCoverArt(id, big=True)
-            if paintable:
-                self.cover_el.remove_css_class('p50')
-            else:
-                icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
-                paintable = icon_theme.lookup_icon(
-                    'music-note-symbolic',
-                    None,
-                    64,
-                    1,
-                    Gtk.TextDirection.NONE,
-                    0
-                )
-                self.cover_el.add_css_class('p50')
-            GLib.idle_add(self.cover_el.set_paintable, paintable)
+    def update_album(self, album:str):
+        self.fs_album_el.get_child().set_label(album)
+        self.fs_album_el.set_tooltip_text(album)
+        self.fs_album_el.set_visible(album)
 
-            # Radio
-            isRadio = bool(model.get_property('radioStreamUrl'))
-            self.fs_artist_el.set_visible(not isRadio)
-            self.fs_album_el.set_visible(not isRadio)
-            self.fs_timestamp_el.set_visible(not isRadio)
-            self.fs_progress_el.set_visible(not isRadio)
+    def update_albumId(self, albumId:str):
+        if albumId:
+            self.fs_album_el.set_action_target_value(GLib.Variant.new_string(albumId))
+            self.fs_album_el.set_action_name("app.show_album")
+            self.fs_album_el.set_sensitive(True)
+        else:
+            self.fs_album_el.set_action_name("")
+            self.fs_album_el.set_sensitive(False)
 
     def display_title_changed(self, display_title:str):
         self.fs_title_el.set_label(display_title)
+        self.set_title(display_title or "Nocturne")
 
     def display_artist_changed(self, display_artist:str):
         self.fs_artist_el.get_child().set_label(display_artist)
         self.fs_artist_el.set_tooltip_text(display_artist)
+        self.fs_artist_el.set_visible(display_artist)
+
+    def song_changed(self, song_id:str):
+        def run():
+            integration = get_current_integration()
+            integration.verifySong(song_id, use_threading=False)
+            if song_id in integration.loaded_models:
+                # Set CoverArt
+                paintable = integration.getCoverArt(song_id, big=True)
+                if paintable:
+                    GLib.idle_add(self.cover_el.remove_css_class, 'p50')
+                else:
+                    icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
+                    paintable = icon_theme.lookup_icon(
+                        'music-note-symbolic',
+                        None,
+                        64,
+                        1,
+                        Gtk.TextDirection.NONE,
+                        0
+                    )
+                    GLib.idle_add(self.cover_el.add_css_class, 'p50')
+                GLib.idle_add(self.cover_el.set_paintable, paintable)
+
+                # Disconnect From Previous Song
+                if previousSong := integration.loaded_models.get(self.song_connections.get('songId', '')):
+                    for connection_id in self.song_connections.get('connections', []).copy():
+                        try:
+                            GLib.idle_add(previousSong.disconnect, connection_id)
+                        except:
+                            pass
+
+                # Connect UI
+                connections = {
+                    'radioStreamUrl': self.update_radioStreamUrl,
+                    'artistId': self.update_artistId,
+                    'album': self.update_album,
+                    'albumId': self.update_albumId,
+                    'duration': self.fs_progress_el.get_adjustment().set_upper
+                }
+                self.song_connections['connections'] = []
+                self.song_connections['songId'] = song_id
+                for property_name, cb in connections.items():
+                    if connection_id := integration.connect_to_model(song_id, property_name, cb):
+                        self.song_connections['connections'].append(connection_id)
+
+        threading.Thread(target=run, daemon=True).start()
 
     @Gtk.Template.Callback()
     def progress_bar_changed(self, scale_el, scroll_type, value):
