@@ -231,6 +231,8 @@ class Player(EventAdapter):
         self.application = application
         self.gst = Gst.ElementFactory.make("playbin", "music-player")
         self.gst.connect("source-setup", self.on_source_setup)
+        self.gst.set_property("video-sink", Gst.ElementFactory.make("gtk4paintablesink", "video-sink"))
+        self.gst.connect("video-changed", self.video_changed)
 
         self.bin = Gst.Bin.new("audio-filter-bin")
 
@@ -340,6 +342,14 @@ class Player(EventAdapter):
                     source.set_property("ssl-strict", not integration.get_property('trustServer'))
         except:
             pass
+
+    def video_changed(self, playbin):
+        integration = get_current_integration()
+        if playbin.get_property('n-video') or 0 > 0:
+            songId = integration.loaded_models.get('currentSong').get_property('songId')
+            integration.loaded_models.get('currentSong').set_property('videoId', songId)
+        else:
+            integration.loaded_models.get('currentSong').set_property('videoId', "")
 
     # ---
 

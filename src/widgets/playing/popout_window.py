@@ -22,14 +22,15 @@ class PopoutWindow(Adw.ApplicationWindow):
     footer_spectrum_el = Gtk.Template.Child()
 
     bottom_bar = Gtk.Template.Child()
-    fs_spectrum_el = Gtk.Template.Child()
+    cover_art_el = Gtk.Template.Child()
+    sidebar_toggle_el = Gtk.Template.Child()
+    fs_cover_box = Gtk.Template.Child()
     fs_title_el = Gtk.Template.Child()
     fs_progress_el = Gtk.Template.Child()
     fs_album_el = Gtk.Template.Child()
     fs_artist_el = Gtk.Template.Child()
     fs_timestamp_el = Gtk.Template.Child()
     state_stack_el = Gtk.Template.Child()
-    cover_el = Gtk.Template.Child()
     sidebar_stack = Gtk.Template.Child()
     toggle_fullscreen_el = Gtk.Template.Child()
 
@@ -71,7 +72,7 @@ class PopoutWindow(Adw.ApplicationWindow):
         fullscreen_btn.connect('clicked', self.toggle_fullscreen)
         self.playing_page.header_bar.pack_start(fullscreen_btn)
         self.footer_spectrum_el.setup()
-        self.fs_spectrum_el.setup()
+        self.cover_art_el.setup()
 
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
 
@@ -79,6 +80,7 @@ class PopoutWindow(Adw.ApplicationWindow):
         self.dynamic_bg_mode_changed(self.settings, 'popout-dynamic-bg-mode')
         self.settings.connect('changed::use-dynamic-accent', self.css_toggled, 'dynamic-accent')
         self.css_toggled(self.settings, 'use-dynamic-accent', 'dynamic-accent')
+        self.fs_sidebar_toggled(self.sidebar_toggle_el)
 
     def css_toggled(self, settings, key, css_class):
         if settings.get_value(key).unpack():
@@ -114,6 +116,19 @@ class PopoutWindow(Adw.ApplicationWindow):
             self.unfullscreen()
         else:
             self.fullscreen()
+
+    @Gtk.Template.Callback()
+    def fs_sidebar_toggled(self, button, ud=None):
+        if button.get_active():
+            self.fs_cover_box.add_css_class('p50')
+        else:
+            self.fs_cover_box.remove_css_class('p50')
+
+        return
+        self.fs_cover_box.set_margin_top(50 if showing_sidebar else 0)
+        self.fs_cover_box.set_margin_bottom(50 if showing_sidebar else 0)
+        self.fs_cover_box.set_margin_s(50 if showing_sidebar else 0)
+        self.fs_cover_box.set_margin_bottom(50 if showing_sidebar else 0)
 
     def update_radioStreamUrl(self, radioStreamUrl:str):
         isRadio = bool(radioStreamUrl)
@@ -159,23 +174,6 @@ class PopoutWindow(Adw.ApplicationWindow):
             integration = get_current_integration()
             integration.verifySong(song_id, use_threading=False)
             if song_id in integration.loaded_models:
-                # Set CoverArt
-                paintable = integration.getCoverArt(song_id, big=True)
-                if paintable:
-                    GLib.idle_add(self.cover_el.remove_css_class, 'p50')
-                else:
-                    icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
-                    paintable = icon_theme.lookup_icon(
-                        'music-note-symbolic',
-                        None,
-                        64,
-                        1,
-                        Gtk.TextDirection.NONE,
-                        0
-                    )
-                    GLib.idle_add(self.cover_el.add_css_class, 'p50')
-                GLib.idle_add(self.cover_el.set_paintable, paintable)
-
                 # Disconnect From Previous Song
                 if previousSong := integration.loaded_models.get(self.song_connections.get('songId', '')):
                     for connection_id in self.song_connections.get('connections', []).copy():

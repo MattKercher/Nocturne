@@ -1,0 +1,62 @@
+using Gtk 4.0;
+using Adw 1;
+
+template $NocturnePlayingCoverArt: Gtk.Box{
+  orientation: vertical;
+  spacing: 10;
+
+  Gtk.Overlay {
+    halign: center;
+    overflow: hidden;
+    styles [
+      "card"
+    ]
+
+    [overlay]
+    $NocturneSpectrum spectrum_el {
+      hexpand: true;
+      vexpand: true;
+      overflow: hidden;
+    }
+
+    child: Adw.ViewStack view_stack_el {
+      hhomogeneous: false;
+      vhomogeneous: false;
+      enable-transitions: true;
+
+      Adw.ViewStackPage {
+        title: _("Audio");
+        name: "audio";
+        icon-name: "sound-symbolic";
+        child: Gtk.Picture cover_el {
+          paintable: Adw.SpinnerPaintable {
+            widget: cover_el;
+          };
+          accessibility {
+            label: _("Song Cover");
+          }
+        };
+      }
+
+      Adw.ViewStackPage {
+        title: _("Video");
+        name: "video";
+        icon-name: "video-clip-symbolic";
+        child: Gtk.Picture video_el {
+          paintable: Adw.SpinnerPaintable {
+            widget: video_el;
+          };
+          accessibility {
+            label: _("Video");
+          }
+        };
+      }
+    };
+  }
+
+  Adw.ViewSwitcher view_switcher_el {
+    stack: view_stack_el;
+    halign: center;
+    policy: wide;
+  }
+}

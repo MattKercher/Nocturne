@@ -10,3 +10,4 @@ from .volume_button import VolumeButton
 from .playback_mode_button import PlaybackModeButton
 from .spectrum import Spectrum
 from .equalizer_page import EqualizerPage
+from .cover_art import PlayingCoverArt

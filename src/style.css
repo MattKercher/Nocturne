@@ -172,7 +172,7 @@ window.popout-window.big-mode .view_box,
 window.popout-window.big-mode navigation-view-page > toolbarview stack > scrolledwindow > * > *,
 window.popout-window.big-mode navigation-view-page > toolbarview stack > * > scrolledwindow > * > * {
   padding-top: 45px;
-  padding-bottom: 152px;
+  padding-bottom: 172px;
 }
 
 window .main_sidebar .queue_page_padding_top > * > * {

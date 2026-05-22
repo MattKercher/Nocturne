@@ -67,6 +67,8 @@
     <file alias="icons/scalable/status/dialog-warning-symbolic.svg">icons/dialog-warning-symbolic.svg</file>
     <file alias="icons/scalable/status/pan-start-symbolic.svg">icons/pan-start-symbolic.svg</file>
     <file alias="icons/scalable/status/pan-end-symbolic.svg">icons/pan-end-symbolic.svg</file>
+    <file alias="icons/scalable/status/video-clip-symbolic.svg">icons/video-clip-symbolic.svg</file>
+    <file alias="icons/scalable/status/sidebar-show-right-symbolic.svg">icons/sidebar-show-right-symbolic.svg</file>
 
     <file alias="window.ui">ui/window.ui</file>
     <file alias="shortcuts-dialog.ui">ui/shortcuts-dialog.ui</file>
@@ -80,6 +82,7 @@
     <file alias="playing/volume_button.ui">ui/playing/volume_button.ui</file>
     <file alias="playing/playback_mode_button.ui">ui/playing/playback_mode_button.ui</file>
     <file alias="playing/equalizer_page.ui">ui/playing/equalizer_page.ui</file>
+    <file alias="playing/cover_art.ui">ui/playing/cover_art.ui</file>
 
     <file alias="pages/home.ui">ui/pages/home.ui</file>
     <file alias="pages/login.ui">ui/pages/login.ui</file>

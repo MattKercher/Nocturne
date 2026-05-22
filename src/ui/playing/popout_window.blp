@@ -16,7 +16,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
   Adw.Breakpoint {
     condition ("min-width: 1000sp")
     setters {
-      split_view.max-sidebar-width: 1080;
+      split_view.max-sidebar-width: 2440;
       bottom_bar.visible: true;
       toolbarview.extend-content-to-top-edge: true;
       sidebar_stack.visible-child-name: 'view';
@@ -171,15 +171,31 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
               end-widget: Gtk.Box {
                 orientation: vertical;
 
-                Gtk.Label fs_timestamp_el {
-                  styles [
-                    "title-1",
-                    "numeric",
-                    "ph5"
-                  ]
-                  ellipsize: end;
-                  xalign: 1;
-                  justify: right;
+                Gtk.Box {
+                  orientation: horizontal;
+                  spacing: 10;
+                  halign: end;
+
+                  Gtk.Label fs_timestamp_el {
+                    styles [
+                      "title-1",
+                      "numeric",
+                      "ph5"
+                    ]
+                    ellipsize: end;
+                    xalign: 1;
+                    justify: right;
+                  }
+                  Gtk.ToggleButton sidebar_toggle_el {
+                    styles [
+                      "p0",
+                      "flat"
+                    ]
+                    notify::active => $fs_sidebar_toggled();
+                    active: true;
+                    tooltip-text: _("Toggle Sidebar");
+                    icon-name: "sidebar-show-right-symbolic";
+                  }
                 }
 
                 Gtk.Button fs_artist_el {
@@ -218,6 +234,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
           child: Adw.NavigationSplitView split_view {
             sidebar-width-fraction: 0.5;
             max-sidebar-width: 320;
+            collapsed: bind sidebar_toggle_el.active inverted;
 
             sidebar: Adw.NavigationPage {
               title: _("Player");
@@ -243,7 +260,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
                       show-title: false;
                     }
 
-                    content: Gtk.Box {
+                    content: Gtk.Box fs_cover_box {
                       styles [
                         "view_box"
                       ]
@@ -255,35 +272,10 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
                         stack: stack;
                         policy: wide;
                         halign: center;
+                        visible: bind sidebar_toggle_el.active;
                       }
 
-                      Adw.Clamp {
-                        maximum-size: 720;
-                        child: Gtk.Overlay {
-                          halign: center;
-                          overflow: hidden;
-                          styles [
-                            "card"
-                          ]
-
-                          [overlay]
-                          $NocturneSpectrum fs_spectrum_el {
-                            hexpand: true;
-                            vexpand: true;
-                            overflow: hidden;
-                          }
-                          child: Gtk.Picture cover_el {
-                            overflow: hidden;
-
-                            paintable: Adw.SpinnerPaintable {
-                              widget: cover_el;
-                            };
-                            accessibility {
-                              label: _("Song Cover");
-                            }
-                          };
-                        };
-                      }
+                      $NocturnePlayingCoverArt cover_art_el {}
                     };
                   };
                 }

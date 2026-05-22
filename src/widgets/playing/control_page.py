@@ -12,8 +12,7 @@ class PlayingControlPage(Adw.NavigationPage):
     __gtype_name__ = 'NocturnePlayingControlPage'
 
     header_bar = Gtk.Template.Child()
-    spectrum_el = Gtk.Template.Child()
-    cover_el = Gtk.Template.Child()
+    cover_art_el = Gtk.Template.Child()
     title_el = Gtk.Template.Child()
     radio_homepage_el = Gtk.Template.Child()
     artist_el = Gtk.Template.Child()
@@ -37,7 +36,7 @@ class PlayingControlPage(Adw.NavigationPage):
         integration.connect_to_model('currentSong', 'songId', self.song_changed)
         integration.connect_to_model('currentSong', 'displaySongTitle', self.display_title_changed)
         integration.connect_to_model('currentSong', 'displaySongArtist', self.display_artist_changed)
-        self.spectrum_el.setup()
+        self.cover_art_el.setup()
         self.setup_sidebar_button_connection()
         if stack := self.get_ancestor(Gtk.Stack):
             GLib.idle_add(stack.get_parent().set_overflow, Gtk.Overflow.HIDDEN)
@@ -123,6 +122,7 @@ class PlayingControlPage(Adw.NavigationPage):
 
     def update_radioStreamUrl(self, radioStreamUrl:str):
         self.radio_homepage_el.set_visible(radioStreamUrl)
+        self.artist_el.set_visible(not radioStreamUrl)
         self.positive_progress_el.set_visible(not radioStreamUrl)
         self.negative_progress_el.set_visible(not radioStreamUrl)
         self.progress_el.set_visible(not radioStreamUrl)
@@ -185,7 +185,6 @@ class PlayingControlPage(Adw.NavigationPage):
         self.title_el.set_tooltip_text(display_title)
 
     def display_artist_changed(self, display_artist:str):
-        self.artist_el.set_visible(display_artist)
         self.radio_homepage_el.get_child().set_label(display_artist)
         self.artist_el.get_child().set_label(display_artist)
         self.artist_el.set_tooltip_text(display_artist)
@@ -195,23 +194,6 @@ class PlayingControlPage(Adw.NavigationPage):
             integration = get_current_integration()
             integration.verifySong(song_id, use_threading=False)
             if song_id in integration.loaded_models:
-                # Set CoverArt
-                paintable = integration.getCoverArt(song_id, big=True)
-                if paintable:
-                    GLib.idle_add(self.cover_el.remove_css_class, 'p50')
-                else:
-                    icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
-                    paintable = icon_theme.lookup_icon(
-                        'music-note-symbolic',
-                        None,
-                        64,
-                        1,
-                        Gtk.TextDirection.NONE,
-                        0
-                    )
-                    GLib.idle_add(self.cover_el.add_css_class, 'p50')
-                GLib.idle_add(self.cover_el.set_paintable, paintable)
-
                 # Set Defaults
                 GLib.idle_add(self.rating_container.set_visible, True)
                 GLib.idle_add(self.star_el.set_visible, True)

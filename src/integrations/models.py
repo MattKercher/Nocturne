@@ -185,6 +185,7 @@ class CurrentSong(GObject.Object):
     # Not really currentSong, more like currentState at this point
 
     songId = GObject.Property(type=str)
+    videoId = GObject.Property(type=str) # Should check if videoId == songId to see if the current song has video
     positionSeconds = GObject.Property(type=float, default=0.0)
     buttonState = GObject.Property(type=str, default="play") # play, pause (for use in state stacks)
     magnitudes = GObject.Property(type=GObject.TYPE_PYOBJECT) # dict
