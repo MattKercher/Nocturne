@@ -1,0 +1,1713 @@
+# Telugu Translation for Nocturne
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+# Please report any bugs at https://gitlab.gnome.org/Teams/Translation/te
+# Aryan Karamtoth <spaciouskarter78@disroot.org>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-18 19:03-0600\n"
+"PO-Revision-Date: 2026-05-23 08:59+0530\n"
+"Last-Translator: Aryan Karamtoth <spaciouskarter78@disroot.org>\n"
+"Language-Team: GNOME Telugu Translation Team <l10n-te@lists.fsci.in>\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 50.0\n"
+
+#: data/com.jeffser.Nocturne.desktop.in:2
+#: data/com.jeffser.Nocturne.metainfo.xml.in:7
+msgid "Nocturne"
+msgstr "Nocturne"
+
+#: data/com.jeffser.Nocturne.desktop.in:10
+msgid "GTK;Navidrome;Jellyfin;Music;"
+msgstr "GTK;Navidrome;Jellyfin;Music;"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:8
+msgid "Bring your music library together"
+msgstr "మీ సంగీత లైబ్రరీని ఒకచోట చేర్చండి"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:10
+msgid "A modern Navidrome / Jellyfin client"
+msgstr "ఆధునిక నావిడ్రోమ్ / జెల్లీఫిన్ క్లయింట్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:11
+msgid "Features"
+msgstr "ఫీచర్లు"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:13
+msgid "Exploration by songs, artists, albums, radios and playlists"
+msgstr "పాటలు, కళాకారులు, ఆల్బమ్‌లు, రేడియోలు మరియు ప్లేలిస్ట్‌ల ద్వారా అన్వేషణ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:14
+msgid "Playlist management"
+msgstr "ప్లేయలిస్ట్  నిర్వహణ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:15
+msgid "Compatibility with Jellyfin, OpenSubsonic and local files"
+msgstr "జెల్లీఫిన్, ఓపెన్‌సబ్‌సోనిక్ మరియు స్థానిక ఫైల్‌లతో అనుకూలత"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:16
+msgid "Audio equalizer and audio visualizer"
+msgstr "ఆడియో ఈక్వలైజర్ మరియు ఆడియో విజువలైజర్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:17
+msgid "Mpris integration"
+msgstr "Mpris ఇంటిగ్రేషన్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:18
+msgid "Integrated Navidrome instance management"
+msgstr "సమీకృత నావిడ్రోమ్ ఇన్స్టాన్స్ నిర్వహణ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:19
+msgid "Automatic lyrics fetching"
+msgstr "ఆటోమేటిక్ సాహిత్యం ఫెచింగ్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:20
+msgid "Downloads and offline mode"
+msgstr "డౌన్‌లోడ్‌లు మరియు ఆఫ్‌లైన్ మోడ్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:21
+msgid "Cool interface"
+msgstr "కూల్ ఇంటర్ఫేస్"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:26
+msgid "Jeffry Samuel Eduarte Rojas"
+msgstr "Jeffry Samuel Eduarte Rojas"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:66
+msgid "Main homepage"
+msgstr "ప్రధాన హోమ్‌పేజీ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:70
+msgid "Song queue"
+msgstr "పాటల క్యూ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:74
+#: src/ui/playing/popout_window.blp:319 src/ui/window.blp:174
+#: src/ui/window.blp:226
+msgid "Lyrics"
+msgstr "సాహిత్యం"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:78
+msgid "Song list"
+msgstr "పాటల జాబితా"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:82
+msgid "Album page"
+msgstr "ఆల్బమ్ పేజీ"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:87
+msgid "navidrome"
+msgstr "navidrome"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:88
+msgid "jellyfin"
+msgstr "jellyfin"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:89
+msgid "music"
+msgstr "music"
+
+#: data/com.jeffser.Nocturne.metainfo.xml.in:90
+msgid "gtk"
+msgstr "gtk"
+
+#: src/actions.py:154
+#, python-brace-format
+msgid "Not enough songs found for Playback ({})"
+msgstr "ప్లేబ్యాక్ కోసం తగినన్ని పాటలు కనుగొనబడలేదు ({})"
+
+#: src/actions.py:259 src/ui/song/row.blp:69
+msgid "External File"
+msgstr "బాహ్య ఫైల్"
+
+#: src/actions.py:260
+msgid ""
+"This track was loaded from an external file, this means it will have less "
+"features compared to a track inside the library"
+msgstr ""
+"ఈ ట్రాక్ బాహ్య ఫైల్ నుండి లోడ్ చేయబడింది, అందువల్ల లైబ్రరీలోని ట్రాక్‌తో పోలిస్తే దీనిలో ఫీచర్లు తక్కువగా ఉంటాయి."
+
+#: src/actions.py:262 src/preferences.py:419 src/ui/song/queue.blp:40
+msgid "Close"
+msgstr "మూసివేయి"
+
+#: src/actions.py:280
+msgid "Navidrome server deleted successfully"
+msgstr "నవిడ్రోమ్ సర్వర్ విజయవంతంగా తొలగించబడింది"
+
+#: src/actions.py:289
+msgid "Delete Navidrome Server"
+msgstr "నావిడ్రోమ్ సర్వర్‌ను తొలగించండి"
+
+#: src/actions.py:290
+msgid "Are you sure you want to delete the integrated Navidrome server?"
+msgstr "మీరు ఇంటిగ్రేటెడ్ నావిడ్రోమ్ సర్వర్‌ను తొలగించాలనుకుంటున్నారని ఖచ్చితంగా అనుకుంటున్నారా?"
+
+#: src/actions.py:292 src/actions.py:426 src/actions.py:460 src/actions.py:802
+#: src/actions.py:905 src/preferences.py:372 src/ui/lyrics/dialog.blp:16
+#: src/ui/lyrics/dialog.blp:17 src/widgets/pages/login.py:152
+msgid "Cancel"
+msgstr "రద్దు చేయి"
+
+#: src/actions.py:293
+msgid "Keep Data"
+msgstr "డేటాను ఉంచండి"
+
+#: src/actions.py:294
+msgid "Delete Everything"
+msgstr "ప్రతిదీ తొలగించండి"
+
+#: src/actions.py:372
+msgid "No Name"
+msgstr "పేరు లేదు"
+
+#: src/actions.py:391
+msgid "Radio updated successfully"
+msgstr "రేడియో విజయవంతంగా నవీకరించబడింది"
+
+#: src/actions.py:391
+msgid "Radio added successfully"
+msgstr "రేడియో విజయవంతంగా జోడించబడింది"
+
+#: src/actions.py:402
+msgid "Error updating radio"
+msgstr "రేడియోను అప్‌డేట్ చేయడంలో లోపం"
+
+#: src/actions.py:402
+msgid "Error adding radio"
+msgstr "రేడియోను జోడించడంలో లోపం ఏర్పడింది"
+
+#: src/actions.py:411 src/actions.py:794
+msgid "Name"
+msgstr "పేరు"
+
+#: src/actions.py:416
+msgid "Stream Url"
+msgstr "స్ట్రీమ్ Url"
+
+#: src/actions.py:423
+msgid "Update Radio Station"
+msgstr "రేడియో స్టేషన్‌ని నవీకరించండి"
+
+#: src/actions.py:423
+msgid "Add Radio Station"
+msgstr "రేడియో స్టేషన్‌ని జోడించండి"
+
+#: src/actions.py:427 src/preferences.py:373 src/ui/lyrics/dialog.blp:23
+#: src/ui/lyrics/dialog.blp:24
+msgid "Save"
+msgstr "సేవ్ చేయండి"
+
+#: src/actions.py:443
+msgid "Radio deleted successfully"
+msgstr "రేడియో విజయవంతంగా తొలగించబడింది"
+
+#: src/actions.py:451
+msgid "Error deleting radio"
+msgstr "రేడియోను తొలగించడంలో లోపం"
+
+#: src/actions.py:457
+msgid "Delete Radio Station"
+msgstr "రేడియో స్టేషన్‌ను తొలగించండి"
+
+#: src/actions.py:458 src/actions.py:903
+#, python-brace-format
+msgid "Are you sure you want to delete '{}'?"
+msgstr "మీరు నిజంగా '{}' ను తొలగించాలనుకుంటున్నారా?"
+
+#: src/actions.py:461 src/actions.py:906 src/constants.py:368
+#: src/constants.py:421
+msgid "Delete"
+msgstr "తొలగించు"
+
+#: src/actions.py:495 src/actions.py:527 src/actions.py:533 src/actions.py:635
+#: src/actions.py:723
+msgid "Playing Next"
+msgstr "తదుపరి ప్లే చేయబడేది "
+
+#: src/actions.py:507 src/actions.py:546 src/actions.py:552 src/actions.py:652
+#: src/actions.py:740
+msgid "Playing Later"
+msgstr "తర్వాత ప్లే అవుతోంది"
+
+#: src/actions.py:527 src/actions.py:546 src/actions.py:1020
+#: src/actions.py:1155 src/widgets/playlist/dialog.py:31
+#, python-brace-format
+msgid "{} Songs"
+msgstr "{} పాటలు"
+
+#: src/actions.py:582
+msgid "Lyrics Saved"
+msgstr "సాహిత్యం సేవ్ చేయబడింది"
+
+#: src/actions.py:775
+msgid "Playlist updated successfully"
+msgstr "ప్లేజాబితా విజయవంతంగా నవీకరించబడింది"
+
+#: src/actions.py:775
+msgid "Playlist created successfully"
+msgstr "ప్లేజాబితా విజయవంతంగా సృష్టించబడింది"
+
+#: src/actions.py:785
+msgid "Error updating playlist"
+msgstr "ప్లేలిస్ట్‌ను అప్‌డేట్ చేయడంలో లోపం"
+
+#: src/actions.py:785
+msgid "Error creating playlist"
+msgstr "ప్లేలిస్ట్‌ను సృష్టించడంలో లోపం"
+
+#: src/actions.py:799
+msgid "Update Playlist"
+msgstr "ప్లేలిస్ట్‌ను నవీకరించండి"
+
+#: src/actions.py:799 src/ui/pages/playlists.blp:41
+msgid "Create Playlist"
+msgstr "ప్లేలిస్ట్‌ను సృష్టించండి"
+
+#: src/actions.py:803
+msgid "Update"
+msgstr "నవీకరించు"
+
+#: src/actions.py:803
+msgid "Create"
+msgstr "సృష్టించు"
+
+#: src/actions.py:822
+#, python-brace-format
+msgid "{} Song Removed"
+msgid_plural "{} Songs Removed"
+msgstr[0] "{} పాట తొలగించబడింది"
+msgstr[1] "{} పాటలు తొలగించబడ్డాయి"
+
+#: src/actions.py:853 src/actions.py:873
+#, python-brace-format
+msgid "{} Song Added"
+msgid_plural "{} Songs Added"
+msgstr[0] "{} పాట జోడించబడింది"
+msgstr[1] "{} పాటలు జోడించబడ్డాయి"
+
+#: src/actions.py:877 src/actions.py:1025
+#, python-brace-format
+msgid "{} Song Skipped"
+msgid_plural "{} Songs Skipped"
+msgstr[0] "{} పాట దాటవేయబడింది"
+msgstr[1] "{} దాటవేయబడిన పాటలు"
+
+#: src/actions.py:890
+msgid "Playlist Deleted"
+msgstr "ప్లేలిస్ట్ తొలగించబడింది"
+
+#: src/actions.py:902
+msgid "Delete Playlist"
+msgstr "ప్లేలిస్ట్ను తొలగించండి"
+
+#: src/actions.py:951
+msgid "No songs found"
+msgstr "పాటలు ఏవీ కనుగొనబడలేదు"
+
+#: src/actions.py:994 src/actions.py:1021 src/actions.py:1058
+#: src/actions.py:1094
+msgid "Download Started"
+msgstr "డౌన్‌లోడ్ ప్రారంభించబడింది"
+
+#: src/actions.py:1001 src/actions.py:1032 src/actions.py:1039
+#: src/actions.py:1074 src/actions.py:1110
+msgid "Already Downloaded"
+msgstr "ఇప్పటికే డౌన్‌లోడ్ చేయబడింది"
+
+#: src/actions.py:1026
+#, python-brace-format
+msgid "{} Song ({})"
+msgid_plural "{} Songs ({})"
+msgstr[0] "{} పాట ({})"
+msgstr[1] "{} పాటలు ({})"
+
+#: src/actions.py:1038
+msgid "Download Skipped"
+msgstr "డౌన్‌లోడ్ దాటవేయబడింది"
+
+#: src/actions.py:1062 src/actions.py:1098
+#, python-brace-format
+msgid "Download Started ({} Song Skipped)"
+msgid_plural "Download Started ({} Songs Skipped)"
+msgstr[0] "డౌన్‌లోడ్ ప్రారంభమైంది ({} పాట దాటవేయబడింది)"
+msgstr[1] "డౌన్‌లోడ్ ప్రారంభమైంది ({} పాటలు దాటవేయబడ్డాయి)"
+
+#: src/actions.py:1137 src/actions.py:1156
+msgid "Deleted"
+msgstr "తొలగించబడింది"
+
+#: src/constants.py:178 src/ui/playing/playback_mode_button.blp:5
+msgid "Consecutive"
+msgstr "వరుసగా"
+
+#: src/constants.py:182
+msgid "Repeat All"
+msgstr "అన్నీ మల్లి ప్లే చేయండి"
+
+#: src/constants.py:186
+msgid "Repeat One"
+msgstr "ఒకటి మల్లి ప్లే  చేయండి"
+
+#: src/constants.py:191
+#, python-brace-format
+msgid "Low ({})"
+msgstr "తక్కువ ({})"
+
+#: src/constants.py:192
+#, python-brace-format
+msgid "Medium ({})"
+msgstr "మధ్యస్థం ({})"
+
+#: src/constants.py:193
+#, python-brace-format
+msgid "High ({})"
+msgstr "అధిక ({})"
+
+#: src/constants.py:194
+#, python-brace-format
+msgid "Ultra ({})"
+msgstr "అల్ట్రా ({})"
+
+#: src/constants.py:195
+msgid "Original File"
+msgstr "అసలు ఫైల్"
+
+#. Item
+#: src/constants.py:202 src/ui/pages/home.blp:5
+msgid "Home"
+msgstr "హోమ్"
+
+#. Item
+#. list
+#: src/constants.py:207 src/integrations/models.py:162
+#: src/ui/pages/artists.blp:5 src/ui/pages/artists.blp:28
+#: src/ui/preferences.blp:236 src/widgets/pages/home.py:64
+msgid "Artists"
+msgstr "కళాకారులు"
+
+#. Section
+#: src/constants.py:214 src/ui/pages/albums_all.blp:5
+#: src/ui/pages/albums_all.blp:28 src/ui/preferences.blp:228
+#: src/widgets/artist/page.py:55 src/widgets/pages/home.py:51
+msgid "Albums"
+msgstr "ఆల్బమ్"
+
+#. Item
+#: src/constants.py:217 src/constants.py:252 src/constants.py:272
+#: src/window.py:145
+msgid "All"
+msgstr "అన్నీ"
+
+#. Item
+#: src/constants.py:222
+msgid "Random"
+msgstr "యాదృచ్ఛికంగా"
+
+#. Item
+#: src/constants.py:227 src/constants.py:257
+msgid "Favorites"
+msgstr "ఇష్టమైనవి"
+
+#. Item
+#: src/constants.py:232
+msgid "Recently Added"
+msgstr "ఇటీవల జోడించబడింది"
+
+#. Item
+#: src/constants.py:237
+msgid "Recently Played"
+msgstr "ఇటీవల ఆడింది"
+
+#. Item
+#: src/constants.py:242
+msgid "Most Played"
+msgstr "ఎక్కువగా ఆడినవి"
+
+#. Section
+#: src/constants.py:249 src/ui/pages/songs_all.blp:5
+#: src/ui/pages/songs_all.blp:28 src/ui/preferences.blp:220
+#: src/widgets/album/page.py:47 src/widgets/pages/home.py:32
+#: src/widgets/playlist/page.py:31
+msgid "Songs"
+msgstr "పాటలు"
+
+#. Item
+#: src/constants.py:262 src/ui/pages/radios.blp:5 src/ui/pages/radios.blp:13
+msgid "Radios"
+msgstr "రేడియోలు"
+
+#. Section
+#: src/constants.py:269 src/ui/pages/playlists.blp:5
+#: src/ui/pages/playlists.blp:28 src/ui/preferences.blp:244
+#: src/widgets/pages/home.py:77
+msgid "Playlists"
+msgstr "ప్లేయలిస్ట్లు  "
+
+#: src/constants.py:282 src/constants.py:333 src/ui/lyrics/dialog.blp:47
+#: src/ui/playing/control_page.blp:244 src/ui/playing/footer.blp:103
+#: src/ui/playing/popout_window.blp:127 src/ui/song/queue.blp:47
+#: src/ui/song/queue.blp:49
+msgid "Play"
+msgstr "ప్లే చేయండి "
+
+#: src/constants.py:287 src/constants.py:320 src/constants.py:343
+msgid "Shuffle"
+msgstr "షఫుల్ చేయండి"
+
+#: src/constants.py:292 src/constants.py:348 src/constants.py:381
+#: src/ui/song/queue.blp:55 src/ui/song/queue.blp:57
+msgid "Play Next"
+msgstr "తదుపరి ప్లే చేయండి"
+
+#: src/constants.py:297 src/constants.py:353 src/constants.py:386
+#: src/ui/song/queue.blp:63 src/ui/song/queue.blp:65
+msgid "Play Later"
+msgstr "తర్వాత ప్లే చేయండి"
+
+#: src/constants.py:302 src/constants.py:401 src/ui/song/queue.blp:71
+#: src/ui/song/queue.blp:73
+msgid "Add To Playlist"
+msgstr "ప్లేయలిస్ట్ కు  జోడించండి"
+
+#: src/constants.py:307 src/constants.py:358 src/constants.py:406
+#: src/ui/pages/setup.blp:23 src/ui/playing/lyrics_page.blp:147
+#: src/ui/playing/lyrics_page.blp:150 src/ui/song/queue.blp:79
+#: src/ui/song/queue.blp:81
+msgid "Download"
+msgstr "డౌన్‌లోడ్ చేయండి"
+
+#: src/constants.py:312 src/constants.py:416
+#: src/ui/playing/control_page.blp:102
+msgid "Show Artist"
+msgstr "కళాకారుడిని చూపించు"
+
+#: src/constants.py:325 src/ui/playing/lyrics_page.blp:126
+#: src/widgets/song/row.py:109
+msgid "Radio"
+msgstr "రేడియో"
+
+#: src/constants.py:338
+msgid "Resume"
+msgstr "పునఃప్రారంభించండి"
+
+#: src/constants.py:363 src/constants.py:391
+msgid "Edit"
+msgstr "సవరించు"
+
+#: src/constants.py:377
+msgid "Select"
+msgstr "ఎంచుకోండి"
+
+#: src/constants.py:396
+msgid "Edit Lyrics"
+msgstr "సాహిత్యాన్ని సవరించండి"
+
+#: src/constants.py:411 src/ui/album/button.blp:51
+#: src/ui/playing/control_page.blp:117
+msgid "Show Album"
+msgstr "ఆల్బమ్ చూపించు"
+
+#: src/constants.py:427 src/ui/song/queue.blp:90 src/ui/song/queue.blp:92
+msgid "Remove"
+msgstr "తొలగించు"
+
+#: src/constants.py:432 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
+msgid "Delete Download"
+msgstr "డౌన్‌లోడ్‌ను తొలగించండి"
+
+#: src/constants.py:438
+msgid "Show Details"
+msgstr "వివరాలను చూపించు"
+
+#: src/constants.py:446
+msgid "Visit Webpage"
+msgstr "వెబ్‌పేజీని సందర్శించండి"
+
+#: src/constants.py:452
+msgid "Update Server"
+msgstr "సర్వర్‌ని నవీకరించండి"
+
+#: src/constants.py:457
+msgid "Delete Server"
+msgstr "సర్వర్‌ని తొలగించండి"
+
+#: src/integrations/discord_rpc.py:171
+msgid "Browsing"
+msgstr "బ్రౌజింగ్"
+
+#: src/integrations/discord_rpc.py:189
+msgid "Listening to music"
+msgstr "సంగీతం వినడం"
+
+#: src/integrations/jellyfin.py:16
+msgid "Connect to a Jellyfin server."
+msgstr "జెల్లీఫిన్ సర్వర్‌కు కనెక్ట్ అవ్వండి."
+
+#: src/integrations/jellyfin.py:20
+msgid "Jellyfin"
+msgstr "జెల్లీ ఫిష్"
+
+#: src/integrations/jellyfin.py:21
+msgid "Use an existing Jellyfin instance"
+msgstr "ఇప్పటికే ఉన్న జెల్లీఫిన్ ఇన్‌స్టాన్స్‌ను ఉపయోగించండి"
+
+#: src/integrations/jellyfin.py:958
+msgid "Unknown"
+msgstr "తెలియని"
+
+#: src/integrations/local.py:22 src/integrations/local.py:28
+#: src/integrations/local.py:586
+msgid "Local Files"
+msgstr "స్థానిక ఫైల్‌లు"
+
+#: src/integrations/local.py:23
+msgid ""
+"Let Nocturne load your local files directly, for big libraries it is "
+"recommended to use a dedicated server."
+msgstr ""
+"మీ స్థానిక ఫైళ్లను నేరుగా లోడ్ చేయడానికి నాక్టర్న్‌ను ఉపయోగించండి, పెద్ద లైబ్రరీల కోసం ప్రత్యేక సర్వర్‌ను "
+"ఉపయోగించడం మంచిది."
+
+#: src/integrations/local.py:25 src/ui/pages/setup.blp:67
+#: src/ui/pages/setup.blp:68
+msgid "Continue"
+msgstr "కొనసాగించు"
+
+#: src/integrations/local.py:29
+msgid "Limited functionality"
+msgstr "పరిమిత కార్యాచరణ"
+
+#. load songs, albums, artists
+#: src/integrations/local.py:70
+msgid "Loading Songs"
+msgstr "పాటలను లోడ్ చేస్తోంది"
+
+#: src/integrations/local.py:283
+msgid "No Album"
+msgstr "ఆల్బమ్ లేదు"
+
+#: src/integrations/local.py:602 src/integrations/local.py:611
+msgid "Offline Mode"
+msgstr "ఆఫ్‌లైన్ మోడ్"
+
+#: src/integrations/local.py:603
+msgid "Access your downloads"
+msgstr "మీ డౌన్‌లోడ్‌లను యాక్సెస్ చేయండి"
+
+#: src/integrations/models.py:141 src/ui/album/page.blp:5
+#: src/widgets/album/page.py:131
+msgid "Album"
+msgstr "ఆల్బమ్"
+
+#: src/integrations/models.py:143
+msgid "Display Artist"
+msgstr "కళాకారుడిని చూపించు"
+
+#: src/integrations/models.py:145
+msgid "MusicBrainz ID"
+msgstr "MusicBrainz ID"
+
+#: src/integrations/models.py:146
+msgid "Track Number"
+msgstr "ట్రాక్ సంఖ్య"
+
+#: src/integrations/models.py:147
+msgid "Year"
+msgstr "సంవత్సరం"
+
+#: src/integrations/models.py:148
+msgid "Size"
+msgstr "పరిమాణం"
+
+#: src/integrations/models.py:149
+msgid "Suffix"
+msgstr "ప్రత్యయం"
+
+#: src/integrations/models.py:150 src/widgets/album/button.py:63
+#: src/widgets/album/page.py:147 src/widgets/artist/page.py:127
+#: src/widgets/playing/control_page.py:213 src/widgets/song/row.py:163
+msgid "Favorite"
+msgstr "ఇష్టమైనది"
+
+#: src/integrations/models.py:151
+msgid "Duration"
+msgstr "వ్యవధి"
+
+#: src/integrations/models.py:153
+msgid "Bit Rate"
+msgstr "బిట్ రేట్"
+
+#: src/integrations/models.py:154
+msgid "Bit Depth"
+msgstr "బిట్ డెప్త్"
+
+#: src/integrations/models.py:155
+msgid "Sampling Rate"
+msgstr "నమూనా రేటు"
+
+#: src/integrations/models.py:156
+msgid "Channel Count"
+msgstr "ఛానెల్ కౌంట్"
+
+#: src/integrations/models.py:158
+msgid "Path"
+msgstr "మార్గం"
+
+#: src/integrations/models.py:159
+msgid "Disc Number"
+msgstr "డిస్క్ సంఖ్య"
+
+#: src/integrations/models.py:160
+msgid "BPM"
+msgstr "BPM"
+
+#: src/integrations/models.py:161
+msgid "Genres"
+msgstr "శైలులు"
+
+#. list
+#: src/integrations/models.py:163
+msgid "Track Gain"
+msgstr "ట్రాక్ లాభం"
+
+#: src/integrations/models.py:164
+msgid "Album Gain"
+msgstr "ఆల్బమ్ లాభం"
+
+#: src/integrations/navidrome.py:18
+msgid "Connect to an OpenSubsonic server like Navidrome."
+msgstr "నావిడ్రోమ్ వంటి ఓపెన్‌సబ్‌సోనిక్ సర్వర్‌కు కనెక్ట్ అవ్వండి."
+
+#: src/integrations/navidrome.py:22
+msgid "External Server"
+msgstr "బాహ్య సర్వర్"
+
+#: src/integrations/navidrome.py:23
+msgid "Use an existing OpenSubsonic / Navidrome instance"
+msgstr "ఇప్పటికే ఉన్న OpenSubsonic / Navidrome ఇన్‌స్టాన్స్‌ను ఉపయోగించండి"
+
+#: src/integrations/navidrome.py:580 src/integrations/navidrome.py:589
+msgid "Managed Server"
+msgstr "నిర్వహించబడే సర్వర్"
+
+#: src/integrations/navidrome.py:581
+msgid "Connect to a Navidrome instance directly managed by Nocturne."
+msgstr "నాక్టర్న్ ద్వారా నేరుగా నిర్వహించబడే నావిడ్రోమ్ ఇన్స్టాన్స్‌కు కనెక్ట్ అవ్వండి."
+
+#: src/integrations/navidrome.py:584
+msgid "Manage Server"
+msgstr "సర్వర్‌ని నిర్వహించండి"
+
+#: src/integrations/navidrome.py:590
+msgid "Create and use a Navidrome instance"
+msgstr "నావిడ్రోమ్ ఇన్‌స్టాన్స్‌ను సృష్టించి, ఉపయోగించండి"
+
+#: src/main.py:70
+msgid "Music is Playing"
+msgstr "సంగీతం ప్లే అవుతోంది"
+
+#: src/main.py:83
+msgid "Fullscreen Player Active"
+msgstr "పూర్తి స్క్రీన్ ప్లేయర్ యాక్టివ్"
+
+#: src/main.py:129
+msgid "Login Failed"
+msgstr "లాగిన్ విఫలమైంది"
+
+#: src/preferences.py:361
+msgid "Settings Page"
+msgstr "సెట్టింగ్‌ల పేజీ"
+
+#: src/preferences.py:364
+msgid "User Token"
+msgstr "వినియోగదారు టోకెన్"
+
+#: src/preferences.py:368
+msgid "Link ListenBrainz"
+msgstr "లింక్ ListenBrainz"
+
+#: src/preferences.py:369
+msgid "Connect your ListenBrainz account with a user token"
+msgstr "మీ ListenBrainz ఖాతాను యూజర్ టోకెన్‌తో అనుసంధానించండి"
+
+#: src/preferences.py:409
+msgid "Flatpak Sandbox Warning"
+msgstr "ఫ్లాట్‌పాక్ సాండ్‌బాక్స్ హెచ్చరిక"
+
+#: src/preferences.py:410
+msgid ""
+"To connect to Discord, an additional permission is required, once you run "
+"the following command, please restart Nocturne"
+msgstr ""
+"డిస్కార్డ్‌కు కనెక్ట్ అవ్వడానికి అదనపు అనుమతి అవసరం, మీరు కింది కమాండ్‌ను అమలు చేసిన తర్వాత, దయచేసి "
+"నాక్టర్న్‌ను పునఃప్రారంభించండి."
+
+#: src/ui/album/button.blp:22
+msgid "Play Album"
+msgstr "ఆల్బమ్ ప్లే చేయండి"
+
+#: src/ui/album/button.blp:37 src/ui/album/page.blp:152
+#: src/ui/artist/page.blp:150 src/ui/song/row.blp:112
+msgid "Toggle star"
+msgstr "టోగుల్ స్టార్"
+
+#: src/ui/album/button.blp:65 src/ui/album/page.blp:50 src/ui/album/row.blp:32
+msgid "Album cover art"
+msgstr "ఆల్బమ్ కవర్ ఆర్ట్"
+
+#: src/ui/album/button.blp:92
+msgid "Enter album page"
+msgstr "ఆల్బమ్ పేజీని నమోదు చేయండి"
+
+#: src/ui/album/button.blp:117 src/ui/album/page.blp:85
+msgid "Enter artist page"
+msgstr "కళాకారుడి పేజీని నమోదు చేయండి"
+
+#: src/ui/album/page.blp:95 src/ui/artist/page.blp:93
+#: src/ui/playing/control_page.blp:136
+msgid "1 Star"
+msgstr "1 నక్షత్రం"
+
+#: src/ui/album/page.blp:104 src/ui/artist/page.blp:102
+#: src/ui/playing/control_page.blp:145
+msgid "2 Stars"
+msgstr "2 నక్షత్రాలు"
+
+#: src/ui/album/page.blp:113 src/ui/artist/page.blp:111
+#: src/ui/playing/control_page.blp:154
+msgid "3 Stars"
+msgstr "3 నక్షత్రాలు"
+
+#: src/ui/album/page.blp:122 src/ui/artist/page.blp:120
+#: src/ui/playing/control_page.blp:163
+msgid "4 Stars"
+msgstr "4 నక్షత్రాలు"
+
+#: src/ui/album/page.blp:131 src/ui/artist/page.blp:129
+#: src/ui/playing/control_page.blp:172
+msgid "5 Stars"
+msgstr "5 నక్షత్రాలు"
+
+#: src/ui/album/row.blp:48 src/ui/artist/row.blp:40 src/ui/playlist/row.blp:48
+#: src/ui/song/row.blp:127
+msgid "Options"
+msgstr "ఎంపికలు"
+
+#: src/ui/artist/page.blp:5
+msgid "Artist"
+msgstr "కళాకారుడు"
+
+#: src/ui/artist/page.blp:83
+msgid "Expand Biography"
+msgstr "జీవిత చరిత్రను విస్తరించండి"
+
+#: src/ui/containers/carousel.blp:19 src/ui/containers/carousel.blp:21
+#: src/ui/containers/wrapbox.blp:19 src/ui/containers/wrapbox.blp:21
+#: src/ui/pages/albums_all.blp:15 src/ui/pages/artists.blp:15
+#: src/ui/pages/playlists.blp:15 src/ui/pages/songs_all.blp:15
+#: src/ui/pages/songs_starred.blp:15 src/ui/song/queue.blp:16
+#: src/ui/song/queue.blp:18
+msgid "List"
+msgstr "జాబితా"
+
+#: src/ui/containers/carousel.blp:38
+msgid "Pan to the Left"
+msgstr "ఎడమవైపుకు పాన్ చేయండి"
+
+#: src/ui/containers/carousel.blp:64
+msgid "Pan to the Right"
+msgstr "కుడివైపుకి పాన్ చేయండి"
+
+#: src/ui/containers/download_row.blp:31
+msgid "Downloaded"
+msgstr "డౌన్‌లోడ్ చేయబడింది"
+
+#: src/ui/containers/download_row.blp:52
+msgid "Remove From Queue"
+msgstr "క్యూ నుండి తీసివేయండి"
+
+#: src/ui/containers/downloads_queue_button.blp:10
+msgid "Downloads Queue"
+msgstr "డౌన్‌లోడ్‌ల క్యూ"
+
+#: src/ui/containers/downloads_queue_button.blp:11
+msgid "Downloaded songs are available in offline mode"
+msgstr "డౌన్‌లోడ్ చేసిన పాటలు ఆఫ్‌లైన్ మోడ్‌లో అందుబాటులో ఉంటాయి"
+
+#: src/ui/containers/downloads_queue_button.blp:19
+msgid "Clear Done Downloads"
+msgstr "క్లియర్ పూర్తయింది డౌన్‌లోడ్‌లు"
+
+#: src/ui/lyrics/dialog.blp:5
+msgid "Lyrics Editor"
+msgstr "లిరిక్స్ ఎడిటర్"
+
+#: src/ui/lyrics/dialog.blp:61 src/ui/playing/control_page.blp:259
+#: src/ui/playing/footer.blp:118 src/ui/playing/popout_window.blp:142
+msgid "Pause"
+msgstr "పాజ్ చేయండి"
+
+#: src/ui/lyrics/dialog.blp:98 src/ui/playing/control_page.blp:194
+#: src/ui/playing/popout_window.blp:213
+msgid "Current song progress bar"
+msgstr "ప్రస్తుత పాట ప్రోగ్రెస్ బార్"
+
+#: src/ui/lyrics/dialog.blp:103
+msgid "Set Next Line Timestamp to Now"
+msgstr "తదుపరి లైన్ టైమ్‌స్టాంప్‌ను ఇప్పుడుగా సెట్ చేయండి"
+
+#: src/ui/lyrics/dialog.blp:112
+msgid "Add Line at Timestamp"
+msgstr "టైమ్‌స్టాంప్ వద్ద లైన్ జోడించండి"
+
+#: src/ui/lyrics/dialog.blp:133
+msgid "No Lyrics"
+msgstr "సాహిత్యం లేదు"
+
+#: src/ui/lyrics/dialog.blp:134
+msgid "No lyrics found for this track, to get started add a new line"
+msgstr "ఈ ట్రాక్‌కి సాహిత్యం కనుగొనబడలేదు, ప్రారంభించడానికి కొత్త లైన్‌ను జోడించండి"
+
+#: src/ui/lyrics/edit_row.blp:9
+msgid "Timestamp"
+msgstr "సమయముద్ర"
+
+#: src/ui/lyrics/edit_row.blp:15 src/ui/lyrics/edit_row.blp:17
+msgid "Go to Timestamp"
+msgstr "టైమ్‌స్టాంప్‌కు వెళ్లండి"
+
+#: src/ui/lyrics/edit_row.blp:27 src/ui/lyrics/edit_row.blp:29
+msgid "Set Current Timestamp"
+msgstr "ప్రస్తుత టైమ్‌స్టాంప్‌ను సెట్ చేయండి"
+
+#: src/ui/lyrics/edit_row.blp:39 src/ui/lyrics/edit_row.blp:41
+msgid "Remove Line"
+msgstr "లైన్ తొలగించండి"
+
+#: src/ui/pages/albums_all.blp:20 src/ui/pages/artists.blp:20
+#: src/ui/pages/playlists.blp:20 src/ui/pages/songs_all.blp:20
+#: src/ui/pages/songs_starred.blp:20
+msgid "Grid"
+msgstr "గ్రిడ్"
+
+#: src/ui/pages/albums_all.blp:31
+msgid "Search albums"
+msgstr "ఆల్బమ్‌లను వెతకండి"
+
+#: src/ui/pages/albums_all.blp:99 src/ui/pages/albums.blp:53
+#: src/ui/pages/artists.blp:98 src/ui/pages/songs_all.blp:100
+msgid "Reached End of List"
+msgstr "జాబితా ముగింపుకు చేరుకుంది"
+
+#: src/ui/pages/albums_all.blp:115 src/ui/pages/albums.blp:69
+msgid "No Albums Found"
+msgstr "ఆల్బమ్‌లు ఏవీ కనుగొనబడలేదు"
+
+#: src/ui/pages/artists.blp:31
+msgid "Search artists"
+msgstr "కళాకారులను శోధించండి"
+
+#: src/ui/pages/artists.blp:114
+msgid "No Artists Found"
+msgstr "కళాకారులు కనుగొనబడలేదు"
+
+#: src/ui/pages/home.blp:47
+msgid "No Elements Found"
+msgstr "ఏ మూలకాలు కనుగొనబడలేదు"
+
+#. Login Button
+#: src/ui/pages/login.blp:5 src/ui/pages/login.blp:16
+#: src/ui/pages/login.blp:102 src/ui/pages/login.blp:103
+#: src/widgets/pages/login.py:34 src/widgets/pages/login.py:68
+msgid "Login"
+msgstr "లాగిన్ చేయండి"
+
+#: src/ui/pages/login.blp:31
+msgid "Server Status"
+msgstr "సర్వర్ స్థితి"
+
+#: src/ui/pages/login.blp:32 src/widgets/pages/login.py:42
+msgid "Not Running"
+msgstr "నడవట్లేదు"
+
+#: src/ui/pages/login.blp:33
+msgid "Restart Instance"
+msgstr "ఇన్‌స్టాన్స్‌ను పునఃప్రారంభించండి"
+
+#: src/ui/pages/login.blp:45
+msgid "Manage Navidrome Server"
+msgstr "నావిడ్రోమ్ సర్వర్‌ను నిర్వహించండి"
+
+#: src/ui/pages/login.blp:55
+msgid "Url"
+msgstr "Url"
+
+#: src/ui/pages/login.blp:62
+msgid "More Options"
+msgstr "మరిన్ని ఎంపికలు"
+
+#: src/ui/pages/login.blp:68
+msgid "Trust Server Certificates"
+msgstr "ట్రస్ట్ సర్వర్ సర్టిఫికెట్లు"
+
+#: src/ui/pages/login.blp:76
+msgid "Library Directory"
+msgstr "లైబ్రరీ డైరెక్టరీ"
+
+#: src/ui/pages/login.blp:88
+msgid "Username"
+msgstr "వినియోగదారు పేరు"
+
+#: src/ui/pages/login.blp:92
+msgid "Password"
+msgstr "సాంకేతిక పదము"
+
+#: src/ui/pages/login.blp:112 src/ui/pages/login.blp:113
+msgid "Use Quick Connect"
+msgstr "త్వరిత కనెక్షన్ ఉపయోగించండి"
+
+#: src/ui/pages/playlists.blp:31
+msgid "Search playlists"
+msgstr "ప్లేయలిస్ట్లను  శోధించండి"
+
+#: src/ui/pages/playlists.blp:106
+msgid "No Playlists Found"
+msgstr "ప్లేలిస్ట్‌లు ఏవీ కనుగొనబడలేదు"
+
+#: src/ui/pages/radios.blp:16
+msgid "Search radios"
+msgstr "రేడియోలను శోధించండి"
+
+#: src/ui/pages/radios.blp:26
+msgid "Add Radio"
+msgstr "రేడియోని జోడించండి"
+
+#: src/ui/pages/radios.blp:61
+msgid "No Radios Found"
+msgstr "రేడియోలు ఏవీ కనుగొనబడలేదు"
+
+#: src/ui/pages/setup.blp:5
+msgid "Setup"
+msgstr "సెటప్"
+
+#: src/ui/pages/setup.blp:19
+msgid "Navidrome Download"
+msgstr "నవిడ్రోమ్ డౌన్‌లోడ్"
+
+#: src/ui/pages/setup.blp:20
+msgid "Nocturne will download Navidrome automatically"
+msgstr "నాక్టర్న్ నావిడ్రోమ్‌ను స్వయంచాలకంగా డౌన్‌లోడ్ చేస్తుంది"
+
+#: src/ui/pages/setup.blp:22
+msgid "Download (~20 mb)"
+msgstr "డౌన్‌లోడ్ (~20mb)"
+
+#: src/ui/pages/setup.blp:34
+msgid "Downloading"
+msgstr "డౌన్‌లోడ్ చేస్తోంది"
+
+#: src/ui/pages/setup.blp:46
+msgid "An Error Occurred"
+msgstr "ఒక లోపం సంభవించింది"
+
+#: src/ui/pages/setup.blp:47
+msgid "Please try again later"
+msgstr "దయచేసి తర్వాత మళ్లీ ప్రయత్నించండి"
+
+#: src/ui/pages/setup.blp:55
+msgid "Download Successful"
+msgstr "డౌన్‌లోడ్ విజయవంతమైంది"
+
+#: src/ui/pages/setup.blp:56
+msgid ""
+"Before continuing make sure you create an admin account and also make sure "
+"all your tracks are inside your music directory"
+msgstr ""
+"కొనసాగించే ముందు మీరు ఒక అడ్మిన్ ఖాతాను సృష్టించుకున్నారని మరియు మీ ట్రాక్‌లన్నీ మీ మ్యూజిక్ డైరెక్టరీలో "
+"ఉన్నాయని నిర్ధారించుకోండి."
+
+#: src/ui/pages/setup.blp:63
+msgid "Instance Webpage"
+msgstr "ఇన్‌స్టాన్స్ వెబ్‌పేజీ"
+
+#: src/ui/pages/songs_all.blp:31
+msgid "Search songs"
+msgstr "పాటలను శోధించండి"
+
+#: src/ui/pages/songs_all.blp:116 src/ui/pages/songs_starred.blp:95
+#: src/ui/song/queue.blp:124
+msgid "No Songs Found"
+msgstr "పాటలు ఏవీ కనుగొనబడలేదు"
+
+#: src/ui/pages/songs_starred.blp:5 src/ui/pages/songs_starred.blp:28
+msgid "Favorite Songs"
+msgstr "ఇష్టమైన పాటలు"
+
+#: src/ui/pages/songs_starred.blp:31
+msgid "Search favorite songs"
+msgstr "ఇష్టమైన పాటలను శోధించండి"
+
+#: src/ui/pages/welcome.blp:5
+msgid "Welcome"
+msgstr "స్వాగతం"
+
+#: src/ui/pages/welcome.blp:16
+msgid "Welcome to Nocturne"
+msgstr "నాక్టర్న్‌కు స్వాగతం"
+
+#: src/ui/pages/welcome.blp:17
+msgid "Select an instance type to get started"
+msgstr "ప్రారంభించడానికి ఒక ఇన్‌స్టాన్స్ రకాన్ని ఎంచుకోండి"
+
+#: src/ui/playing/control_page.blp:5
+msgid "Playing"
+msgstr "ఆడుతున్నారు"
+
+#: src/ui/playing/control_page.blp:55 src/ui/playing/popout_window.blp:282
+msgid "Song Cover"
+msgstr "పాట కవర్"
+
+#: src/ui/playing/control_page.blp:94
+msgid "Visit current radio homepage"
+msgstr "ప్రస్తుత రేడియో హోమ్‌పేజీని సందర్శించండి"
+
+#: src/ui/playing/control_page.blp:229 src/ui/playing/footer.blp:88
+#: src/ui/playing/popout_window.blp:112
+msgid "Previous"
+msgstr "మునుపటి"
+
+#: src/ui/playing/control_page.blp:273 src/ui/playing/footer.blp:132
+#: src/ui/playing/popout_window.blp:156
+msgid "Next"
+msgstr "తదుపరి"
+
+#: src/ui/playing/control_page.blp:293
+msgid "Star"
+msgstr "నక్షత్రం"
+
+#: src/ui/playing/control_page.blp:300
+msgid "Show Sidebar"
+msgstr "సైడ్‌బార్‌ని చూపించు"
+
+#: src/ui/playing/equalizer_page.blp:21
+msgid "Presets"
+msgstr "ప్రీసెట్లు"
+
+#: src/ui/playing/equalizer_page.blp:26
+msgid "Flat"
+msgstr "ఫ్లాట్"
+
+#: src/ui/playing/equalizer_page.blp:33
+msgid "Vocal Clarity"
+msgstr "స్వర స్పష్టత"
+
+#: src/ui/playing/equalizer_page.blp:38
+msgid "Smooth Jazz"
+msgstr "స్మూత్ జాజ్"
+
+#: src/ui/playing/equalizer_page.blp:43
+msgid "Rock"
+msgstr "రాక్"
+
+#: src/ui/playing/equalizer_page.blp:48
+msgid "Classic"
+msgstr "క్లాసిక్"
+
+#: src/ui/playing/equalizer_page.blp:53
+msgid "Acoustic"
+msgstr "అకౌస్టిక్"
+
+#: src/ui/playing/footer.blp:12
+msgid "Current song progress indicator"
+msgstr "ప్రస్తుత పాట పురోగతి సూచిక"
+
+#: src/ui/playing/footer.blp:34
+msgid "Current song cover art"
+msgstr "ప్రస్తుత పాట కవర్ ఆర్ట్"
+
+#: src/ui/playing/lyrics_page.blp:24 src/ui/playing/lyrics_page.blp:65
+#: src/ui/playing/lyrics_page.blp:95 src/ui/playing/lyrics_page.blp:99
+#: src/ui/playing/lyrics_page.blp:112 src/ui/playing/lyrics_page.blp:116
+msgid "Go Back"
+msgstr "వెనక్కి వెళ్ళు"
+
+#: src/ui/playing/lyrics_page.blp:92
+msgid "No Lyrics Found"
+msgstr "సాహిత్యం కనుగొనబడలేదు"
+
+#: src/ui/playing/lyrics_page.blp:109
+msgid "Instrumental"
+msgstr "వాయిద్యం"
+
+#: src/ui/playing/lyrics_page.blp:134
+msgid "Not Downloaded"
+msgstr "డౌన్‌లోడ్ చేయలేదు"
+
+#: src/ui/playing/lyrics_page.blp:136
+msgid ""
+"The lyrics for this song have not been downloaded yet, they might be "
+"available for download"
+msgstr "ఈ పాట సాహిత్యం ఇంకా డౌన్‌లోడ్ కాలేదు, అది డౌన్‌లోడ్ కోసం అందుబాటులో ఉండవచ్చు."
+
+#: src/ui/playing/lyrics_page.blp:160 src/ui/playing/lyrics_page.blp:163
+msgid "Load Lyrics File"
+msgstr "పాటల ఫైల్ లోడ్ చేయండి"
+
+#: src/ui/playing/popout_window.blp:5
+msgid "Pop-out Window"
+msgstr "పాప్-అవుట్ విండో"
+
+#: src/ui/playing/popout_window.blp:223 src/ui/window.blp:158
+msgid "Player"
+msgstr "ఆటగాడు"
+
+#: src/ui/playing/popout_window.blp:240 src/ui/shortcuts-dialog.blp:46
+#: src/ui/window.blp:259 src/widgets/playing/popout_window.py:63
+msgid "Toggle Fullscreen"
+msgstr "పూర్తి స్క్రీన్‌ను టోగుల్ చేయండి"
+
+#: src/ui/playing/popout_window.blp:293 src/ui/window.blp:198
+msgid "Song Details"
+msgstr "పాటల వివరాలు"
+
+#: src/ui/playing/popout_window.blp:313 src/ui/window.blp:164
+#: src/ui/window.blp:220
+msgid "Queue"
+msgstr "క్యూ"
+
+#: src/ui/playing/popout_window.blp:325 src/ui/window.blp:180
+#: src/ui/window.blp:232
+msgid "Equalizer"
+msgstr "ఈక్వలైజర్"
+
+#: src/ui/playing/queue_page.blp:20
+msgid "Generating Next Queue"
+msgstr "తదుపరి క్యూను రూపొందిస్తోంది"
+
+#: src/ui/playing/queue_page.blp:24
+msgid "Autoplay"
+msgstr "ఆటోప్లే"
+
+#: src/ui/playing/queue_page.blp:25
+msgid "Generate a new queue when the current one ends"
+msgstr "ప్రస్తుత క్యూ ముగిసినప్పుడు కొత్త క్యూను సృష్టించండి"
+
+#: src/ui/playing/volume_button.blp:5
+msgid "Volume"
+msgstr "వాల్యూమ్"
+
+#: src/ui/playing/volume_button.blp:12
+msgid "Speaker Mute"
+msgstr "స్పీకర్ మ్యూట్"
+
+#: src/ui/playing/volume_button.blp:30
+msgid "Speaker Full Volume"
+msgstr "స్పీకర్ పూర్తి వాల్యూమ్"
+
+#: src/ui/playlist/button.blp:29
+msgid "Play Playlist"
+msgstr "ప్లేయలిస్ట్లను ప్లే చేయండి "
+
+#: src/ui/playlist/button.blp:43
+msgid "Show Playlist"
+msgstr "ప్లేయలిస్ట్లను చూపు"
+
+#: src/ui/playlist/button.blp:56 src/ui/playlist/page.blp:50
+#: src/ui/playlist/row.blp:32 src/ui/playlist/selector_row.blp:24
+msgid "Playlist cover art"
+msgstr "ప్లేయలిస్ట్ కవర్ ఆర్ట్"
+
+#: src/ui/playlist/button.blp:68
+msgid "Enter playlist page"
+msgstr "ప్లేయలిస్ట్ పేజీని నమోదు చేయండి"
+
+#: src/ui/playlist/dialog.blp:6 src/ui/playlist/page.blp:5
+#: src/widgets/playlist/page.py:86
+msgid "Playlist"
+msgstr "ప్లేయలిస్ట్"
+
+#: src/ui/playlist/dialog.blp:11
+msgid "Search (or create new playlist)"
+msgstr "శోధించండి (లేదా కొత్త ప్లేలిస్ట్‌ను సృష్టించండి)"
+
+#: src/ui/playlist/dialog.blp:20
+msgid "Adding Music to Playlist"
+msgstr "ప్లేలిస్ట్‌కు సంగీతాన్ని జోడించడం"
+
+#: src/ui/playlist/dialog.blp:34
+msgid "Create New Playlist and Add Songs"
+msgstr "కొత్త ప్లేలిస్ట్‌ను సృష్టించి పాటలను జోడించండి"
+
+#: src/ui/preferences.blp:7 src/ui/shortcuts-dialog.blp:6
+msgid "General"
+msgstr "సాధారణ"
+
+#: src/ui/preferences.blp:10
+msgid "Behavior"
+msgstr "ప్రవర్తన"
+
+#: src/ui/preferences.blp:12
+msgid "Restore Queue on Launch"
+msgstr "ప్రారంభించినప్పుడు క్యూను పునరుద్ధరించండి"
+
+#: src/ui/preferences.blp:15
+msgid "Hide on Close"
+msgstr "క్లోజ్‌లో దాచండి"
+
+#: src/ui/preferences.blp:18
+msgid "Simulate Word by Word Lyrics"
+msgstr "పదం పదం వారీగా పాటల సాహిత్యాన్ని అనుకరించండి"
+
+#: src/ui/preferences.blp:19
+msgid "Used when only line by line lyrics are available"
+msgstr "పంక్తి పంక్తి పాట మాత్రమే అందుబాటులో ఉన్నప్పుడు ఉపయోగించబడుతుంది"
+
+#: src/ui/preferences.blp:22
+msgid "Default Page on Login"
+msgstr "లాగిన్ అయినప్పుడు డిఫాల్ట్ పేజీ"
+
+#: src/ui/preferences.blp:27
+msgid "Maximum Bitrate"
+msgstr "గరిష్ట బిట్రేట్"
+
+#: src/ui/preferences.blp:33
+msgid "Session"
+msgstr "సెషన్"
+
+#: src/ui/preferences.blp:36
+msgid "Discord Rich Presence"
+msgstr "Discord Rich Presence"
+
+#: src/ui/preferences.blp:37
+msgid "Share the currently playing song on Discord"
+msgstr "ప్రస్తుతం ప్లే అవుతున్న పాటను Discord షేర్ చేయండి"
+
+#: src/ui/preferences.blp:41
+msgid "Share Cover Art With Discord"
+msgstr "Discord తో  కవర్ ఆర్ట్‌ను పంచుకోండి"
+
+#: src/ui/preferences.blp:42
+msgid ""
+"If the instance is not reachable by Discord servers, CoverArtArchive will be "
+"used instead"
+msgstr ""
+"Discord సర్వర్‌ల ద్వారా ఇన్‌స్టాన్స్‌ను చేరుకోలేకపోతే, దానికి బదులుగా CoverArtArchive "
+"ఉపయోగించబడుతుంది."
+
+#: src/ui/preferences.blp:48
+msgid "ListenBrainz Link"
+msgstr "ListenBrainz లింక్"
+
+#: src/ui/preferences.blp:49
+msgid "Keep track of your playback history"
+msgstr "మీ ప్లేబ్యాక్ చరిత్రను గమనిస్తూ ఉండండి"
+
+#: src/ui/preferences.blp:55 src/ui/preferences.blp:56
+msgid "Link"
+msgstr "లింక్"
+
+#: src/ui/preferences.blp:64 src/ui/preferences.blp:65
+msgid "Unlink"
+msgstr "అన్‌లింక్ చేయండి"
+
+#: src/ui/preferences.blp:77
+msgid "User"
+msgstr "వినియోగదారు"
+
+#: src/ui/preferences.blp:97
+msgid "Logout"
+msgstr "లాగ్అవుట్"
+
+#: src/ui/preferences.blp:107
+msgid "Customization"
+msgstr "అనుకూలీకరణ"
+
+#: src/ui/preferences.blp:110
+msgid "Interface"
+msgstr "ఇంటర్ఫేస్"
+
+#: src/ui/preferences.blp:112
+msgid "Show Context Button in Rows"
+msgstr "అడ్డు వరుసలలో కాంటెక్స్ట్ బటన్‌ను చూపించు"
+
+#: src/ui/preferences.blp:113
+msgid "The menu can also be shown by right clicking / long pressing"
+msgstr "కుడి క్లిక్ చేయడం లేదా ఎక్కువసేపు నొక్కి పట్టుకోవడం ద్వారా కూడా మెనూను చూపించవచ్చు."
+
+#: src/ui/preferences.blp:116
+msgid "Show Labels in Buttons of Pages"
+msgstr "పేజీల బటన్లలో లేబుల్‌లను చూపించు"
+
+#: src/ui/preferences.blp:119
+msgid "Show Progressbar in Player Footer"
+msgstr "ప్లేయర్ ఫుటర్‌లో ప్రోగ్రెస్‌బార్‌ను చూపించు"
+
+#: src/ui/preferences.blp:122
+msgid "Make Background Translucent in Player"
+msgstr "ప్లేయర్‌లో బ్యాక్‌గ్రౌండ్‌ను పారదర్శకంగా చేయండి"
+
+#: src/ui/preferences.blp:125
+msgid "Use Sidebar Player When Possible"
+msgstr "వీలైనప్పుడు సైడ్‌బార్ ప్లేయర్‌ను ఉపయోగించండి"
+
+#: src/ui/preferences.blp:126
+msgid "Sidebar player is only available when the window is wide enough"
+msgstr "విండో తగినంత వెడల్పుగా ఉన్నప్పుడు మాత్రమే సైడ్‌బార్ ప్లేయర్ అందుబాటులో ఉంటుంది"
+
+#: src/ui/preferences.blp:129
+msgid "Show Pan Buttons on Carousels"
+msgstr "క్యారౌసెల్‌లపై పాన్ బటన్‌లను చూపించు"
+
+#: src/ui/preferences.blp:130
+msgid "Only visible when a carousel has 5 or more items"
+msgstr "క్యారౌసెల్‌లో 5 లేదా అంతకంటే ఎక్కువ అంశాలు ఉన్నప్పుడు మాత్రమే కనిపిస్తుంది"
+
+#: src/ui/preferences.blp:135
+msgid "Dynamic Background"
+msgstr "డైనమిక్ నేపథ్యం"
+
+#: src/ui/preferences.blp:136
+msgid "Background generated based on the album art of the current song"
+msgstr "ప్రస్తుత పాట యొక్క ఆల్బమ్ ఆర్ట్ ఆధారంగా నేపథ్యం రూపొందించబడింది"
+
+#: src/ui/preferences.blp:139
+msgid "Use in Main Window"
+msgstr "ప్రధాన విండోలో ఉపయోగించండి"
+
+#: src/ui/preferences.blp:140
+msgid "Experimental"
+msgstr "ప్రయోగాత్మకమైనది"
+
+#: src/ui/preferences.blp:146 src/ui/preferences.blp:147
+#: src/ui/preferences.blp:170 src/ui/preferences.blp:171
+#: src/ui/preferences.blp:194 src/ui/preferences.blp:195
+msgid "Off"
+msgstr "ఆఫ్"
+
+#: src/ui/preferences.blp:151 src/ui/preferences.blp:152
+#: src/ui/preferences.blp:175 src/ui/preferences.blp:176
+#: src/ui/preferences.blp:199 src/ui/preferences.blp:200
+msgid "Gradient"
+msgstr "గ్రేడియంట్"
+
+#: src/ui/preferences.blp:156 src/ui/preferences.blp:157
+#: src/ui/preferences.blp:180 src/ui/preferences.blp:181
+#: src/ui/preferences.blp:204 src/ui/preferences.blp:205
+msgid "Blur"
+msgstr "బ్లర్"
+
+#: src/ui/preferences.blp:164
+msgid "Use in Player"
+msgstr "ప్లేయర్‌లో ఉపయోగించండి"
+
+#: src/ui/preferences.blp:188
+msgid "Use in Pop-out Window"
+msgstr "పాప్-అవుట్ విండోలో ఉపయోగించండి"
+
+#: src/ui/preferences.blp:212
+msgid "Use as Accent Color"
+msgstr "యాక్సెంట్ కలర్‌గా ఉపయోగించండి"
+
+#: src/ui/preferences.blp:217
+msgid "Homepage"
+msgstr "హోమ్‌పేజీ"
+
+#: src/ui/preferences.blp:218
+msgid "Reload homepage to see changes"
+msgstr "మార్పులను చూడటానికి హోమ్‌పేజీని రీలోడ్ చేయండి"
+
+#: src/ui/preferences.blp:254
+msgid "Sidebar"
+msgstr "సైడ్‌బార్"
+
+#: src/ui/preferences.blp:258
+msgid "Visualizer"
+msgstr "విజువలైజర్"
+
+#: src/ui/preferences.blp:262 src/ui/window.blp:249
+msgid "Preferences"
+msgstr "ప్రాధాన్యతలు"
+
+#: src/ui/preferences.blp:264
+msgid "Show Visualizer in Player"
+msgstr "ప్లేయర్‌లో విజువలైజర్‌ను చూపించు"
+
+#: src/ui/preferences.blp:265
+msgid "Show an audio spectrum visualizer on top of the album art in the player"
+msgstr "ప్లేయర్‌లోని ఆల్బమ్ ఆర్ట్ పైన ఆడియో స్పెక్ట్రమ్ విజువలైజర్‌ను చూపించండి"
+
+#: src/ui/preferences.blp:270
+msgid "Appearance"
+msgstr "స్వరూపం"
+
+#: src/ui/preferences.blp:274
+msgid "Number of Bars"
+msgstr "బార్ల సంఖ్య"
+
+#: src/ui/preferences.blp:285
+msgid "Visualizer Type"
+msgstr "విజువలైజర్ రకం"
+
+#: src/ui/preferences.blp:291 src/ui/preferences.blp:292
+msgid "Wave"
+msgstr "అల"
+
+#: src/ui/preferences.blp:296 src/ui/preferences.blp:297
+msgid "Bars"
+msgstr "బార్లు"
+
+#: src/ui/preferences.blp:301 src/ui/preferences.blp:302
+msgid "Particles"
+msgstr "పార్టికల్స్"
+
+#: src/ui/preferences.blp:309
+msgid "Fill Mode"
+msgstr "మోడ్ పూరించండి"
+
+#: src/ui/preferences.blp:315 src/ui/preferences.blp:316
+msgid "Solid"
+msgstr "ఘనమైనది"
+
+#: src/ui/preferences.blp:320 src/ui/preferences.blp:321
+msgid "Translucent"
+msgstr "అపారదర్శక"
+
+#: src/ui/preferences.blp:325 src/ui/preferences.blp:326
+msgid "Border"
+msgstr "సరిహద్దు"
+
+#: src/ui/preferences.blp:334
+msgid "Color"
+msgstr "రంగు"
+
+#: src/ui/preferences.blp:338
+msgid "Use Dynamic Color"
+msgstr "డైనమిక్ కలర్ ఉపయోగించండి"
+
+#: src/ui/preferences.blp:341
+msgid "Invert Color"
+msgstr "విలోమ రంగు"
+
+#: src/ui/preferences.blp:345
+msgid "Manual Color"
+msgstr "మాన్యువల్ రంగు"
+
+#: src/ui/preferences.blp:351
+msgid "Visualizer Color"
+msgstr "విజువలైజర్ రంగు"
+
+#: src/ui/shortcuts-dialog.blp:8
+msgid "Show Shortcuts"
+msgstr "సత్వరమార్గాలను చూపు"
+
+#: src/ui/shortcuts-dialog.blp:12
+msgid "Show Preferences"
+msgstr "ప్రాధాన్యతలను చూపు"
+
+#: src/ui/shortcuts-dialog.blp:16
+msgid "Quit"
+msgstr "నిష్క్రమించు"
+
+#: src/ui/shortcuts-dialog.blp:21
+msgid "Playback"
+msgstr "ప్లేబ్యాక్"
+
+#: src/ui/shortcuts-dialog.blp:23
+msgid "Toggle Playback"
+msgstr "ప్లేబ్యాక్‌ను టోగుల్ చేయండి"
+
+#: src/ui/shortcuts-dialog.blp:27
+msgid "Next Song"
+msgstr "తదుపరి పాట"
+
+#: src/ui/shortcuts-dialog.blp:31
+msgid "Previous Song"
+msgstr "మునుపటి పాట"
+
+#: src/ui/shortcuts-dialog.blp:35
+msgid "Raise Volume"
+msgstr "వాల్యూమ్ పెంచండి"
+
+#: src/ui/shortcuts-dialog.blp:39
+msgid "Lower Volume"
+msgstr "తక్కువ వాల్యూమ్"
+
+#: src/ui/shortcuts-dialog.blp:44
+msgid "Window"
+msgstr "విండో"
+
+#: src/ui/shortcuts-dialog.blp:50 src/ui/window.blp:254
+msgid "Open Pop-Out Window"
+msgstr "పాప్-అవుట్ విండోను తెరవండి"
+
+#: src/ui/song/row.blp:41
+msgid "Drag icon"
+msgstr "చిహ్నాన్ని లాగండి"
+
+#: src/ui/song/row.blp:139
+msgid "Selection box"
+msgstr "ఎంపిక పెట్టె"
+
+#: src/ui/song/small_row.blp:37
+msgid "Song cover art"
+msgstr "పాట కవర్ ఆర్ట్"
+
+#: src/ui/window.blp:78
+msgid "Play Random Queue"
+msgstr "రాండమ్ క్యూ ఆడండి"
+
+#: src/ui/window.blp:91
+msgid "Menu"
+msgstr "మెనూ"
+
+#: src/ui/window.blp:119
+msgid "Random Albums"
+msgstr "యాదృచ్ఛిక ఆల్బమ్‌లు"
+
+#: src/ui/window.blp:123
+msgid "Favorite Albums"
+msgstr "ఇష్టమైన ఆల్బమ్‌లు"
+
+#: src/ui/window.blp:127
+msgid "Newest Albums"
+msgstr "సరికొత్త ఆల్బమ్‌లు"
+
+#: src/ui/window.blp:131
+msgid "Recent Albums"
+msgstr "ఇటీవలి ఆల్బమ్‌లు"
+
+#: src/ui/window.blp:135
+msgid "Frequent Albums"
+msgstr "తరచుగా ఆల్బమ్‌లు"
+
+#: src/ui/window.blp:269
+msgid "Keyboard Shortcuts"
+msgstr "కీబోర్డ్ షార్ట్‌కట్‌లు"
+
+#: src/ui/window.blp:274
+msgid "About Nocturne"
+msgstr "నోక్టర్న్ గురించి"
+
+#: src/widgets/album/button.py:68 src/widgets/album/page.py:152
+#: src/widgets/artist/page.py:132 src/widgets/playing/control_page.py:218
+#: src/widgets/song/row.py:168
+msgid "Not Favorite"
+msgstr "ఇష్టమైనది కాదు"
+
+#: src/widgets/album/page.py:18
+#, python-brace-format
+msgid "Disc {}"
+msgstr "డిస్క్ {}"
+
+#: src/widgets/artist/button.py:42 src/widgets/artist/row.py:47
+#, python-brace-format
+msgid "{} Album"
+msgid_plural "{} Albums"
+msgstr[0] "{} ఆల్బమ్"
+msgstr[1] "{} ఆల్బమ్‌లు"
+
+#: src/widgets/artist/page.py:50
+msgid "Top Songs"
+msgstr "అగ్ర పాటలు"
+
+#: src/widgets/artist/page.py:60
+msgid "Related Artists"
+msgstr "సంబంధిత కళాకారులు"
+
+#: src/widgets/artist/page.py:115
+msgid "Author"
+msgstr "రచయిత"
+
+#: src/widgets/lyrics/dialog.py:54
+msgid "No Timestamp"
+msgstr "టైమ్‌స్టాంప్ లేదు"
+
+#: src/widgets/pages/login.py:42 src/widgets/pages/login.py:105
+msgid "Running"
+msgstr "నడుస్తోంది"
+
+#: src/widgets/pages/login.py:76
+msgid "Extra Menu"
+msgstr "అదనపు మెను"
+
+#: src/widgets/pages/login.py:94
+msgid "Local Music Library"
+msgstr "స్థానిక సంగీత లైబ్రరీ"
+
+#: src/widgets/pages/login.py:104
+msgid "Restarted"
+msgstr "పునఃప్రారంభించబడింది"
+
+#: src/widgets/pages/login.py:107
+msgid "Error"
+msgstr "లోపం"
+
+#: src/widgets/pages/login.py:143
+msgid "Quick Connect"
+msgstr "త్వరిత కనెక్ట్"
+
+#: src/widgets/pages/login.py:144
+msgid "Error getting code"
+msgstr "కోడ్ పొందడంలో లోపం ఏర్పడింది"
+
+#: src/widgets/pages/login.py:146
+msgid "Quick Connect Page"
+msgstr "త్వరిత అనుసంధాన పేజీ"
+
+#: src/widgets/pages/setup.py:63
+msgid "Installing"
+msgstr "ఇన్‌స్టాల్ చేస్తోంది"
+
+#: src/widgets/pages/welcome.py:20 src/widgets/pages/welcome.py:22
+msgid "Integration"
+msgstr "ఇంటిగ్రేషన్"
+
+#: src/widgets/playing/lyrics_page.py:215
+msgid "LRC File"
+msgstr "LRC ఫైల్"
+
+#: src/widgets/playlist/button.py:49 src/widgets/playlist/page.py:118
+#: src/widgets/playlist/row.py:48 src/widgets/playlist/selector_row.py:37
+#, python-brace-format
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} పాట"
+msgstr[1] "{} పాటలు"
+
+#: src/widgets/playlist/dialog.py:55
+msgid "New Playlist"
+msgstr "కొత్త ప్లేయలిస్ట్"
+
+#: src/widgets/playlist/selector_row.py:34
+#, python-brace-format
+msgid "Add Songs to '{}'"
+msgstr "పాటలను '{}' కు జోడించండి"
+
+#: src/widgets/song/row.py:147 src/widgets/song/row.py:152
+msgid "Multiple Artists"
+msgstr "బహుళ కళాకారులు"
+
+#: src/window.py:202
+msgid "Nocturne Playback"
+msgstr "నోక్టర్న్ ప్లేబ్యాక్"
+
+#: src/window.py:203
+#, python-brace-format
+msgid "Your Playback queue for {} is available!"
+msgstr "మీ ప్లేబ్యాక్ క్యూ {} కోసం అందుబాటులో ఉంది!"
+
+#: src/window.py:205
+msgid "Show"
+msgstr "చూపించు"
+
+#: src/window.py:206
+msgid "Later"
+msgstr "తరువాత"
