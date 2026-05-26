@@ -8,7 +8,7 @@ template $NocturneHomePage: Adw.NavigationPage {
     extend-content-to-top-edge: bind search_toggle.active inverted;
 
     [top]
-    Adw.HeaderBar {
+    Adw.HeaderBar header_bar {
       [start]
       Gtk.ToggleButton search_toggle {
         icon-name: "system-search-symbolic";
@@ -44,7 +44,6 @@ template $NocturneHomePage: Adw.NavigationPage {
           child: Adw.Clamp main_clamp {
             maximum-size: 2000;
             tightening-threshold: 800;
-            margin-top: 50;
 
             child: Gtk.Box {
               orientation: vertical;
