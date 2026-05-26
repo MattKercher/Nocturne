@@ -97,6 +97,7 @@
         <p>New</p>
         <ul>
           <li>Added compatibility with video streams</li>
+          <li>Added option to hide sidebar in fullscreen mode</li>
           <li>Synced volume changes with the system audio mixer</li>
           <li>Changed intensity of dynamic background</li>
           <li>Made carousels scrollable with horizontal scroll wheels</li>
