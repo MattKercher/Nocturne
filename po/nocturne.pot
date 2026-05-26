@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 00:47-0600\n"
+"POT-Creation-Date: 2026-05-26 15:24-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -761,6 +761,7 @@ msgid "Enter album page"
 msgstr ""
 
 #: src/ui/album/button.blp:113 src/ui/album/page.blp:85
+#: src/ui/song/button.blp:81
 msgid "Enter artist page"
 msgstr ""
 
@@ -976,6 +977,38 @@ msgstr ""
 msgid "Use Quick Connect"
 msgstr ""
 
+#: src/ui/pages/playback.blp:5 src/ui/shortcuts-dialog.blp:25
+msgid "Playback"
+msgstr ""
+
+#: src/ui/pages/playback.blp:17
+msgid "Go Home"
+msgstr ""
+
+#: src/ui/pages/playback.blp:24
+msgid "Toggle Visualizer"
+msgstr ""
+
+#: src/ui/pages/playback.blp:54 src/window.py:202
+msgid "Nocturne Playback"
+msgstr ""
+
+#: src/ui/pages/playback.blp:64
+msgid "These are your most played songs from last month"
+msgstr ""
+
+#: src/ui/pages/playback.blp:83 src/ui/pages/playback.blp:85
+msgid "Save Playlist"
+msgstr ""
+
+#: src/ui/pages/playback.blp:98 src/ui/pages/playback.blp:100
+msgid "Playlist Added"
+msgstr ""
+
+#: src/ui/pages/playback.blp:123
+msgid "Thank you for using Nocturne!"
+msgstr ""
+
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
 msgstr ""
@@ -1093,6 +1126,18 @@ msgstr ""
 msgid "Show Sidebar"
 msgstr ""
 
+#: src/ui/playing/cover_art.blp:28
+msgid "Audio"
+msgstr ""
+
+#: src/ui/playing/cover_art.blp:36 src/ui/song/details_dialog.blp:34
+msgid "Song Cover"
+msgstr ""
+
+#: src/ui/playing/cover_art.blp:42 src/ui/playing/cover_art.blp:50
+msgid "Video"
+msgstr ""
+
 #: src/ui/playing/equalizer_page.blp:21
 msgid "Presets"
 msgstr ""
@@ -1174,7 +1219,8 @@ msgstr ""
 msgid "Toggle Fullscreen"
 msgstr ""
 
-#: src/ui/playing/popout_window.blp:285 src/ui/window.blp:199
+#: src/ui/playing/popout_window.blp:285 src/ui/song/details_dialog.blp:5
+#: src/ui/window.blp:199
 msgid "Song Details"
 msgstr ""
 
@@ -1530,10 +1576,6 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: src/ui/shortcuts-dialog.blp:25
-msgid "Playback"
-msgstr ""
-
 #: src/ui/shortcuts-dialog.blp:27
 msgid "Toggle Playback"
 msgstr ""
@@ -1562,16 +1604,24 @@ msgstr ""
 msgid "Open Pop-Out Window"
 msgstr ""
 
+#: src/ui/song/button.blp:16
+msgid "Play Song"
+msgstr ""
+
+#: src/ui/song/button.blp:31 src/ui/song/small_row.blp:37
+msgid "Song cover art"
+msgstr ""
+
+#: src/ui/song/button.blp:45
+msgid "Play Indicator"
+msgstr ""
+
 #: src/ui/song/row.blp:41
 msgid "Drag icon"
 msgstr ""
 
 #: src/ui/song/row.blp:139
 msgid "Selection box"
-msgstr ""
-
-#: src/ui/song/small_row.blp:37
-msgid "Song cover art"
 msgstr ""
 
 #: src/ui/window.blp:79
@@ -1680,6 +1730,16 @@ msgstr ""
 msgid "Quick Connect Page"
 msgstr ""
 
+#: src/widgets/pages/playback.py:29
+#, python-brace-format
+msgid "Nocturne Playback ~ {}"
+msgstr ""
+
+#: src/widgets/pages/playback.py:48 src/widgets/pages/playback.py:57
+#, python-brace-format
+msgid "{} Plays"
+msgstr ""
+
 #: src/widgets/pages/setup.py:63
 msgid "Installing"
 msgstr ""
@@ -1709,12 +1769,20 @@ msgstr ""
 msgid "Add Songs to '{}'"
 msgstr ""
 
-#: src/widgets/song/row.py:147 src/widgets/song/row.py:152
-msgid "Multiple Artists"
+#: src/widgets/song/details_dialog.py:23
+msgid "Yes"
 msgstr ""
 
-#: src/window.py:202
-msgid "Nocturne Playback"
+#: src/widgets/song/details_dialog.py:23
+msgid "No"
+msgstr ""
+
+#: src/widgets/song/details_dialog.py:28
+msgid "Not Found"
+msgstr ""
+
+#: src/widgets/song/row.py:147 src/widgets/song/row.py:152
+msgid "Multiple Artists"
 msgstr ""
 
 #: src/window.py:203

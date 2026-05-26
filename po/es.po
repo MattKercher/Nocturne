@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-26 00:47-0600\n"
+"POT-Creation-Date: 2026-05-26 15:24-0600\n"
 "PO-Revision-Date: 2026-03-25 15:34-0600\n"
 "Last-Translator: Jeffry Samuel <jeffrysamuer@gmail.com>\n"
 "Language-Team: Spanish <es@tp.org.es>\n"
@@ -767,6 +767,7 @@ msgid "Enter album page"
 msgstr "Entrar en la página del álbum"
 
 #: src/ui/album/button.blp:113 src/ui/album/page.blp:85
+#: src/ui/song/button.blp:81
 msgid "Enter artist page"
 msgstr "Entrar en la página del artista"
 
@@ -984,6 +985,38 @@ msgstr "Contraseña"
 msgid "Use Quick Connect"
 msgstr "Usar Conexión Rápida"
 
+#: src/ui/pages/playback.blp:5 src/ui/shortcuts-dialog.blp:25
+msgid "Playback"
+msgstr "Reproducción"
+
+#: src/ui/pages/playback.blp:17
+msgid "Go Home"
+msgstr "Ir a Página Principal"
+
+#: src/ui/pages/playback.blp:24
+msgid "Toggle Visualizer"
+msgstr "Alternar Visualizador"
+
+#: src/ui/pages/playback.blp:54 src/window.py:202
+msgid "Nocturne Playback"
+msgstr "Nocturne Playback"
+
+#: src/ui/pages/playback.blp:64
+msgid "These are your most played songs from last month"
+msgstr "Estas son las canciones que más has escuchado del mes pasado"
+
+#: src/ui/pages/playback.blp:83 src/ui/pages/playback.blp:85
+msgid "Save Playlist"
+msgstr "Guardar Playlist"
+
+#: src/ui/pages/playback.blp:98 src/ui/pages/playback.blp:100
+msgid "Playlist Added"
+msgstr "Playlist Agregada"
+
+#: src/ui/pages/playback.blp:123
+msgid "Thank you for using Nocturne!"
+msgstr "Gracias por usar Nocturne!"
+
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
 msgstr "Buscar Playlists"
@@ -1103,6 +1136,18 @@ msgstr "Dar Estrella"
 msgid "Show Sidebar"
 msgstr "Mostrar Barra Lateral"
 
+#: src/ui/playing/cover_art.blp:28
+msgid "Audio"
+msgstr "Audio"
+
+#: src/ui/playing/cover_art.blp:36 src/ui/song/details_dialog.blp:34
+msgid "Song Cover"
+msgstr "Portada de Canción"
+
+#: src/ui/playing/cover_art.blp:42 src/ui/playing/cover_art.blp:50
+msgid "Video"
+msgstr "Video"
+
 #: src/ui/playing/equalizer_page.blp:21
 msgid "Presets"
 msgstr "Preajustes"
@@ -1186,7 +1231,8 @@ msgstr "Reproductor"
 msgid "Toggle Fullscreen"
 msgstr "Alternar Pantalla Completa"
 
-#: src/ui/playing/popout_window.blp:285 src/ui/window.blp:199
+#: src/ui/playing/popout_window.blp:285 src/ui/song/details_dialog.blp:5
+#: src/ui/window.blp:199
 msgid "Song Details"
 msgstr "Detalles de Canción"
 
@@ -1548,10 +1594,6 @@ msgstr "Mostrar Preferencias"
 msgid "Quit"
 msgstr "Cerrar"
 
-#: src/ui/shortcuts-dialog.blp:25
-msgid "Playback"
-msgstr "Reproducción"
-
 #: src/ui/shortcuts-dialog.blp:27
 msgid "Toggle Playback"
 msgstr "Alternar Reproducción"
@@ -1580,6 +1622,18 @@ msgstr "Ventana"
 msgid "Open Pop-Out Window"
 msgstr "Abrir Ventana Emergente"
 
+#: src/ui/song/button.blp:16
+msgid "Play Song"
+msgstr "Reproducir Canción"
+
+#: src/ui/song/button.blp:31 src/ui/song/small_row.blp:37
+msgid "Song cover art"
+msgstr "Portada de canción"
+
+#: src/ui/song/button.blp:45
+msgid "Play Indicator"
+msgstr "Indicador de Reproducción"
+
 #: src/ui/song/row.blp:41
 msgid "Drag icon"
 msgstr "Icono de arrastre"
@@ -1587,10 +1641,6 @@ msgstr "Icono de arrastre"
 #: src/ui/song/row.blp:139
 msgid "Selection box"
 msgstr "Caja de selección"
-
-#: src/ui/song/small_row.blp:37
-msgid "Song cover art"
-msgstr "Portada de canción"
 
 #: src/ui/window.blp:79
 msgid "Play Random Queue"
@@ -1698,6 +1748,16 @@ msgstr "Error obteniendo código"
 msgid "Quick Connect Page"
 msgstr "Página de Conexión Rápida"
 
+#: src/widgets/pages/playback.py:29
+#, python-brace-format
+msgid "Nocturne Playback ~ {}"
+msgstr "Nocturne Playback ~ {}"
+
+#: src/widgets/pages/playback.py:48 src/widgets/pages/playback.py:57
+#, python-brace-format
+msgid "{} Plays"
+msgstr "{} Reproducciones"
+
 #: src/widgets/pages/setup.py:63
 msgid "Installing"
 msgstr "Instalando"
@@ -1727,13 +1787,21 @@ msgstr "Nueva Playlist"
 msgid "Add Songs to '{}'"
 msgstr "Agregar Canciones a '{}'"
 
+#: src/widgets/song/details_dialog.py:23
+msgid "Yes"
+msgstr "Si"
+
+#: src/widgets/song/details_dialog.py:23
+msgid "No"
+msgstr "No"
+
+#: src/widgets/song/details_dialog.py:28
+msgid "Not Found"
+msgstr "No se ha Encontrado"
+
 #: src/widgets/song/row.py:147 src/widgets/song/row.py:152
 msgid "Multiple Artists"
 msgstr "Multiples Artistas"
-
-#: src/window.py:202
-msgid "Nocturne Playback"
-msgstr "Nocturne Playback"
 
 #: src/window.py:203
 #, python-brace-format
@@ -1751,9 +1819,6 @@ msgstr "Más Tarde"
 #, python-brace-format
 #~ msgid "Not enough songs found for Playback ({})"
 #~ msgstr "No se encontraron suficientes canciones para el Playback ({})"
-
-#~ msgid "Song Cover"
-#~ msgstr "Portada de Canción"
 
 #~ msgid "Generating next queue"
 #~ msgstr "Generando la siguiente cola"
