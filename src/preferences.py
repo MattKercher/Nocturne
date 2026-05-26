@@ -253,7 +253,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
         )
 
         ## Sidebar
-        enabled_pages = settings.get_value('sidebar-enabled-pages').unpack()
+        disabled_pages = settings.get_value('sidebar-disabled-pages').unpack()
         for section in SIDEBAR_MENU:
             section_expander = None
             if section.get("title"):
@@ -266,7 +266,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
                 if item.get('page-tag') != 'home':
                     row = Adw.SwitchRow(
                         title=item.get("title"),
-                        active=item.get("page-tag") in enabled_pages,
+                        active=item.get("page-tag") not in disabled_pages,
                         name=item.get("page-tag")
                     )
                     row.connect('notify::active', self.sidebar_item_toggled)
@@ -396,15 +396,15 @@ class NocturnePreferences(Adw.PreferencesDialog):
 
     def sidebar_item_toggled(self, row, gp):
         settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        enabled_pages = settings.get_value('sidebar-enabled-pages').unpack()
+        enabled_pages = settings.get_value('sidebar-disabled-pages').unpack()
         name = row.get_name()
-        if row.get_active():
+        if not row.get_active():
             if name not in enabled_pages:
                 enabled_pages.append(name)
         else:
             if name in enabled_pages:
                 enabled_pages.remove(name)
-        settings.set_value('sidebar-enabled-pages', GLib.Variant('as', enabled_pages))
+        settings.set_value('sidebar-disabled-pages', GLib.Variant('as', enabled_pages))
         if main_window := self.get_root().get_application().main_window:
             GLib.idle_add(main_window.setup_sidebar)
 

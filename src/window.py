@@ -103,7 +103,7 @@ class NocturneWindow(Adw.ApplicationWindow):
         )
 
     def setup_sidebar(self):
-        enabled_pages = self.settings.get_value('sidebar-enabled-pages').unpack()
+        disabled_pages = self.settings.get_value('sidebar-disabled-pages').unpack()
         self.main_sidebar.remove_all()
         for section in SIDEBAR_MENU:
             section_el = Adw.SidebarSection(
@@ -111,7 +111,7 @@ class NocturneWindow(Adw.ApplicationWindow):
             )
             append_section = False
             for item in section.get('items'):
-                if item.get('page-tag') in enabled_pages:
+                if item.get('page-tag') not in disabled_pages:
                     row = SidebarItem(
                         title=item.get('title'),
                         icon_name=item.get('icon-name'),
@@ -131,7 +131,7 @@ class NocturneWindow(Adw.ApplicationWindow):
             threading.Thread(target=self.main_navigationview.get_visible_page().reload, daemon=True).start()
 
     def update_playlist_section_of_sidebar(self):
-        if 'playlists' not in self.settings.get_value('sidebar-enabled-pages').unpack():
+        if 'playlists' in self.settings.get_value('sidebar-disabled-pages').unpack():
             return
         integration = get_current_integration()
         integration.connect('notify::loadingMessage', lambda integration, ud: self.update_loading_message(integration))
