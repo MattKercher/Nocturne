@@ -101,7 +101,7 @@ class HomePage(Adw.NavigationPage):
                     songCount=self.max_songs,
                     artistCount=self.max_artists,
                     albumCount=self.max_albums,
-                    ##TODO playlist
+                    playlistCount=self.max_playlists
                 )
             else:
                 search_results = self.get_default_results()

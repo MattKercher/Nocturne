@@ -3,7 +3,7 @@
 from gi.repository import Gtk, Adw, GLib, GObject, Gio
 from ...integrations import get_current_integration, models
 from ..playlist import PlaylistRow, PlaylistButton
-import re
+import threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/pages/playlists.ui')
 class PlaylistsPage(Adw.NavigationPage):
@@ -13,6 +13,11 @@ class PlaylistsPage(Adw.NavigationPage):
     main_stack = Gtk.Template.Child()
     list_el = Gtk.Template.Child()
     wrapbox_el = Gtk.Template.Child()
+    scrolledwindow = Gtk.Template.Child()
+    end_stack = Gtk.Template.Child()
+    search_entry = Gtk.Template.Child()
+    offset = 0
+    searching = False
 
     def __init__(self):
         super().__init__()
@@ -22,29 +27,63 @@ class PlaylistsPage(Adw.NavigationPage):
             "active-name",
             Gio.SettingsBindFlags.DEFAULT
         )
+        self.scrolledwindow.get_vadjustment().connect('notify::upper', lambda va, ud: GLib.timeout_add(1000, self.check_scrollbar, va))
+
+    def check_scrollbar(self, adjustment):
+        if adjustment.get_upper() <= adjustment.get_page_size():
+            threading.Thread(target=self.search, daemon=True).start()
 
     def reload(self):
-        # call in different thread
-        GLib.idle_add(self.main_stack.set_visible_child_name, 'loading')
-        integration = get_current_integration()
-        playlists = integration.getPlaylists()
-        GLib.idle_add(self.reset)
-        for id in playlists:
-            GLib.idle_add(self.list_el.append, PlaylistRow(id))
-            GLib.idle_add(self.wrapbox_el.append, PlaylistButton(id))
-        GLib.idle_add(self.update_visibility)
+        if len(list(self.list_el)) + len(list(self.wrapbox_el)) == 0:
+            GLib.idle_add(self.on_search, self.search_entry)
 
     def reset(self):
         self.list_el.remove_all()
         for el in list(self.wrapbox_el):
             self.wrapbox_el.remove(el)
 
+    def search(self):
+        if self.searching:
+            return
+        self.searching = True
+        query = self.search_entry.get_text()
+        integration = get_current_integration()
+        search_results = integration.search(
+            query=query,
+            playlistCount=30,
+            playlistOffset=self.offset
+        )
+        for playlist_id in search_results.get('playlist'):
+            results_list = [row for row in list(self.list_el) if row.id == playlist_id]
+            if len(results_list) > 0:
+                GLib.idle_add(results_list[0].set_visible, True)
+            else:
+                row = PlaylistRow(playlist_id)
+                GLib.idle_add(self.list_el.append, row)
+
+            results_wrapbox = [button for button in list(self.wrapbox_el) if button.id == playlist_id]
+            if len(results_wrapbox) > 0:
+                GLib.idle_add(results_wrapbox[0].set_visible, True)
+            else:
+                button = PlaylistButton(playlist_id)
+                GLib.idle_add(self.wrapbox_el.append, button)
+
+        GLib.idle_add(self.end_stack.set_visible_child_name, 'end' if len(search_results.get('playlist')) < 30 else 'loading')
+        self.offset += 30
+        self.searching = False
+        GLib.idle_add(self.update_visibility)
+
     @Gtk.Template.Callback()
     def on_search(self, search_entry):
-        query = search_entry.get_text()
-        for child in list(self.list_el) + list(self.wrapbox_el):
-            child.set_visible(child.get_name() != 'GtkListBoxRow' and re.search(query, child.get_name(), re.IGNORECASE))
-        GLib.idle_add(self.update_visibility)
+        self.offset = 0
+        for widget in list(self.list_el) + list(self.wrapbox_el):
+            widget.set_visible(False)
+        threading.Thread(target=self.search, daemon=True).start()
+
+    @Gtk.Template.Callback()
+    def scroll_edge_reached(self, scrolledwindow, pos):
+        if pos == Gtk.PositionType.BOTTOM and self.end_stack.get_visible_child_name() == 'loading':
+            threading.Thread(target=self.search, daemon=True).start()
 
     def update_visibility(self):
         for row in list(self.list_el) + list(self.wrapbox_el):
