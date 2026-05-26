@@ -226,8 +226,7 @@ class Player(EventAdapter):
 
     def __init__(self, application):
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        volume = max(self.settings.get_value("volume").unpack(), 0.2)
-        self.settings.set_double("volume", volume)
+        self.settings.set_double("volume", self.settings.get_value("volume").unpack())
         self.application = application
         self.gst = Gst.ElementFactory.make("playbin", "music-player")
         self.gst.connect("source-setup", self.on_source_setup)
@@ -616,6 +615,11 @@ class Player(EventAdapter):
                     self.pause_next_change = False
                 else:
                     self.gst.set_state(Gst.State.PLAYING)
+                if self.gst.get_property('volume') == 0 and song_id:
+                    if active_window := self.application.props.active_window:
+                        active_window.toast_overlay.add_toast(Adw.Toast(
+                            title=_("Warning: Song changed but volume is set to 0")
+                        ))
                 threading.Thread(target=integration.scrobble, args=(song_id,), kwargs={'submission': False}, daemon=True).start()
                 threading.Thread(target=update_default_metadata, args=(song_id,), daemon=True).start()
         else:
