@@ -135,16 +135,17 @@ def __play_later(window, songs:list):
 def search(window):
     homepage = None
     if app := window.get_application():
-        if window == app.main_window:
-            window.replace_root_page('home')
-            homepage = window.main_navigationview.find_page('home')
+        active_window = app.props.active_window
+        if active_window == app.main_window:
+            active_window.replace_root_page('home')
+            homepage = active_window.main_navigationview.find_page('home')
         else:
-            for dialog in window.get_dialogs():
+            for dialog in active_window.get_dialogs():
                 if dialog.__gtype_name__ == 'NocturnePageDialog':
                     homepage = dialog.navigation_view.find_page('home')
             if not homepage:
-                __show_page(widgets.HomePage())
-                for dialog in window.get_dialogs():
+                __show_page(active_window, Widgets.HomePage())
+                for dialog in active_window.get_dialogs():
                     if dialog.__gtype_name__ == 'NocturnePageDialog':
                         homepage = dialog.navigation_view.find_page('home')
     if homepage:
