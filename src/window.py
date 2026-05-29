@@ -76,6 +76,7 @@ class NocturneWindow(Adw.ApplicationWindow):
                 integration.terminate_instance()
             self.settings.set_int('default-width', self.get_width())
             self.settings.set_int('default-height', self.get_height())
+            self.get_application().player.discord_rpc.close()
             self.get_application().quit()
 
     @Gtk.Template.Callback()
