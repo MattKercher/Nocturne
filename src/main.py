@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import sys, pathlib, threading
+import sys, pathlib, threading, logging
 import gi
 
 gi.require_version('Gtk', '4.0')
@@ -189,7 +189,12 @@ class NocturneApplication(Adw.Application):
 
 
 def main(version):
-    """The application's entry point."""
+    logging.basicConfig(
+        format="%(levelname)s\t[%(filename)s | %(funcName)s] %(message)s",
+        level=logging.INFO,
+        handlers=[logging.StreamHandler(stream=sys.stdout)]
+    )
+
     print("Nocturne version:", version)
     set_version(version)
     return NocturneApplication(version).run(sys.argv)

@@ -4,8 +4,10 @@ from gi.repository import Gtk, GLib, GObject, Gdk, Gio, GdkPixbuf
 from . import secret, models, local, sql_instance
 from .base import Base
 from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
-import requests, subprocess, random, threading, base64, os, json, platform
+import requests, subprocess, random, threading, base64, os, json, platform, logging
 from urllib.parse import urlencode
+
+logger = logging.getLogger(__name__)
 
 class Jellyfin(Base):
     __gtype_name__ = 'NocturneIntegrationJellyfin'
@@ -90,7 +92,7 @@ class Jellyfin(Base):
             elif response.status_code == 204:
                 return {'state': 'ok'}
         except Exception as e:
-            pass
+            logger.error(f"action error {action}: {e}")
         return {}
 
     # ----------- #
@@ -167,8 +169,9 @@ class Jellyfin(Base):
                 # propagating network-related exceptions up and into the UI thread
                 response.raise_for_status()
                 response_bytes = response.content
-            except Exception:
+            except Exception as e:
                 response_bytes = b''
+                logger.error(f"can't get image from {model_id}: {e}")
 
             if response_bytes and len(response_bytes) > 0:
                 try:
@@ -179,7 +182,7 @@ class Jellyfin(Base):
                     model.set_property('gdkPaintable', texture)
                     return model.get_property('gdkPaintable')
                 except Exception as e:
-                    pass
+                    logger.error(f"can't convert image from {model_id}: {e}")
         return None
 
     def getCoverArtUrl(self, model_id:str='', big:bool=False) -> str:
@@ -928,8 +931,8 @@ class Jellyfin(Base):
                             if total_size > 0:
                                 progress_callback(downloaded_size / total_size)
                 os.replace(file_path, os.path.join(DOWNLOADS_DIR, file_name))
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"can't download song {model_id}: {e}")
 
     def getSongDetails(self, model_id:str) -> models.SongDetails:
         song = self.make_request(
@@ -987,8 +990,8 @@ class Jellyfin(Base):
             if response_bytes and len(response_bytes) > 0:
                 gbytes = GLib.Bytes.new(response_bytes)
                 server_information['picture'] = Gdk.Texture.new_from_bytes(gbytes)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         try:
             info = self.make_request(
@@ -996,8 +999,8 @@ class Jellyfin(Base):
                 mode="GET"
             )
             server_information["title"] = "{} {}".format(info.get("ServerName"), info.get("Version"))
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         return server_information
 
