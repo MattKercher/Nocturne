@@ -4,8 +4,10 @@ from gi.repository import Gtk, GLib, GObject, Gdk, Gio, GdkPixbuf
 from . import secret, models, local, sql_instance
 from .base import Base
 from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
-import requests, subprocess, random, threading, base64, os, json, platform
+import requests, subprocess, random, threading, base64, os, json, platform, logging
 from urllib.parse import urlencode
+
+logger = logging.getLogger(__name__)
 
 class Jellyfin(Base):
     __gtype_name__ = 'NocturneIntegrationJellyfin'
@@ -90,7 +92,7 @@ class Jellyfin(Base):
             elif response.status_code == 204:
                 return {'state': 'ok'}
         except Exception as e:
-            pass
+            logger.error(f"action error {action}: {e}")
         return {}
 
     # ----------- #
@@ -145,9 +147,9 @@ class Jellyfin(Base):
         return False
 
     def getCoverArt(self, model_id:str='', big:bool=False) -> Gdk.Paintable:
+        if not model_id:
+            return None
         if model := self.loaded_models.get(model_id):
-            if isinstance(model, models.Song) and model.get_property('radioStreamUrl'):
-                return None
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 return local.Local.getCoverArt(self, model_id, big=big)
             if not big and model.get_property('gdkPaintable') is not None:
@@ -169,8 +171,9 @@ class Jellyfin(Base):
                 # propagating network-related exceptions up and into the UI thread
                 response.raise_for_status()
                 response_bytes = response.content
-            except Exception:
+            except Exception as e:
                 response_bytes = b''
+                logger.error(f"can't get image from {model_id}: {e}")
 
             if response_bytes and len(response_bytes) > 0:
                 try:
@@ -181,12 +184,12 @@ class Jellyfin(Base):
                     model.set_property('gdkPaintable', texture)
                     return model.get_property('gdkPaintable')
                 except Exception as e:
-                    pass
+                    logger.error(f"can't convert image from {model_id}: {e}")
         return None
 
     def getCoverArtUrl(self, model_id:str='', big:bool=False) -> str:
         if model := self.loaded_models.get(model_id):
-            if isinstance(model, models.Song) and (model.get_property('radioStreamUrl') or model.get_property('isExternalFile')):
+            if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 return ""
             params = {
                 'maxWidth': 720 if big else 240,
@@ -197,7 +200,7 @@ class Jellyfin(Base):
             return '{}?{}'.format(self.get_url('Items/{id}/Images/Primary', id=model_id), urlencode(params))
         return ""
 
-    def ping(self) -> bool:
+    def ping(self) -> dict:
         self.set_property('accessToken', "")
         self.set_property('userId', "")
         response = self.make_request(
@@ -222,7 +225,12 @@ class Jellyfin(Base):
             )
             self.set_property('accessToken', response.get('AccessToken'))
             self.set_property('userId', response.get('User', {}).get('Id'))
-        return self.get_property('accessToken') and self.get_property('userId') and super().ping()
+        if self.get_property('accessToken') and self.get_property('userId'):
+            return super().ping()
+        return {
+            'status': 'error',
+            'message': _('Could not log in')
+        }
 
     def getAlbumList(self, list_type:str="recent", size:int=10, offset:int=0) -> list:
         params = {
@@ -717,7 +725,7 @@ class Jellyfin(Base):
                 }
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         def fetch_type(item_type:str, limit:int, offset:int, fields:str=""):
             return self.make_request(
                 action='Users/{userId}/Items',
@@ -735,7 +743,8 @@ class Jellyfin(Base):
         return {
             'artist': [item.get("Id") for item in fetch_type("MusicArtist", artistCount, artistOffset)],
             'album': [item.get("Id") for item in fetch_type("MusicAlbum", albumCount, albumOffset)],
-            'song': [item.get("Id") for item in fetch_type("Audio", songCount, songOffset)]
+            'song': [item.get("Id") for item in fetch_type("Audio", songCount, songOffset)],
+            'playlist': [item.get("Id") for item in fetch_type("Playlist", playlistCount, playlistOffset)]
         }
 
     def getInternetRadioStations(self) -> list:
@@ -929,8 +938,8 @@ class Jellyfin(Base):
                             if total_size > 0:
                                 progress_callback(downloaded_size / total_size)
                 os.replace(file_path, os.path.join(DOWNLOADS_DIR, file_name))
-        except:
-            pass
+        except Exception as e:
+            logger.error(f"can't download song {model_id}: {e}")
 
     def getSongDetails(self, model_id:str) -> models.SongDetails:
         song = self.make_request(
@@ -988,8 +997,8 @@ class Jellyfin(Base):
             if response_bytes and len(response_bytes) > 0:
                 gbytes = GLib.Bytes.new(response_bytes)
                 server_information['picture'] = Gdk.Texture.new_from_bytes(gbytes)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         try:
             info = self.make_request(
@@ -997,8 +1006,8 @@ class Jellyfin(Base):
                 mode="GET"
             )
             server_information["title"] = "{} {}".format(info.get("ServerName"), info.get("Version"))
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         return server_information
 

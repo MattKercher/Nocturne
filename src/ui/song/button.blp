@@ -3,7 +3,6 @@ using Adw 1;
 
 template $NocturneSongButton: Gtk.Box {
   orientation: vertical;
-  width-request: 240;
   halign: center;
 
   Gtk.Button cover_button_el {
@@ -13,7 +12,6 @@ template $NocturneSongButton: Gtk.Box {
       "active_appearance_button"
     ]
     action-name: "app.play_song";
-    width-request: 240;
     halign: center;
     tooltip-text: _("Play Song");
     child: Gtk.Box {
@@ -26,8 +24,6 @@ template $NocturneSongButton: Gtk.Box {
         icon-size: large;
         overflow: hidden;
         hexpand: true;
-        width-request: 240;
-        height-request: 240;
         paintable: Adw.SpinnerPaintable {
           widget: cover_el;
         };

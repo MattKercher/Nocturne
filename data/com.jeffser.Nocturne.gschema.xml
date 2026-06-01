@@ -13,6 +13,9 @@
 	  <key name="simulate-word-by-word-lyrics" type="b">
 	    <default>false</default>
 	  </key>
+	  <key name="use-gain" type="b">
+	    <default>true</default>
+	  </key>
 	  <key name="default-page-tag" type="s">
 	    <default>'home'</default>
 	  </key>
@@ -51,6 +54,9 @@
 	  <key name="show-carousel-pan-buttons" type="b">
 	    <default>false</default>
 	  </key>
+	  <key name="button-size" type="s">
+	    <default>'big'</default>
+	  </key>
 	  <!--### Section: Dynamic Background-->
     <key name="global-dynamic-bg-mode" type="s">
 	    <default>''</default>
@@ -78,8 +84,8 @@
 	    <default>12</default>
 	  </key>
 	  <!--### Section: Sidebar -->
-	  <key name="sidebar-enabled-pages" type="as">
-	    <default>['home', 'artists', 'albums-all', 'albums-random', 'albums-starred', 'albums-newest', 'albums-recent', 'albums-frequent', 'songs-all', 'songs-starred', 'radios', 'playlists']</default>
+	  <key name="sidebar-disabled-pages" type="as">
+	    <default>[]</default>
 	  </key>
 
 	  <!--## Page: Visualizer -->

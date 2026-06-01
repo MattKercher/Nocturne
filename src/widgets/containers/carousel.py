@@ -57,8 +57,9 @@ class Carousel(Gtk.Box):
         if position == int(position):
             event = controller.get_current_event()
             state = event.get_modifier_state()
-            if (state & Gdk.ModifierType.SHIFT_MASK):
-                next_position = int(max(0, min(position + dy, self.list_el.get_n_pages())))
+            if (state & Gdk.ModifierType.SHIFT_MASK) or dx != 0:
+                direction = dy or dx
+                next_position = int(max(0, min(position + direction, self.list_el.get_n_pages())))
                 next_page = self.list_el.get_nth_page(next_position)
                 if next_page:
                     self.list_el.scroll_to(next_page, True)

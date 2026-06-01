@@ -66,6 +66,7 @@ template $NocturneWindow: Adw.ApplicationWindow {
           }
 
           content: Adw.NavigationSplitView main_split_view {
+            max-sidebar-width: 240;
             show-content: true;
             sidebar: Adw.NavigationPage {
               title:  "Nocturne";
@@ -260,10 +261,10 @@ menu primary_menu {
       action: "app.toggle_fullscreen";
     }
 
-    /*item {
-      label: _("See Latest Nocturne Playback");
+    item {
+      label: _("See Last Nocturne Playback");
       action: "app.launch_playback";
-    }TODO add this once June 2026 comes around*/
+    }
 
     item {
       label: _("Keyboard Shortcuts");

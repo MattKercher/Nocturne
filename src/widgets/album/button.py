@@ -1,6 +1,6 @@
 # button.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk
+from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ALBUM, CONTEXT_ARTIST
 from ..containers import ContextContainer
@@ -28,19 +28,34 @@ class AlbumButton(Gtk.Box):
         self.star_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.name_el.set_action_target_value(GLib.Variant.new_string(self.id))
 
+        self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
+        self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+
         integration.connect_to_model(self.id, 'name', self.update_name)
         integration.connect_to_model(self.id, 'artist', self.update_artist)
         integration.connect_to_model(self.id, 'artistId', self.update_artist_id)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
         integration.connect_to_model(self.id, 'starred', self.update_starred)
 
+    def update_size(self):
+        isBig = self.settings.get_value('button-size').unpack() == 'big'
+        size = 240 if isBig else 180
+        pixel_size = size if self.cover_el.get_paintable() is not None else -1
+        self.cover_el.set_size_request(size, size)
+        self.cover_el.set_pixel_size(pixel_size)
+        if isBig:
+            self.name_el.remove_css_class('title-4')
+            self.name_el.add_css_class('title-3')
+        else:
+            self.name_el.remove_css_class('title-3')
+            self.name_el.add_css_class('title-4')
+
     def update_cover(self, paintable:Gdk.Paintable=None):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
-            self.cover_el.set_pixel_size(240)
         elif isinstance(self.cover_el.get_paintable(), Adw.SpinnerPaintable):
             self.cover_el.set_from_icon_name("music-queue-symbolic")
-            self.cover_el.set_pixel_size(-1)
+        self.update_size()
 
     def update_name(self, name:str):
         self.name_el.get_child().set_label(name)

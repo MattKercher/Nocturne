@@ -1,6 +1,6 @@
 # button.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk
+from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ARTIST
 from ..containers import ContextContainer
@@ -22,15 +22,30 @@ class ArtistButton(Gtk.Button):
             action_target=GLib.Variant.new_string(self.id)
         )
 
+        self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
+        self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+
         integration.connect_to_model(self.id, 'name', self.update_name)
         integration.connect_to_model(self.id, 'albumCount', self.update_album_count)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
+
+    def update_size(self):
+        isBig = self.settings.get_value('button-size').unpack() == 'big'
+        size = 240 if isBig else 180
+        self.avatar_el.set_size(size)
+        if isBig:
+            self.name_el.remove_css_class('title-4')
+            self.name_el.add_css_class('title-3')
+        else:
+            self.name_el.remove_css_class('title-3')
+            self.name_el.add_css_class('title-4')
 
     def update_cover(self, paintable:Gdk.Paintable=None):
         if paintable:
             self.avatar_el.set_custom_image(paintable)
         elif isinstance(self.avatar_el.get_custom_image(), Adw.SpinnerPaintable):
             self.avatar_el.set_custom_image(None)
+        self.update_size()
 
     def update_name(self, name:str):
         self.avatar_el.set_tooltip_text(name)

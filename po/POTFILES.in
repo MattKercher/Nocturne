@@ -13,6 +13,7 @@ src/integrations/local.py
 src/integrations/models.py
 src/integrations/navidrome.py
 src/integrations/secret.py
+src/integrations/sql_instance.py
 src/main.py
 src/nocturne.gresource.xml
 src/nocturne.in
@@ -35,6 +36,7 @@ src/ui/pages/albums.blp
 src/ui/pages/artists.blp
 src/ui/pages/home.blp
 src/ui/pages/login.blp
+src/ui/pages/playback.blp
 src/ui/pages/playlists.blp
 src/ui/pages/radios.blp
 src/ui/pages/setup.blp
@@ -42,6 +44,7 @@ src/ui/pages/songs_all.blp
 src/ui/pages/songs_starred.blp
 src/ui/pages/welcome.blp
 src/ui/playing/control_page.blp
+src/ui/playing/cover_art.blp
 src/ui/playing/equalizer_page.blp
 src/ui/playing/footer.blp
 src/ui/playing/lyrics_page.blp
@@ -56,6 +59,8 @@ src/ui/playlist/row.blp
 src/ui/playlist/selector_row.blp
 src/ui/preferences.blp
 src/ui/shortcuts-dialog.blp
+src/ui/song/button.blp
+src/ui/song/details_dialog.blp
 src/ui/song/queue.blp
 src/ui/song/row.blp
 src/ui/song/small_row.blp
@@ -85,6 +90,7 @@ src/widgets/pages/artists.py
 src/widgets/pages/home.py
 src/widgets/pages/__init__.py
 src/widgets/pages/login.py
+src/widgets/pages/playback.py
 src/widgets/pages/playlists.py
 src/widgets/pages/radios.py
 src/widgets/pages/setup.py
@@ -92,6 +98,7 @@ src/widgets/pages/songs_all.py
 src/widgets/pages/songs_starred.py
 src/widgets/pages/welcome.py
 src/widgets/playing/control_page.py
+src/widgets/playing/cover_art.py
 src/widgets/playing/equalizer_page.py
 src/widgets/playing/footer.py
 src/widgets/playing/__init__.py
@@ -108,6 +115,8 @@ src/widgets/playlist/__init__.py
 src/widgets/playlist/page.py
 src/widgets/playlist/row.py
 src/widgets/playlist/selector_row.py
+src/widgets/song/button.py
+src/widgets/song/details_dialog.py
 src/widgets/song/__init__.py
 src/widgets/song/queue.py
 src/widgets/song/row.py

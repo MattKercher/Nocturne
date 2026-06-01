@@ -76,6 +76,8 @@ class NocturneWindow(Adw.ApplicationWindow):
                 integration.terminate_instance()
             self.settings.set_int('default-width', self.get_width())
             self.settings.set_int('default-height', self.get_height())
+            if player := self.get_application().player:
+                player.discord_rpc.close()
             self.get_application().quit()
 
     @Gtk.Template.Callback()
@@ -103,7 +105,7 @@ class NocturneWindow(Adw.ApplicationWindow):
         )
 
     def setup_sidebar(self):
-        enabled_pages = self.settings.get_value('sidebar-enabled-pages').unpack()
+        disabled_pages = self.settings.get_value('sidebar-disabled-pages').unpack()
         self.main_sidebar.remove_all()
         for section in SIDEBAR_MENU:
             section_el = Adw.SidebarSection(
@@ -111,7 +113,7 @@ class NocturneWindow(Adw.ApplicationWindow):
             )
             append_section = False
             for item in section.get('items'):
-                if item.get('page-tag') in enabled_pages:
+                if item.get('page-tag') not in disabled_pages:
                     row = SidebarItem(
                         title=item.get('title'),
                         icon_name=item.get('icon-name'),
@@ -131,7 +133,7 @@ class NocturneWindow(Adw.ApplicationWindow):
             threading.Thread(target=self.main_navigationview.get_visible_page().reload, daemon=True).start()
 
     def update_playlist_section_of_sidebar(self):
-        if 'playlists' not in self.settings.get_value('sidebar-enabled-pages').unpack():
+        if 'playlists' in self.settings.get_value('sidebar-disabled-pages').unpack():
             return
         integration = get_current_integration()
         integration.connect('notify::loadingMessage', lambda integration, ud: self.update_loading_message(integration))
@@ -213,6 +215,8 @@ class NocturneWindow(Adw.ApplicationWindow):
         super().__init__(**kwargs)
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
 
+        self.create_action(actions.show_error)
+        self.create_action(actions.search, shortcuts=['<ctrl>F'], parameter_type=None)
         self.create_action(actions.launch_playback, parameter_type=None)
         self.create_action(actions.generate_auto_play_queue, parameter_type="b")
         self.create_action(actions.set_equalizer_preset)

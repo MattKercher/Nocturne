@@ -15,6 +15,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
     restore_el = Gtk.Template.Child()
     hide_on_close_el = Gtk.Template.Child()
     simulate_wbwl_el = Gtk.Template.Child()
+    use_gain_el = Gtk.Template.Child()
     default_page_el = Gtk.Template.Child()
     bitrate_el = Gtk.Template.Child()
 
@@ -35,6 +36,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
     translucent_player_el = Gtk.Template.Child()
     use_sidebar_player_el = Gtk.Template.Child()
     carousel_pan_buttons_el = Gtk.Template.Child()
+    button_size_el = Gtk.Template.Child()
 
     ## Dynamic Background
     global_dynamic_bg_el = Gtk.Template.Child()
@@ -87,6 +89,12 @@ class NocturnePreferences(Adw.PreferencesDialog):
         settings.bind(
             "simulate-word-by-word-lyrics",
             self.simulate_wbwl_el,
+            "active",
+            Gio.SettingsBindFlags.DEFAULT
+        )
+        settings.bind(
+            "use-gain",
+            self.use_gain_el,
             "active",
             Gio.SettingsBindFlags.DEFAULT
         )
@@ -192,6 +200,12 @@ class NocturnePreferences(Adw.PreferencesDialog):
             "active",
             Gio.SettingsBindFlags.DEFAULT
         )
+        settings.bind(
+            "button-size",
+            self.button_size_el,
+            "active-name",
+            Gio.SettingsBindFlags.DEFAULT
+        )
 
         ## Dynamic Background
         settings.bind(
@@ -246,7 +260,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
         )
 
         ## Sidebar
-        enabled_pages = settings.get_value('sidebar-enabled-pages').unpack()
+        disabled_pages = settings.get_value('sidebar-disabled-pages').unpack()
         for section in SIDEBAR_MENU:
             section_expander = None
             if section.get("title"):
@@ -259,7 +273,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
                 if item.get('page-tag') != 'home':
                     row = Adw.SwitchRow(
                         title=item.get("title"),
-                        active=item.get("page-tag") in enabled_pages,
+                        active=item.get("page-tag") not in disabled_pages,
                         name=item.get("page-tag")
                     )
                     row.connect('notify::active', self.sidebar_item_toggled)
@@ -389,15 +403,15 @@ class NocturnePreferences(Adw.PreferencesDialog):
 
     def sidebar_item_toggled(self, row, gp):
         settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        enabled_pages = settings.get_value('sidebar-enabled-pages').unpack()
+        enabled_pages = settings.get_value('sidebar-disabled-pages').unpack()
         name = row.get_name()
-        if row.get_active():
+        if not row.get_active():
             if name not in enabled_pages:
                 enabled_pages.append(name)
         else:
             if name in enabled_pages:
                 enabled_pages.remove(name)
-        settings.set_value('sidebar-enabled-pages', GLib.Variant('as', enabled_pages))
+        settings.set_value('sidebar-disabled-pages', GLib.Variant('as', enabled_pages))
         if main_window := self.get_root().get_application().main_window:
             GLib.idle_add(main_window.setup_sidebar)
 

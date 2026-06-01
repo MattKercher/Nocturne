@@ -132,6 +132,34 @@ def __play_later(window, songs:list):
 
 # -- MISC --
 
+def show_error(window, message:str):
+    if app := window.get_application():
+        dialog = Adw.AlertDialog(
+            heading=_("Error"),
+            body=message or _("No details provided")
+        )
+        dialog.add_response('close', _('Close'))
+        dialog.choose(app.props.active_window, None, None)
+
+def search(window):
+    homepage = None
+    if app := window.get_application():
+        active_window = app.props.active_window
+        if active_window == app.main_window:
+            active_window.replace_root_page('home')
+            homepage = active_window.main_navigationview.find_page('home')
+        else:
+            for dialog in active_window.get_dialogs():
+                if dialog.__gtype_name__ == 'NocturnePageDialog':
+                    homepage = dialog.navigation_view.find_page('home')
+            if not homepage:
+                __show_page(active_window, Widgets.HomePage())
+                for dialog in active_window.get_dialogs():
+                    if dialog.__gtype_name__ == 'NocturnePageDialog':
+                        homepage = dialog.navigation_view.find_page('home')
+    if homepage:
+        GLib.idle_add(homepage.search_bar.set_search_mode, not homepage.search_bar.get_search_mode())
+
 def launch_playback(window):
     def run():
         integration = get_current_integration()
@@ -151,7 +179,7 @@ def launch_playback(window):
             ).start()
         else:
             toast = Adw.Toast(
-                title=_("Not enough songs found for Playback ({})").format(prev_month.strftime("%B %Y")),
+                title=_("Not enough data found for Nocturne Playback ({})").format(prev_month.strftime("%B %Y")),
                 timeout=2
             )
             GLib.idle_add(window.toast_overlay.add_toast, toast)

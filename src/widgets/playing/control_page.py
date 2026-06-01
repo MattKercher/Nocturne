@@ -193,7 +193,7 @@ class PlayingControlPage(Adw.NavigationPage):
         def run():
             integration = get_current_integration()
             integration.verifySong(song_id, use_threading=False)
-            if song_id in integration.loaded_models:
+            if song_id and song_id in integration.loaded_models:
                 # Set Defaults
                 GLib.idle_add(self.rating_container.set_visible, True)
                 GLib.idle_add(self.star_el.set_visible, True)

@@ -23,14 +23,17 @@ class PlayingCoverArt(Gtk.Box):
         if root := self.get_root():
             if app := root.get_application():
                 if player := app.player:
-                    video_sink = player.gst.get_property('video-sink')
-                    self.video_el.set_paintable(video_sink.get_property('paintable'))
+                    if video_sink := player.gst.get_property('video-sink'):
+                        self.video_el.set_paintable(video_sink.get_property('paintable'))
 
     def song_changed(self, songId:str):
         def run():
             integration = get_current_integration()
             if songId in integration.loaded_models:
                 paintable = integration.getCoverArt(songId, big=True)
+                if not paintable:
+                    paintable = integration.getCoverArt(songId)
+
                 if paintable:
                     GLib.idle_add(self.cover_el.remove_css_class, 'p50')
                 else:
@@ -50,7 +53,7 @@ class PlayingCoverArt(Gtk.Box):
     def video_changed(self, videoId:str):
         integration = get_current_integration()
         songId = integration.loaded_models.get('currentSong').get_property('songId')
-        video_available = videoId and videoId == songId
+        video_available = videoId and videoId == songId and self.video_el.get_paintable()
         self.view_switcher_el.set_visible(video_available)
         self.view_stack_el.set_visible_child_name('video' if video_available else 'audio')
 

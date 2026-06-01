@@ -4,7 +4,6 @@ using Adw 1;
 template $NocturneAlbumButton: Gtk.Box {
   orientation: vertical;
   spacing: 5;
-  width-request: 240;
   halign: center;
 
   Gtk.Overlay {
@@ -46,7 +45,6 @@ template $NocturneAlbumButton: Gtk.Box {
         "flat"
       ]
       action-name: "app.show_album";
-      width-request: 240;
       halign: center;
       tooltip-text: _("Show Album");
       child: Gtk.Image cover_el {
@@ -56,8 +54,6 @@ template $NocturneAlbumButton: Gtk.Box {
         icon-size: large;
         overflow: hidden;
         hexpand: true;
-        width-request: 240;
-        height-request: 240;
         paintable: Adw.SpinnerPaintable {
           widget: cover_el;
         };

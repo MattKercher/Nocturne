@@ -45,6 +45,7 @@ The following dependencies are requirements of the project.
 - `python-syncedlyrics >= 1.0.1`
 - `python-mpris-server >= 0.10.0`
 - `python-tinytag >= 2.2.1`
+- `gstreamer1.0-plugins-gstreamer-rs` (optional, needed for video rendering)
 
 ## Install
 ### Linux (Flatpak)
@@ -121,3 +122,4 @@ Simplified Chinese      | [Saul Gman](https://github.com/Ja4e)
 Turkish                 | [Muhammed Emin Akalan](https://github.com/muhammedeminakalan)
 Traditional Chinese     | [Yuan Chiu](https://yuaner.tw)
 Croatian                | [Milo Ivir](https://github.com/milotype)
+Telugu                  | [Aryan Karamtoth](https://github.com/spaciouskarter78)

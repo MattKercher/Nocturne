@@ -18,6 +18,10 @@ template $NocturnePreferencesDialog: Adw.PreferencesDialog {
         title: _("Simulate Word by Word Lyrics");
         subtitle: _("Used when only line by line lyrics are available");
       }
+      Adw.SwitchRow use_gain_el {
+        title: _("Use Track and Album Gain");
+        subtitle: _("Adjust the volume based on gain metadata");
+      }
       Adw.ComboRow default_page_el {
         title: _("Default Page on Login");
         model: Gtk.StringList {};
@@ -128,6 +132,25 @@ template $NocturnePreferencesDialog: Adw.PreferencesDialog {
       Adw.SwitchRow carousel_pan_buttons_el {
         title: _("Show Pan Buttons on Carousels");
         subtitle: _("Only visible when a carousel has 5 or more items");
+      }
+      Adw.ActionRow {
+        title: _("Button Size");
+        subtitle: _("Affects albums, artists, playlists and songs");
+
+        [suffix]
+        Adw.ToggleGroup button_size_el {
+          valign: center;
+          Adw.Toggle {
+            tooltip: _("Small");
+            label: _("Small");
+            name: "small";
+          }
+          Adw.Toggle {
+            tooltip: _("Big");
+            label: _("Big");
+            name: "big";
+          }
+        }
       }
     }
 

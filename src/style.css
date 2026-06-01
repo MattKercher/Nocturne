@@ -46,6 +46,10 @@ button.active_appearance_button:disabled {
   filter: none;
 }
 
+searchbar > revealer > box {
+  padding: 0;
+}
+
 sidebar scrolledwindow > viewport > *,
 navigation-view-page > toolbarview > scrolledwindow > viewport > *,
 navigation-view-page > toolbarview > stack > scrolledwindow > viewport > * {

@@ -192,9 +192,9 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
                       "flat"
                     ]
                     notify::active => $fs_sidebar_toggled();
-                    active: true;
                     tooltip-text: _("Toggle Sidebar");
                     icon-name: "sidebar-show-right-symbolic";
+                    active: bind split_view.collapsed inverted;
                   }
                 }
 

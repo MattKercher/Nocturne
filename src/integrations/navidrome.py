@@ -4,9 +4,11 @@ from gi.repository import Gtk, Adw, GLib, GObject, Gdk, Gio, GdkPixbuf
 from . import secret, models, local
 from ..constants import get_navidrome_path, check_if_navidrome_ready, get_navidrome_env, CONTEXT_MANAGED_NAVIDROME_SERVER, DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
 from .base import Base
-import requests, random, threading, io, subprocess, shutil, os
+import requests, random, threading, io, subprocess, shutil, os, re, logging
 from PIL import Image
 from urllib.parse import urlencode, urlparse
+
+logger = logging.getLogger(__name__)
 
 class Navidrome(Base):
     __gtype_name__ = 'NocturneIntegrationNavidrome'
@@ -61,8 +63,8 @@ class Navidrome(Base):
                     if response.status_code == 200:
                         return response.json().get('subsonic-response', {})
                 return data
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"action error {action}: {e}")
         return {}
 
     # ----------- #
@@ -86,9 +88,9 @@ class Navidrome(Base):
         return '{}/rest/stream?{}'.format(self.get_property('url').strip('/'), query_string)
 
     def getCoverArt(self, model_id:str='', big:bool=False) -> Gdk.Paintable:
+        if not model_id:
+            return None
         if model := self.loaded_models.get(model_id):
-            if isinstance(model, models.Song) and model.get_property('radioStreamUrl'):
-                return None
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 return local.Local.getCoverArt(self, model_id, big=big)
             if not big and model.get_property('gdkPaintable'):
@@ -115,12 +117,12 @@ class Navidrome(Base):
                     model.set_property('gdkPaintable', texture)
                     return model.get_property('gdkPaintable')
                 except Exception as e:
-                    pass
+                    logger.error(f"can't convert image from {model_id}: {e}")
         return None
 
     def getCoverArtUrl(self, model_id:str='', big:bool=False) -> str:
         if model := self.loaded_models.get(model_id):
-            if isinstance(model, models.Song) and (model.get_property('radioStreamUrl') or model.get_property('isExternalFile')):
+            if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 return ""
             params = {
                 **self.get_base_params(),
@@ -130,12 +132,15 @@ class Navidrome(Base):
             return '{}?{}'.format(self.get_url('getCoverArt'), urlencode(params))
         return ""
 
-    def ping(self) -> bool:
-        try:
-            response = self.make_request('ping')
-            return response.get('status') == 'ok' and super().ping()
-        except Exception:
-            return False
+    def ping(self) -> dict:
+        response = self.make_request('ping')
+        if response.get('status') == 'ok':
+            return super().ping()
+        else:
+            return {
+                'status': 'error',
+                'message': '{}\n"{}"'.format(_('Server returned an error'), response.get('error', {}).get('message', _('Unknown Error')))
+            }
 
     def getAlbumList(self, list_type:str="recent", size:int=10, offset:int=0) -> list:
         # returns a list of IDs
@@ -374,7 +379,7 @@ class Navidrome(Base):
             }
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         response = self.make_request('search3', {
             'query': query,
             'artistCount': artistCount,
@@ -398,10 +403,18 @@ class Navidrome(Base):
             if model.get('id') not in self.loaded_models:
                 self.loaded_models[model.get('id')] = models.Song(**model)
 
+        # Playlists
+        playlist_ids = []
+        for playlistId in self.getPlaylists():
+            if playlist := self.loaded_models.get(playlistId):
+                if re.search(query, playlist.get_property('name'), re.IGNORECASE):
+                    playlist_ids.append(playlistId)
+
         return {
             'artist': [m.get('id') for m in search_results.get('artist', [])],
             'album': [m.get('id') for m in search_results.get('album', [])],
             'song': [m.get('id') for m in search_results.get('song', [])],
+            'playlist': playlist_ids
         }
 
     def getInternetRadioStations(self) -> list:
@@ -549,8 +562,8 @@ class Navidrome(Base):
             if response.status_code == 200:
                 data = response.json().get('subsonic-response', {})
                 server_information['title'] = "{} {}".format(data.get('type'), data.get('serverVersion')).title()
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         try:
             params = {
@@ -566,8 +579,8 @@ class Navidrome(Base):
             if response_bytes and len(response_bytes) > 0:
                 gbytes = GLib.Bytes.new(response_bytes)
                 server_information['picture'] = Gdk.Texture.new_from_bytes(gbytes)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get profile picture: {e}")
 
         return server_information
 
@@ -618,6 +631,7 @@ class NavidromeIntegrated(Navidrome):
                 self.set_property('serverRunning', False)
                 return False
         except Exception as e:
+            logger.error(f"can't start server: {e}")
             self.set_property('serverRunning', False)
             return False
 

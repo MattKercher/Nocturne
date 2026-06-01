@@ -11,7 +11,6 @@ template $NocturnePlaylistButton: Gtk.Box {
   }
   orientation: vertical;
   spacing: 5;
-  width-request: 240;
   halign: center;
 
   Gtk.Overlay {
@@ -38,7 +37,6 @@ template $NocturnePlaylistButton: Gtk.Box {
         "flat"
       ]
       action-name: "app.show_playlist";
-      width-request: 240;
       halign: center;
       tooltip-text: _("Show Playlist");
       child: Gtk.Image cover_el {
@@ -46,7 +44,6 @@ template $NocturnePlaylistButton: Gtk.Box {
           "card"
         ]
         icon-size: large;
-        height-request: 240;
         overflow: hidden;
         hexpand: true;
         paintable: Adw.SpinnerPaintable {

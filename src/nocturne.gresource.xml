@@ -69,6 +69,7 @@
     <file alias="icons/scalable/status/pan-end-symbolic.svg">icons/pan-end-symbolic.svg</file>
     <file alias="icons/scalable/status/video-clip-symbolic.svg">icons/video-clip-symbolic.svg</file>
     <file alias="icons/scalable/status/sidebar-show-right-symbolic.svg">icons/sidebar-show-right-symbolic.svg</file>
+    <file alias="icons/scalable/status/system-search-symbolic.svg">icons/system-search-symbolic.svg</file>
 
     <file alias="window.ui">ui/window.ui</file>
     <file alias="shortcuts-dialog.ui">ui/shortcuts-dialog.ui</file>

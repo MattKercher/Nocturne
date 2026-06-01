@@ -4,14 +4,13 @@ from gi.repository import Gtk, GLib, GObject, Gdk, Gio, GdkPixbuf
 from . import secret, models, sql_instance
 from .base import Base
 from datetime import datetime, timezone
-import requests, random, threading, io, pathlib, re, json, os, time, uuid, pwd, getpass, time, shutil
+import requests, random, threading, io, pathlib, re, json, os, time, uuid, pwd, getpass, time, shutil, logging
 from PIL import Image
 from tinytag import TinyTag
-from ..constants import DOWNLOADS_DIR, get_song_info_from_file
+from ..constants import DOWNLOADS_DIR, COMPATIBLE_EXTENSIONS, get_song_info_from_file
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import logging
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 class Local(Base):
     __gtype_name__ = 'NocturneIntegrationLocal'
@@ -75,7 +74,7 @@ class Local(Base):
                     # Exclude any hidden files/folders within the library path
                     if any(part.startswith(".") for part in file_path.relative_to(path_obj).parts):
                         continue
-                    if file_path.suffix.lower() in ('.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opus', '.wav'):
+                    if file_path.suffix.lower() in COMPATIBLE_EXTENSIONS.get('audio') + COMPATIBLE_EXTENSIONS.get('video'):
                         song_id = 'SONG:{}'.format(file_path)
                         self.loaded_models[song_id] = models.Song(
                             id=song_id,
@@ -90,7 +89,7 @@ class Local(Base):
                     try:
                         future.result()
                     except Exception as e:
-                        logger.error(f"can't get image from {song_id}: {e}")
+                        logger.error(f"can't load song {song_id}: {e}")
     
             self.set_property('loadingMessage', "")
 
@@ -137,9 +136,9 @@ class Local(Base):
         return 'file://{}'.format(model.get_property('path'))
 
     def getCoverArt(self, model_id:str='', big:bool=False) -> Gdk.Paintable:
+        if not model_id:
+            return None
         if model := self.loaded_models.get(model_id):
-            if isinstance(model, models.Song) and model.get_property('radioStreamUrl'):
-                return None
             if not big and not isinstance(model, models.Playlist) and model.get_property('gdkPaintable'):
                 return model.get_property('gdkPaintable')
 
@@ -169,7 +168,7 @@ class Local(Base):
                 model.set_property('gdkPaintable', texture)
                 return model.get_property('gdkPaintable')
             except Exception as e:
-                logger.error(f"can't get image from {model_id=}: {e}")
+                logger.error(f"can't get image from {model_id}: {e}")
         return None
 
     def getCoverArtUrl(self, model_id:str="", big:bool=False) -> str:
@@ -186,7 +185,7 @@ class Local(Base):
                     paintable.save_to_png(path)
                     return "file://{}".format(path)
             except Exception as e:
-                print(e)
+                logger.error(f"can't get image url from {model_id}: {e}")
                 pass
         return ""
 
@@ -392,15 +391,17 @@ class Local(Base):
                     return {'type': 'plain', 'content': lyrics_str}
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         all_artists = [model for model_id, model in self.loaded_models.items() if model_id in self.album_artist_ids]
         all_albums = [model for model_id, model in self.loaded_models.items() if model_id.startswith('ALBUM:')]
         all_songs = [model for model_id, model in self.loaded_models.items() if model_id.startswith('SONG:')]
+        all_playlists = [self.loaded_models.get(playlistId) for playlistId in self.getPlaylists() if playlistId in self.loaded_models]
 
         return {
             'artist': [model.id for model in all_artists if re.search(query, model.name, re.IGNORECASE)][artistOffset:artistCount+artistOffset],
             'album': [model.id for model in all_albums if re.search(query, model.name, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][albumOffset:albumCount+albumOffset],
-            'song': [model.id for model in all_songs if re.search(query, model.title, re.IGNORECASE) or re.search(query, model.album, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][songOffset:songCount+songOffset]
+            'song': [model.id for model in all_songs if re.search(query, model.title, re.IGNORECASE) or re.search(query, model.album, re.IGNORECASE) or re.search(query, model.artist, re.IGNORECASE)][songOffset:songCount+songOffset],
+            'playlist': [model.id for model in all_playlists if re.search(query, model.name, re.IGNORECASE)][playlistOffset:playlistCount+playlistOffset]
         }
 
     def getInternetRadioStations(self) -> list:
@@ -588,8 +589,8 @@ class Local(Base):
             gecos_temp = pwd.getpwnam(getpass.getuser()).pw_gecos.split(',')
             if len(gecos_temp) > 0:
                 server_information["username"] = pwd.getpwnam(getpass.getuser()).pw_gecos.split(',')[0].title()
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         return server_information
 
@@ -613,7 +614,7 @@ class Offline(Local):
             gecos_temp = pwd.getpwnam(getpass.getuser()).pw_gecos.split(',')
             if len(gecos_temp) > 0:
                 server_information["username"] = pwd.getpwnam(getpass.getuser()).pw_gecos.split(',')[0].title()
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"can't get server information: {e}")
 
         return server_information

@@ -120,11 +120,17 @@ class Base(GObject.Object):
         # Returns empty string when a url is not available
         return ""
 
-    def ping(self) -> bool:
+    def ping(self) -> dict:
         # return True if logged in and connection is successful
         # when implementing also do super().ping() to prepare SQL
-        sql_instance.ensure_schema(self)
-        return True
+        try:
+            sql_instance.ensure_schema(self)
+            return {'status': 'ok'}
+        except:
+            return {
+                'status': 'error',
+                'message': _('Could not generate SQL database')
+            }
 
     def getAlbumList(self, list_type:str="recent", size:int=10, offset:int=0) -> list:
         # add non existing elements to self.loaded_models, returns lists of IDs, nothing more
@@ -197,11 +203,11 @@ class Base(GObject.Object):
         # returns same dicts as lyrics -> helpers -> get_lyrics
         return {'type': 'not-found'}
 
-    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0) -> dict:
+    def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         # returns a dict with results trucated with the count and offset, the dict has keys for album, artist and song, the values are lists of IDs
         # for an example view local.py
         print('WARNING', 'search', 'not implemented')
-        return {'artist': {}, 'album': {}, 'song': {}}
+        return {'artist': [], 'album': [], 'song': [], 'playlist': []}
 
     def getInternetRadioStations(self) -> list:
         # returns a list of Song IDs with the property radioStreamUrl set

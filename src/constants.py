@@ -16,6 +16,10 @@ def get_xdg_home(env: str, default: str) -> str:
         os.makedirs(path)
     return path
 
+COMPATIBLE_EXTENSIONS = {
+    'audio': ['.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opous', '.wav'],
+    'video': ['.mp4', '.mov', '.m4v', '.avi', '.webm', '.mkv']
+}
 DATA_DIR = get_xdg_home("XDG_DATA_HOME", "~/.local/share")
 CONFIG_DIR = get_xdg_home("XDG_CONFIG_HOME", "~/.config")
 CACHE_DIR = get_xdg_home("XDG_CACHE_HOME", "~/.cache")
@@ -169,7 +173,8 @@ TRANSLATORS = [
     "Saul Gman (Simplified Chinese) https://github.com/Ja4e",
     "Muhammed Emin Akalan (Turkish) https://github.com/muhammedeminakalan",
     "Yuan Chiu (Traditional Chinese) https://yuaner.tw",
-    "Milo Ivir (Croatian) https://github.com/milotype"
+    "Milo Ivir (Croatian) https://github.com/milotype",
+    "Aryan Karamtoth (Telugu) https://github.com/spaciouskarter78"
 ]
 
 PLAYBACK_MODES = {

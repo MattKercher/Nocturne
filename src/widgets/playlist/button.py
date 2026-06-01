@@ -1,6 +1,6 @@
 # button.py
 
-from gi.repository import Gtk, Adw, GLib, Gdk
+from gi.repository import Gtk, Adw, GLib, Gdk, Gio
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_PLAYLIST
 from ..containers import ContextContainer
@@ -23,6 +23,9 @@ class PlaylistButton(Gtk.Box):
         integration.verifyPlaylist(self.id)
         super().__init__()
 
+        self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
+        self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+
         self.play_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.cover_button_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.name_el.set_action_target_value(GLib.Variant.new_string(self.id))
@@ -31,13 +34,25 @@ class PlaylistButton(Gtk.Box):
         integration.connect_to_model(self.id, 'songCount', self.update_song_count)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
 
+    def update_size(self):
+        isBig = self.settings.get_value('button-size').unpack() == 'big'
+        size = 240 if isBig else 180
+        pixel_size = size if self.cover_el.get_paintable() is not None else -1
+        self.cover_el.set_size_request(size, size)
+        self.cover_el.set_pixel_size(pixel_size)
+        if isBig:
+            self.name_label_el.remove_css_class('title-4')
+            self.name_label_el.add_css_class('title-3')
+        else:
+            self.name_label_el.remove_css_class('title-3')
+            self.name_label_el.add_css_class('title-4')
+
     def update_cover(self, paintable:Gdk.Paintable=None):
         if paintable:
             self.cover_el.set_from_paintable(paintable)
-            self.cover_el.set_pixel_size(240)
         elif isinstance(self.cover_el.get_paintable(), Adw.SpinnerPaintable):
             self.cover_el.set_from_icon_name("music-note-symbolic")
-            self.cover_el.set_pixel_size(-1)
+        self.update_size()
 
     def update_name(self, name:str):
         self.name_el.set_tooltip_text(name)
