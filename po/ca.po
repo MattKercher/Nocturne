@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Nocturne\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-06-03 18:24+0200\n"
-"PO-Revision-Date: 2026-06-03 20:04+0200\n"
+"PO-Revision-Date: 2026-06-03 20:13+0200\n"
 "Last-Translator: Jordi Bultó <jbulto@gmail.com>\n"
 "Language-Team: Catalan\n"
 "Language: ca\n"
@@ -1042,7 +1042,7 @@ msgstr "S'ha afegit la llista"
 
 #: src/ui/pages/playback.blp:123
 msgid "Thank you for using Nocturne!"
-msgstr "Gràcies per utilitzar el Nocturne!"
+msgstr "Gràcies per l'ús del Nocturne!"
 
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
