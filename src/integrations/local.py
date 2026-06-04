@@ -281,6 +281,7 @@ class Local(Base):
                         'artist': song.get('artist'),
                         'artistId': song.get('artistId'),
                         'song': [{'id': model_id}],
+                        'year':int(song.get('year') or "0"),
                         'starred': album_id in star_list,
                         'userRating': self.get_rating(album_id)
                     }
