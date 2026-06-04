@@ -5,7 +5,7 @@ from . import models, secret, sql_instance
 from ..constants import get_nocturne_version, DEFAULT_MUSIC_DIR, INTEGRATIONS_DIR
 import requests, urllib3, time, os, json
 from datetime import datetime
-from requests.adapters import HTTPAdapter
+from requests.adapters import HTTPAdapter, Retry
 
 # Just so that the logs don't get cluttered with warnings if trust-server = True
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -33,10 +33,18 @@ class Base(GObject.Object):
     # See example in get_sql_schema
     sqlSchema = {}
 
+    # Set up retry rules
+    retries = Retry(
+        total=3,
+        backoff_factor=1,
+        status_forcelist=[429, 500, 502, 503, 504]
+    )
+
     # Use session instead of calling requests
     session_adapter = HTTPAdapter(
         pool_connections=5,
-        pool_maxsize=100
+        pool_maxsize=100,
+        max_retries=retries
     )
     session = requests.Session()
     session.mount("http://", session_adapter)
