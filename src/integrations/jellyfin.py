@@ -396,7 +396,9 @@ class Jellyfin(Base):
                         "ParentId": model_id,
                         "IncludeItemTypes": "MusicAlbum",
                         "Recursive": "true",
-                        "Fields": "ItemCounts"
+                        "Fields": "ItemCounts",
+                        "SortBy": "PremiereDate",
+                        "SortOrder":"Descending"
                     }
                 ).get("Items", [])
 
