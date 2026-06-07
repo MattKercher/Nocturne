@@ -56,7 +56,7 @@ class Navidrome(Base):
             response = self.send_request(action, params)
             if response.status_code == 200:
                 data = response.json().get('subsonic-response', {})
-                if data.get('status') == 'failed' and data.get('error', {}).get('code') == 41:
+                if data.get('status') == 'failed' and data.get('error', {}).get('code') in (41, 42):
                     self._use_apikey_auth = True
                     response = self.send_request(action, params)
                     if response.status_code == 200:
