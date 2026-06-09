@@ -168,10 +168,10 @@ class Jellyfin(Base):
             return True
         return False
 
-    def getCoverArtBytes(self, model_id:str, size:int, image_id:str='') -> bytes:
+    def getCoverArtBytes(self, model_id:str, size:int) -> bytes:
         try:
             url = self.get_url('Items/{id}/Images/Primary', id=model_id)
-            if image_id:
+            if image_id := self.loaded_models.get(model_id).get_property('coverArt'):
                 url = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=image_id)
 
             response = self.make_request(
@@ -189,7 +189,7 @@ class Jellyfin(Base):
             logger.error(f"can't get image from {model_id}: {e}")
         return b''
 
-    def updateCoverArt(self, model_id:str='', image_id:str=''):
+    def updateCoverArt(self, model_id:str=''):
         if model := self.loaded_models.get(model_id):
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 local.Local.updateCoverArt(self, model_id)
@@ -204,9 +204,9 @@ class Jellyfin(Base):
                     raw_bytes = self.get_cache_image(model_id, size)
                     save_cache = not raw_bytes
                     if not raw_bytes:
-                        raw_bytes = self.getCoverArtBytes(model_id, size, image_id=image_id)
+                        raw_bytes = self.getCoverArtBytes(model_id, size)
                         if not raw_bytes and isinstance(model, models.Song):
-                            raw_bytes = self.getCoverArtBytes(model.get_property('albumId'), size, image_id=image_id)
+                            raw_bytes = self.getCoverArtBytes(model.get_property('albumId'), size)
                             if raw_bytes:
                                 model.set_property('coverArt', model.get_property('albumId')) # For getCoverArtUrl
                     if raw_bytes:
@@ -311,6 +311,7 @@ class Jellyfin(Base):
                 name=album.get("Name"),
                 artist=artists[0].get("Name") if artists else "Unknown",
                 artistId=artists[0].get("Id") if artists else "",
+                coverArt=album.get('ImageTags', {}).get('Primary', ''),
                 songCount=len(songs),
                 duration=duration,
                 artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artists],
@@ -320,12 +321,8 @@ class Jellyfin(Base):
             )
             self.loaded_models[album.get("Id")] = album_model
             id_list.append(album.get("Id"))
-            if(image_id:=album.get('ImageTags', {}).get('Primary', '')):
-                threading.Thread(
-                    target=self.updateCoverArt,
-                    kwargs={"model_id": album.get("Id"), "image_id": image_id},
-                    daemon=True
-                ).start()
+            if(album.get('ImageTags', {}).get('Primary', '')):
+                threading.Thread(target=self.updateCoverArt, kwargs={"model_id": album.get("Id")}, daemon=True).start()
         return id_list
 
     def getArtists(self, size:int=10) -> list:
@@ -356,6 +353,7 @@ class Jellyfin(Base):
             artist_model = models.Artist(
                 id=artist.get('Id'),
                 name=artist.get('Name'),
+                coverArt=artist.get('ImageTags', {}).get('Primary', ''),
                 albumCount=len(albums),
                 album=[{'id': alb.get("Id"), 'name': alb.get("Name")} for alb in albums],
                 starred=artist.get("UserData", {}).get("IsFavorite", False),
@@ -365,12 +363,8 @@ class Jellyfin(Base):
             )
             self.loaded_models[artist.get("Id")] = artist_model
             id_list.append(artist.get("Id"))
-            if(image_id:=artist.get('ImageTags', {}).get('Primary', '')):
-                threading.Thread(
-                    target=self.updateCoverArt,
-                    kwargs={"model_id": artist.get('Id'), "image_id": image_id},
-                    daemon=True
-                ).start()
+            if(artist.get('ImageTags', {}).get('Primary', '')):
+                threading.Thread(target=self.updateCoverArt, kwargs={"model_id": artist.get('Id')}, daemon=True).start()
         return id_list
 
     def getPlaylists(self) -> list:
@@ -401,18 +395,15 @@ class Jellyfin(Base):
             playlist_model = models.Playlist(
                 id=playlist.get("Id"),
                 name=playlist.get("Name"),
+                coverArt=playlist.get('ImageTags', {}).get('Primary', ''),
                 songCount=len(songs),
                 duration=duration,
                 entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
             )
             self.loaded_models[playlist.get("Id")] = playlist_model
             id_list.append(playlist.get("Id"))
-            if(image_id:=playlist.get('ImageTags', {}).get('Primary', '')):
-                threading.Thread(
-                    target=self.updateCoverArt,
-                    kwargs={"model_id": playlist.get("Id"), "image_id": image_id},
-                    daemon=True
-                ).start()
+            if(playlist.get('ImageTags', {}).get('Primary', '')):
+                threading.Thread(target=self.updateCoverArt, kwargs={"model_id": playlist.get("Id")}, daemon=True).start()
         return id_list
 
     def getStarredSongs(self) -> list:
@@ -453,6 +444,7 @@ class Jellyfin(Base):
                 self.loaded_models.get(model_id).update_data(
                     id=artist.get("Id"),
                     name=artist.get("Name"),
+                    coverArt=artist.get('ImageTags', {}).get('Primary', ''),
                     albumCount=len(albums),
                     album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
                     starred=artist.get("UserData", {}).get("IsFavorite", False),
@@ -460,12 +452,8 @@ class Jellyfin(Base):
                     similarArtists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artist.get("SimilarItems", [])],
                     userRating=self.get_rating(artist.get("Id"))
                 )
-                if(image_id:=artist.get('ImageTags', {}).get('Primary', '')):
-                    threading.Thread(
-                        target=self.updateCoverArt,
-                        kwargs={"model_id": model_id, "image_id": image_id},
-                        daemon=True
-                    ).start()
+                if(artist.get('ImageTags', {}).get('Primary', '')):
+                    threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
             self.ongoing_requests.remove(model_id)
@@ -519,6 +507,7 @@ class Jellyfin(Base):
                     name=album.get("Name"),
                     artist=album.get("AlbumArtist"),
                     artistId=album.get("ArtistItems", [{}])[0].get("Id") if album.get("ArtistItems") else None,
+                    coverArt=album.get('ImageTags', {}).get('Primary', ''),
                     songCount=len(songs),
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in album.get("ArtistItems", [])],
@@ -527,12 +516,8 @@ class Jellyfin(Base):
                     userRating=self.get_rating(album.get("Id")),
                     year=album.get("ProductionYear", 0)
                 )
-                if(image_id:=album.get('ImageTags', {}).get('Primary', '')):
-                    threading.Thread(
-                        target=self.updateCoverArt,
-                        kwargs={"model_id": model_id, "image_id": image_id},
-                        daemon=True
-                    ).start()
+                if(album.get('ImageTags', {}).get('Primary', '')):
+                    threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
             self.ongoing_requests.remove(model_id)
@@ -578,16 +563,13 @@ class Jellyfin(Base):
                 self.loaded_models.get(model_id).update_data(
                     id=playlist.get("Id"),
                     name=playlist.get("Name"),
+                    coverArt=playlist.get('ImageTags', {}).get('Primary', ''),
                     songCount=len(songs),
                     duration=duration,
                     entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
                 )
-                if(image_id:=playlist.get('ImageTags', {}).get('Primary', '')):
-                    threading.Thread(
-                        target=self.updateCoverArt,
-                        kwargs={"model_id": model_id, "image_id": image_id},
-                        daemon=True
-                    ).start()
+                if(playlist.get('ImageTags', {}).get('Primary', '')):
+                    threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
             self.ongoing_requests.remove(model_id)
@@ -629,6 +611,7 @@ class Jellyfin(Base):
                     albumId=song.get("AlbumId"),
                     artist=song.get("AlbumArtist"),
                     artistId=(song.get("ArtistItems") or [{}])[0].get("Id"),
+                    coverArt=song.get('ImageTags', {}).get('Primary', ''),
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
                     starred=song.get("UserData", {}).get("IsFavorite", False),
@@ -638,12 +621,8 @@ class Jellyfin(Base):
                     trackGain=song.get("NormalizationGain") or 0.0,
                     userRating=self.get_rating(model_id)
                 )
-                if(image_id:=song.get('ImageTags', {}).get('Primary', '')):
-                    threading.Thread(
-                        target=self.updateCoverArt,
-                        kwargs={"model_id": model_id, "image_id": image_id},
-                        daemon=True
-                    ).start()
+                if(song.get('ImageTags', {}).get('Primary', '')):
+                    threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 self.loaded_models.get(model_id).set_property('deleted', True)
                 del self.loaded_models[model_id]
@@ -752,6 +731,7 @@ class Jellyfin(Base):
                     "albumId": song.get("AlbumId"),
                     "artist": song.get("AlbumArtist"),
                     "artistId": (song.get("ArtistItems") or [{}])[0].get("Id"),
+                    "coverArt": song.get('ImageTags', {}).get('Primary', ''),
                     "duration": duration,
                     "artists": [{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
                     "starred": song.get("UserData", {}).get("IsFavorite", False),
@@ -789,6 +769,7 @@ class Jellyfin(Base):
                     "albumId": song.get("AlbumId"),
                     "artist": song.get("AlbumArtist"),
                     "artistId": (song.get("ArtistItems") or [{}])[0].get("Id"),
+                    "coverArt": song.get('ImageTags', {}).get('Primary', ''),
                     "duration": duration,
                     "artists": [{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
                     "starred": song.get("UserData", {}).get("IsFavorite", False),
@@ -798,13 +779,9 @@ class Jellyfin(Base):
                     self.loaded_models.get(song.get("Id")).update_data(**properties)
                 else:
                     self.loaded_models[song.get("Id")] = models.Song(**properties)
+                if(song.get('ImageTags', {}).get('Primary', '')):
+                    threading.Thread(target=self.updateCoverArt, args=(song.get("Id"),), daemon=True).start()
             id_list.append(song.get("Id"))
-            if(image_id:=song.get('ImageTags', {}).get('Primary', '')):
-                threading.Thread(
-                    target=self.updateCoverArt,
-                    kwargs={"model_id": song.get("Id"), "image_id": image_id},
-                    daemon=True
-                ).start()
         return id_list
 
     def getLyrics(self, songId:str) -> dict:
