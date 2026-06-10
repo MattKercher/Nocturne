@@ -83,6 +83,12 @@ class PopoutWindow(Adw.ApplicationWindow):
         if self.get_application().main_window.get_hide_on_close():
             self.get_application().main_window.present()
 
+    def toggle_fullscreen(self, button):
+        if self.is_fullscreen():
+            self.unfullscreen()
+        else:
+            self.fullscreen()
+
     @Gtk.Template.Callback()
     def big_mode_apply(self, breakpoint_el):
         self.add_css_class('big-mode')

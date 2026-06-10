@@ -26,6 +26,7 @@ class PlayingControlPage(Adw.NavigationPage):
     show_sidebar_el = Gtk.Template.Child()
     state_stack_el = Gtk.Template.Child()
     rating_container = Gtk.Template.Child()
+    breakpoint_state = False
     song_connections = {
         'songId': '',
         'connections': []
@@ -61,7 +62,7 @@ class PlayingControlPage(Adw.NavigationPage):
                     self.progress_el.get_adjustment().set_value(positionSeconds)
 
     def breakpoint_toggled(self, active:bool):
-        self.show_sidebar_el.set_visible(active)
+        self.breakpoint_state = active
         if isinstance(self.get_parent(), Adw.NavigationView) and not self.get_parent().get_vhomogeneous():
             self.get_parent().set_vhomogeneous(True)
 
@@ -88,9 +89,11 @@ class PlayingControlPage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def show_content_clicked(self, button):
-        view = self.get_ancestor(Adw.NavigationSplitView)
-        if view:
-            view.set_show_content(True)
+        if view := self.get_ancestor(Adw.NavigationSplitView):
+            if self.breakpoint_state:
+                view.set_show_content(True)
+            else:
+                view.set_collapsed(not view.get_collapsed())
 
     @Gtk.Template.Callback()
     def change_rating(self, button):

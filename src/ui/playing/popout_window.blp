@@ -18,7 +18,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
     setters {
       split_view.max-sidebar-width: 2440;
       toolbarview.extend-content-to-top-edge: true;
-      sidebar_view_switcher.visible: true;
+      sidebar_extra_container.visible: true;
       header_view_switcher.visible: false;
     }
     apply => $big_mode_apply();
@@ -49,13 +49,29 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
         child: Adw.NavigationSplitView split_view {
           sidebar-width-fraction: 0.5;
           max-sidebar-width: 320;
+          collapsed: bind split_view_toggle.active inverted;
 
           sidebar: $NocturnePlayingControlPage playing_page {
-            extra-widget: Adw.ViewSwitcher sidebar_view_switcher {
-              stack: stack;
-              policy: wide;
+            extra-widget: Gtk.Box sidebar_extra_container {
+              orientation: horizontal;
+              spacing: 10;
               halign: center;
               visible: false;
+
+              Gtk.ToggleButton split_view_toggle {
+                styles [
+                  "flat"
+                ]
+                icon-name: "sidebar-show-right-symbolic";
+                tooltip-text: _("Show Sidebar");
+                active: bind split_view.collapsed inverted;
+                visible: false;
+              }
+
+              Adw.ViewSwitcher {
+                stack: stack;
+                policy: wide;
+              }
             };
           };
           content: Adw.NavigationPage {
