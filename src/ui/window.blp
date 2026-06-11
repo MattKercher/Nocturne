@@ -37,7 +37,24 @@ template $NocturneWindow: Adw.ApplicationWindow {
     Gtk.Stack main_stack {
       Gtk.StackPage {
         name: "loading";
-        child: Adw.Spinner {};
+        child: Adw.ToolbarView {
+          [top]
+          Adw.HeaderBar {}
+          content: Gtk.Box {
+            orientation: vertical;
+            halign: center;
+            valign: center;
+            spacing: 10;
+            styles [
+              "p10"
+            ]
+            Adw.Spinner {}
+            Gtk.Label loading_label_el {
+              wrap: true;
+              wrap-mode: word_char;
+            }
+          };
+        };
       }
       Gtk.StackPage {
         name: "welcome";
@@ -78,11 +95,6 @@ template $NocturneWindow: Adw.ApplicationWindow {
                     icon-name: "media-playlist-shuffle-symbolic";
                     tooltip-text: _("Play Random Queue");
                     action-name: "app.play_random_queue";
-                  }
-
-                  [start]
-                  Adw.Spinner loading_el {
-                    visible: false;
                   }
 
                   [end]
