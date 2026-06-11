@@ -225,7 +225,12 @@ button.lyrics_go_back_overlay_button {
   margin: 10px;
 }
 
-toggle-group > toggle:checked {
-  background: color-mix(in srgb, var(--window-bg-color), transparent);
+@media (prefers-color-scheme: light) {
+  toggle-group > toggle.image-button:checked {
+    background: color-mix(in srgb, var(--card-bg-color), transparent);
+  }
+}
+
+toggle-group > toggle.image-button:checked {
   color: var(--accent-color);
 }

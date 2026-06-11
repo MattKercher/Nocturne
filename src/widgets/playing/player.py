@@ -641,3 +641,4 @@ class Player(EventAdapter):
                 threading.Thread(target=update_default_metadata, args=(song_id,), daemon=True).start()
         else:
             self.gst.set_state(Gst.State.NULL)
+
