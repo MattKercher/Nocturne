@@ -126,9 +126,9 @@ class SongRow(Adw.ActionRow):
                 css_classes = ['p0', 'flat'],
                 tooltip_text=artists[0].get('name')
             )
-            self.artist_container_el.set_sensitive(not model.get_property('isExternalFile'))
             self.artist_container_el.set_child(button)
-        elif len(artists) > 1:
+            self.artist_container_el.set_sensitive(not model.get_property('isExternalFile'))
+        if len(artists) >= 5:
             menu = Gio.Menu()
             for artist in artists:
                 item = Gio.MenuItem.new(
@@ -151,9 +151,29 @@ class SongRow(Adw.ActionRow):
                 menu_model = menu,
                 tooltip_text=_("Multiple Artists")
             )
-            self.artist_container_el.set_sensitive(True)
             self.artist_container_el.set_child(button)
-        self.artist_container_el.set_visible(True)
+        else:
+            container = Adw.WrapBox(
+                line_spacing=2,
+                child_spacing=2,
+                wrap_policy=Adw.WrapPolicy.MINIMUM
+            )
+            for artist in artists:
+                button = Gtk.Button(
+                    action_name = 'app.show_artist',
+                    action_target = GLib.Variant.new_string(artist.get('id')),
+                    child = Gtk.Label(
+                        ellipsize=Pango.EllipsizeMode.END,
+                        label=artist.get('name'),
+                        css_classes=['subtitle']
+                    ),
+                    css_classes = ['p0', 'flat'],
+                    tooltip_text=artist.get('name')
+                )
+                container.append(button)
+            self.artist_container_el.set_child(container)
+            self.artist_container_el.set_sensitive(not model.get_property('isExternalFile'))
+        self.artist_container_el.set_visible(self.artist_container_el.get_child())
 
     def update_starred(self, starred:bool):
         if starred:
