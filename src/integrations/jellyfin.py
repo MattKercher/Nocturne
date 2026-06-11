@@ -293,36 +293,8 @@ class Jellyfin(Base):
         ).get('Items', [])
         id_list = []
         for album in albums:
-            artists = album.get("ArtistItems", [])
-            songs = self.make_request(
-                action='Users/{userId}/Items',
-                mode="GET",
-                params={
-                    "ParentId": album.get("Id"),
-                    "IncludeItemTypes": "Audio",
-                    "Fields": "RunTimeTicks"
-                }
-            ).get("Items", [])
-
-            duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
-
-            album_model = models.Album(
-                id=album.get("Id"),
-                name=album.get("Name"),
-                artist=artists[0].get("Name") if artists else "Unknown",
-                artistId=artists[0].get("Id") if artists else "",
-                coverArt=album.get('ImageTags', {}).get('Primary', ''),
-                songCount=len(songs),
-                duration=duration,
-                artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artists],
-                song=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs],
-                starred=album.get("UserData", {}).get("IsFavorite", False),
-                userRating=self.get_rating(album.get("Id"))
-            )
-            self.loaded_models[album.get("Id")] = album_model
+            self.verifyAlbum(album.get("Id"), album_object=album) #TODO maybe code in a way to skip the song retrieval in verifyAlbum
             id_list.append(album.get("Id"))
-            if(album.get('ImageTags', {}).get('Primary', '')):
-                threading.Thread(target=self.updateCoverArt, kwargs={"model_id": album.get("Id")}, daemon=True).start()
         return id_list
 
     def getArtists(self, size:int=10) -> list:
@@ -421,13 +393,16 @@ class Jellyfin(Base):
 
         return [song.get("Id") for song in songs]
 
-    def verifyArtist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyArtist(self, model_id:str, artist_object:models.Artist=None, lite:bool=False, force_update:bool=False, use_threading:bool=True):
         def run():
-            artist = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
+            artist = artist_object
+            if artist is None:
+                artist = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
+
             if artist.get("Id"):
                 albums = self.make_request(
                     action='Users/{userId}/Items',
@@ -441,6 +416,15 @@ class Jellyfin(Base):
                     }
                 ).get("Items", [])
 
+                similar = []
+                if not lite: #Reduce request size
+                    similar = self.make_request(
+                        action='/Items/{id}/Similar?userId={userId}',
+                        action_keys={"id": model_id},
+                        params={"limit": 12},
+                        mode="GET"
+                    ).get("Items", [])
+
                 self.loaded_models.get(model_id).update_data(
                     id=artist.get("Id"),
                     name=artist.get("Name"),
@@ -449,7 +433,8 @@ class Jellyfin(Base):
                     album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
                     starred=artist.get("UserData", {}).get("IsFavorite", False),
                     biography=artist.get("Overview", ""),
-                    similarArtists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artist.get("SimilarItems", [])],
+                    similarArtist=[{"id": sim.get("Id"), "name": sim.get("Name")} for sim in similar],
+                    #similarArtists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artist.get("SimilarItems", [])],
                     userRating=self.get_rating(artist.get("Id"))
                 )
                 if(artist.get('ImageTags', {}).get('Primary', '')):
@@ -460,7 +445,7 @@ class Jellyfin(Base):
 
         if model_id not in self.loaded_models or force_update:
             # Prevent repeated requests
-            if model_id in self.ongoing_requests:
+            if model_id in self.ongoing_requests and not force_update:
                 print(f"Artist: {model_id} is ongoing")
                 return
             self.ongoing_requests.add(model_id)
@@ -474,13 +459,15 @@ class Jellyfin(Base):
 
         #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
 
-    def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyAlbum(self, model_id:str, album_object:models.Album=None, force_update:bool=False, use_threading:bool=True):
         def run():
-            album = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
+            album = album_object
+            if album is None:
+                album = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
 
             if album.get("Id"):
                 songs = self.make_request(
@@ -524,7 +511,7 @@ class Jellyfin(Base):
 
         if model_id not in self.loaded_models or force_update:
             # Prevent repeated requests
-            if model_id in self.ongoing_requests:
+            if model_id in self.ongoing_requests and not force_update:
                 print(f"Album: {model_id} is ongoing")
                 return
             self.ongoing_requests.add(model_id)
@@ -538,13 +525,15 @@ class Jellyfin(Base):
 
         #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
 
-    def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyPlaylist(self, model_id:str, playlist_object:models.Playlist=None, force_update:bool=False, use_threading:bool=True):
         def run():
-            playlist = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
+            playlist = playlist_object
+            if playlist is None:
+                playlist = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
 
             if playlist.get("Id"):
                 songs = self.make_request(
@@ -576,7 +565,7 @@ class Jellyfin(Base):
 
         if model_id not in self.loaded_models or force_update:
             # Prevent repeated requests
-            if model_id in self.ongoing_requests:
+            if model_id in self.ongoing_requests and not force_update:
                 print(f"Playlist: {model_id} is ongoing")
                 return
             self.ongoing_requests.add(model_id)
@@ -590,17 +579,19 @@ class Jellyfin(Base):
 
         #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
 
-    def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifySong(self, model_id:str, song_object:models.Song=None, force_update:bool=False, use_threading:bool=True):
         def run():
-            params = {
-                "Fields": "ArtistItems,AlbumId,RunTimeTicks,UserData,IndexNumber,ParentIndexNumber"
-            }
-            song = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode='GET',
-                params=params
-            )
+            song = song_object
+            if song is None:
+                params = {
+                    "Fields": "ArtistItems,AlbumId,RunTimeTicks,UserData,IndexNumber,ParentIndexNumber"
+                }
+                song = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode='GET',
+                    params=params
+                )
 
             if song.get("Id"):
                 duration = int(song.get("RunTimeTicks", 0) / 10000000)
@@ -630,7 +621,7 @@ class Jellyfin(Base):
 
         if model_id not in self.loaded_models or force_update:
             # Prevent repeated requests
-            if model_id in self.ongoing_requests:
+            if model_id in self.ongoing_requests and not force_update:
                 print(f"Song: {model_id} is ongoing")
                 return
             self.ongoing_requests.add(model_id)
@@ -813,7 +804,7 @@ class Jellyfin(Base):
 
     def __fetch_type(self, item_type:str, query:str, limit:int=5, offset:int=0, fields:str=""):
         # Method exclusive to Jellyfin, helper for searches
-        return self.make_request(
+        items = self.make_request(
             action='Users/{userId}/Items',
             mode="GET",
             params={
@@ -825,6 +816,17 @@ class Jellyfin(Base):
                 "Fields": fields
             }
         ).get('Items', [])
+
+        for item in items:
+            if item_type == "MusicArtist":
+                self.verifyArtist(item.get("Id"), artist_object=item, lite=True)
+            elif item_type == "MusicAlbum":
+                self.verifyAlbum(item.get("Id"), album_object=item)
+            elif item_type == "Audio":
+                self.verifySong(item.get("Id"), song_object=item)
+            elif item_type == "Playlist":
+                self.verifyPlaylist(item.get("Id"), playlist_object=item)
+        return items
 
     def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         return {
