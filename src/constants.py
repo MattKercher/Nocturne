@@ -171,6 +171,7 @@ TRANSLATORS = [
     "Ibai Oihanguren Sala (Basque) https://ibaios.eus",
     "Martin Prokoph (German) https://github.com/Motschen",
     "Aleksandr Shamaraev (Russian) https://github.com/AlexanderShad",
+    "gttn-84 (Russian) https://github.com/gttn-84",
     "Saul Gman (Simplified Chinese) https://github.com/Ja4e",
     "Muhammed Emin Akalan (Turkish) https://github.com/muhammedeminakalan",
     "Yuan Chiu (Traditional Chinese) https://yuaner.tw",
