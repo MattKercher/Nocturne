@@ -22,7 +22,7 @@ template $NocturneSongsStarredPage: Adw.NavigationPage {
         }
       }
 
-      title-widget: Gtk.SearchEntry {
+      title-widget: Gtk.SearchEntry search_entry_el {
         hexpand: true;
         key-capture-widget: main_stack;
         placeholder-text: _("Favorite Songs");
@@ -41,9 +41,10 @@ template $NocturneSongsStarredPage: Adw.NavigationPage {
       }
       Gtk.StackPage {
         name: "content";
-        child: Gtk.ScrolledWindow {
+        child: Gtk.ScrolledWindow scrolledwindow {
           propagate-natural-width: true;
           propagate-natural-height: true;
+          edge-reached => $scroll_edge_reached();
 
           child: Adw.Clamp {
             maximum-size: 2000;
