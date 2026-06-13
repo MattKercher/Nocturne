@@ -288,11 +288,11 @@ class Player(EventAdapter):
 
         self.bus = self.gst.get_bus()
         self.bus.add_signal_watch()
-
-        def call_message(*_):
-            threading.Thread(target=self.on_message, args=(_), daemon=True).start()
-
-        self.bus.connect("message", call_message)
+        self.bus.connect("message::eos", lambda bus, msg: self.handle_song_change_request("end") if msg.src == self.gst else None)
+        self.bus.connect("message::error", lambda bus, msg: print("ERROR", msg.parse_error()[0].message))
+        self.bus.connect("message::state-changed", self.handle_message_state_changed)
+        self.bus.connect("message::tag", self.handle_message_tag)
+        self.bus.connect("message::element", self.handle_message_element)
 
         self.adapter = PlayerAdapter(self)
         self.mpris = Server("com.jeffser.Nocturne", adapter=self.adapter)
@@ -452,7 +452,7 @@ class Player(EventAdapter):
                     GLib.Variant("as", [so.get_string() for so in list(generated_queue)])
                 )
 
-    def handle_spectrum_message(self, struct):
+    def handle_message_spectrum(self, struct):
         serialized = struct.serialize_full(Gst.SerializeFlags.NONE)
         channels_str = serialized.split('< < ')[1].split(' > >;')[0].replace('(float)', '').split(' >, < ')
         channels = []
@@ -466,36 +466,34 @@ class Player(EventAdapter):
                 integration.loaded_models.get('currentSong').set_property('magnitudes', {})
             integration.loaded_models.get('currentSong').magnitudes[timestamp] = magnitudes
 
-    def on_message(self, bus, message):
+    def handle_message_element(self, bus, message):
         if message.src == self.spectrum:
             struct = message.get_structure()
             if struct and struct.get_name() == "spectrum" and self.settings.get_value('show-visualizer').unpack():
-                threading.Thread(target=self.handle_spectrum_message, args=(struct,), daemon=True).start()
-        elif message.src == self.gst:
-            if message.type == Gst.MessageType.STATE_CHANGED:
-                old_state, new_state, pending_state = message.parse_state_changed()
-                self.handle_new_state(new_state)
-            elif message.type == Gst.MessageType.TAG:
-                integration = get_current_integration()
-                if model := integration.loaded_models.get('currentSong'):
-                    if song_model := integration.loaded_models.get(model.get_property('songId')):
-                        if song_model.get_property('radioStreamUrl'): # is radio
-                            if tag_list := message.parse_tag():
-                                success, title = tag_list.get_string(Gst.TAG_TITLE)
-                                if success and title and title != 'null':
-                                    current_title = model.get_property('displaySongTitle')
-                                    if current_title != title:
-                                        model.set_property('displaySongTitle', title)
-                                success, artist = tag_list.get_string(Gst.TAG_ARTIST)
-                                if success and artist and artist != 'null':
-                                    current_artist = model.get_property('displaySongArtist')
-                                    if current_artist != artist:
-                                        model.set_property('displaySongArtist', artist)
-            elif message.type == Gst.MessageType.EOS:
-                self.handle_song_change_request("end")
-            elif message.type == Gst.MessageType.ERROR:
-                err, debug = message.parse_error()
-                print("Error: {}".format(err.message))
+                threading.Thread(target=self.handle_message_spectrum, args=(struct,), daemon=True).start()
+
+    def handle_message_state_changed(self, bus, message):
+        if message.src == self.gst:
+            old_state, new_state, pending_state = message.parse_state_changed()
+            self.handle_new_state(new_state)
+
+    def handle_message_tag(self, bus, message):
+        if message.src == self.gst:
+            integration = get_current_integration()
+            if model := integration.loaded_models.get('currentSong'):
+                if song_model := integration.loaded_models.get(model.get_property('songId')):
+                    if song_model.get_property('radioStreamUrl'): # is radio
+                        if tag_list := message.parse_tag():
+                            success, title = tag_list.get_string(Gst.TAG_TITLE)
+                            if success and title and title != 'null':
+                                current_title = model.get_property('displaySongTitle')
+                                if current_title != title:
+                                    model.set_property('displaySongTitle', title)
+                            success, artist = tag_list.get_string(Gst.TAG_ARTIST)
+                            if success and artist and artist != 'null':
+                                current_artist = model.get_property('displaySongArtist')
+                                if current_artist != artist:
+                                    model.set_property('displaySongArtist', artist)
 
     def update_stream_progress(self):
         if integration := get_current_integration():
