@@ -174,6 +174,7 @@ class NocturneWindow(Adw.ApplicationWindow):
         self.downloads_button_el.setup()
         self.notify_playback()
         self.setup_sidebar()
+        self.sidebar_playing_page.show_sidebar_el.set_visible(False)
         integration = get_current_integration()
         integration.connect_to_model('currentSong', 'songId', self.song_changed)
 
