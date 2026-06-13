@@ -31,19 +31,20 @@ class SongsStarredPage(Adw.NavigationPage):
         if query := self.search_entry_el.get_text():
             for song_id in self.song_ids:
                 if model := integration.loaded_models.get(song_id):
-                    if re.search(query, model.get_property('title'), re.IGNORECASE):
+                    if re.search(query, model.get_property('title') + model.get_property('artist'), re.IGNORECASE):
                         ids_to_show.append(song_id)
         else:
             ids_to_show = self.song_ids
 
         ids_to_show = ids_to_show[:self.offset+30]
+        missing_ids = ids_to_show.copy()
 
-        for row in list(self.list_el.list_el) + list(self.wrapbox_el):
-            GLib.idle_add(row.set_visible, row.id in ids_to_show)
-            if row.id in ids_to_show:
-                ids_to_show.remove(row.id)
+        for widget in list(self.list_el.list_el) + list(self.wrapbox_el):
+            GLib.idle_add(widget.set_visible, widget.id in ids_to_show)
+            if widget.id in missing_ids:
+                missing_ids.remove(widget.id)
 
-        for song_id in ids_to_show:
+        for song_id in missing_ids:
             GLib.idle_add(self.list_el.list_el.append, SongRow(song_id))
             GLib.idle_add(self.wrapbox_el.append, SongButton(song_id))
         self.offset += 30
