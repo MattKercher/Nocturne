@@ -374,7 +374,6 @@ class Jellyfin(Base):
                     "AlbumArtistIds": [model_id],
                     "IncludeItemTypes": "MusicAlbum",
                     "Recursive": "true",
-                    "Fields": "ItemCounts",
                     "SortBy": "PremiereDate"
                 }
                 if lite:
