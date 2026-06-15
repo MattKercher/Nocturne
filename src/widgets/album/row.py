@@ -1,6 +1,6 @@
 # row.py
 
-from gi.repository import Gtk, Adw, GLib, Gio
+from gi.repository import Gtk, Adw, GLib, Gio, Gdk
 from ...integrations import get_current_integration
 from ...constants import CONTEXT_ALBUM
 from ..containers import ContextContainer
