@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 20:20-0600\n"
+"POT-Creation-Date: 2026-06-18 18:17-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,8 +88,8 @@ msgid "Song queue"
 msgstr ""
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:74
-#: src/ui/playing/popout_window.blp:311 src/ui/window.blp:175
-#: src/ui/window.blp:227
+#: src/ui/playing/popout_window.blp:91 src/ui/window.blp:190
+#: src/ui/window.blp:242
 msgid "Lyrics"
 msgstr ""
 
@@ -157,8 +157,8 @@ msgstr ""
 msgid "Are you sure you want to delete the integrated Navidrome server?"
 msgstr ""
 
-#: src/actions.py:320 src/actions.py:454 src/actions.py:488 src/actions.py:830
-#: src/actions.py:933 src/preferences.py:386 src/ui/lyrics/dialog.blp:16
+#: src/actions.py:320 src/actions.py:465 src/actions.py:499 src/actions.py:841
+#: src/actions.py:944 src/preferences.py:386 src/ui/lyrics/dialog.blp:16
 #: src/ui/lyrics/dialog.blp:17 src/widgets/pages/login.py:152
 msgid "Cancel"
 msgstr ""
@@ -171,365 +171,360 @@ msgstr ""
 msgid "Delete Everything"
 msgstr ""
 
-#: src/actions.py:400
+#: src/actions.py:411
 msgid "No Name"
 msgstr ""
 
-#: src/actions.py:419
+#: src/actions.py:430
 msgid "Radio updated successfully"
 msgstr ""
 
-#: src/actions.py:419
+#: src/actions.py:430
 msgid "Radio added successfully"
 msgstr ""
 
-#: src/actions.py:430
+#: src/actions.py:441
 msgid "Error updating radio"
 msgstr ""
 
-#: src/actions.py:430
+#: src/actions.py:441
 msgid "Error adding radio"
 msgstr ""
 
-#: src/actions.py:439 src/actions.py:822
+#: src/actions.py:450 src/actions.py:833
 msgid "Name"
 msgstr ""
 
-#: src/actions.py:444
+#: src/actions.py:455
 msgid "Stream Url"
 msgstr ""
 
-#: src/actions.py:451
+#: src/actions.py:462
 msgid "Update Radio Station"
 msgstr ""
 
-#: src/actions.py:451
+#: src/actions.py:462
 msgid "Add Radio Station"
 msgstr ""
 
-#: src/actions.py:455 src/preferences.py:387 src/ui/lyrics/dialog.blp:23
+#: src/actions.py:466 src/preferences.py:387 src/ui/lyrics/dialog.blp:23
 #: src/ui/lyrics/dialog.blp:24
 msgid "Save"
 msgstr ""
 
-#: src/actions.py:471
+#: src/actions.py:482
 msgid "Radio deleted successfully"
 msgstr ""
 
-#: src/actions.py:479
+#: src/actions.py:490
 msgid "Error deleting radio"
 msgstr ""
 
-#: src/actions.py:485
+#: src/actions.py:496
 msgid "Delete Radio Station"
 msgstr ""
 
-#: src/actions.py:486 src/actions.py:931
+#: src/actions.py:497 src/actions.py:942
 #, python-brace-format
 msgid "Are you sure you want to delete '{}'?"
 msgstr ""
 
-#: src/actions.py:489 src/actions.py:934 src/constants.py:373
-#: src/constants.py:426
+#: src/actions.py:500 src/actions.py:945 src/constants.py:375
+#: src/constants.py:423
 msgid "Delete"
 msgstr ""
 
-#: src/actions.py:523 src/actions.py:555 src/actions.py:561 src/actions.py:663
-#: src/actions.py:751
+#: src/actions.py:534 src/actions.py:566 src/actions.py:572 src/actions.py:674
+#: src/actions.py:762
 msgid "Playing Next"
 msgstr ""
 
-#: src/actions.py:535 src/actions.py:574 src/actions.py:580 src/actions.py:680
-#: src/actions.py:768
+#: src/actions.py:546 src/actions.py:585 src/actions.py:591 src/actions.py:691
+#: src/actions.py:779
 msgid "Playing Later"
 msgstr ""
 
-#: src/actions.py:555 src/actions.py:574 src/actions.py:1048
-#: src/actions.py:1183 src/widgets/playlist/dialog.py:31
+#: src/actions.py:566 src/actions.py:585 src/actions.py:1059
+#: src/actions.py:1194 src/widgets/playlist/dialog.py:31
 #, python-brace-format
 msgid "{} Songs"
 msgstr ""
 
-#: src/actions.py:610
+#: src/actions.py:621
 msgid "Lyrics Saved"
 msgstr ""
 
-#: src/actions.py:803
+#: src/actions.py:814
 msgid "Playlist updated successfully"
 msgstr ""
 
-#: src/actions.py:803
+#: src/actions.py:814
 msgid "Playlist created successfully"
 msgstr ""
 
-#: src/actions.py:813
+#: src/actions.py:824
 msgid "Error updating playlist"
 msgstr ""
 
-#: src/actions.py:813
+#: src/actions.py:824
 msgid "Error creating playlist"
 msgstr ""
 
-#: src/actions.py:827
+#: src/actions.py:838
 msgid "Update Playlist"
 msgstr ""
 
-#: src/actions.py:827 src/ui/pages/playlists.blp:41
+#: src/actions.py:838 src/ui/pages/playlists.blp:41
 msgid "Create Playlist"
 msgstr ""
 
-#: src/actions.py:831
+#: src/actions.py:842
 msgid "Update"
 msgstr ""
 
-#: src/actions.py:831
+#: src/actions.py:842
 msgid "Create"
 msgstr ""
 
-#: src/actions.py:850
+#: src/actions.py:861
 #, python-brace-format
 msgid "{} Song Removed"
 msgid_plural "{} Songs Removed"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/actions.py:881 src/actions.py:901
+#: src/actions.py:892 src/actions.py:912
 #, python-brace-format
 msgid "{} Song Added"
 msgid_plural "{} Songs Added"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/actions.py:905 src/actions.py:1053
+#: src/actions.py:916 src/actions.py:1064
 #, python-brace-format
 msgid "{} Song Skipped"
 msgid_plural "{} Songs Skipped"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/actions.py:918
+#: src/actions.py:929
 msgid "Playlist Deleted"
 msgstr ""
 
-#: src/actions.py:930
+#: src/actions.py:941
 msgid "Delete Playlist"
 msgstr ""
 
-#: src/actions.py:979
+#: src/actions.py:990
 msgid "No songs found"
 msgstr ""
 
-#: src/actions.py:1022 src/actions.py:1049 src/actions.py:1086
-#: src/actions.py:1122
+#: src/actions.py:1033 src/actions.py:1060 src/actions.py:1097
+#: src/actions.py:1133
 msgid "Download Started"
 msgstr ""
 
-#: src/actions.py:1029 src/actions.py:1060 src/actions.py:1067
-#: src/actions.py:1102 src/actions.py:1138
+#: src/actions.py:1040 src/actions.py:1071 src/actions.py:1078
+#: src/actions.py:1113 src/actions.py:1149
 msgid "Already Downloaded"
 msgstr ""
 
-#: src/actions.py:1054
+#: src/actions.py:1065
 #, python-brace-format
 msgid "{} Song ({})"
 msgid_plural "{} Songs ({})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/actions.py:1066
+#: src/actions.py:1077
 msgid "Download Skipped"
 msgstr ""
 
-#: src/actions.py:1090 src/actions.py:1126
+#: src/actions.py:1101 src/actions.py:1137
 #, python-brace-format
 msgid "Download Started ({} Song Skipped)"
 msgid_plural "Download Started ({} Songs Skipped)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/actions.py:1165 src/actions.py:1184
+#: src/actions.py:1176 src/actions.py:1195
 msgid "Deleted"
 msgstr ""
 
-#: src/constants.py:183 src/ui/playing/playback_mode_button.blp:5
+#: src/constants.py:185 src/ui/playing/playback_mode_button.blp:5
 msgid "Consecutive"
 msgstr ""
 
-#: src/constants.py:187
+#: src/constants.py:189
 msgid "Repeat All"
 msgstr ""
 
-#: src/constants.py:191
+#: src/constants.py:193
 msgid "Repeat One"
-msgstr ""
-
-#: src/constants.py:196
-#, python-brace-format
-msgid "Low ({})"
-msgstr ""
-
-#: src/constants.py:197
-#, python-brace-format
-msgid "Medium ({})"
 msgstr ""
 
 #: src/constants.py:198
 #, python-brace-format
-msgid "High ({})"
+msgid "Low ({})"
 msgstr ""
 
 #: src/constants.py:199
 #, python-brace-format
-msgid "Ultra ({})"
+msgid "Medium ({})"
 msgstr ""
 
 #: src/constants.py:200
+#, python-brace-format
+msgid "High ({})"
+msgstr ""
+
+#: src/constants.py:201
+#, python-brace-format
+msgid "Ultra ({})"
+msgstr ""
+
+#: src/constants.py:202
 msgid "Original File"
 msgstr ""
 
 #. Item
-#: src/constants.py:207 src/ui/pages/home.blp:5
+#: src/constants.py:209 src/ui/pages/home.blp:5
 msgid "Home"
 msgstr ""
 
 #. Item
 #. list
-#: src/constants.py:212 src/integrations/models.py:158
+#: src/constants.py:214 src/integrations/models.py:159
 #: src/ui/pages/artists.blp:5 src/ui/pages/artists.blp:28
 #: src/ui/preferences.blp:259 src/widgets/pages/home.py:54
 msgid "Artists"
 msgstr ""
 
 #. Section
-#: src/constants.py:219 src/ui/pages/albums_all.blp:5
+#: src/constants.py:221 src/ui/pages/albums_all.blp:5
 #: src/ui/pages/albums_all.blp:28 src/ui/preferences.blp:251
-#: src/widgets/artist/page.py:55 src/widgets/pages/home.py:49
+#: src/widgets/artist/page.py:53 src/widgets/pages/home.py:49
 msgid "Albums"
 msgstr ""
 
 #. Item
-#: src/constants.py:222 src/constants.py:257 src/constants.py:277
-#: src/window.py:147
+#: src/constants.py:224 src/constants.py:259 src/constants.py:279
+#: src/window.py:149
 msgid "All"
 msgstr ""
 
 #. Item
-#: src/constants.py:227
+#: src/constants.py:229
 msgid "Random"
 msgstr ""
 
 #. Item
-#: src/constants.py:232 src/constants.py:262
+#: src/constants.py:234 src/constants.py:264
 msgid "Favorites"
 msgstr ""
 
 #. Item
-#: src/constants.py:237
+#: src/constants.py:239
 msgid "Recently Added"
 msgstr ""
 
 #. Item
-#: src/constants.py:242
+#: src/constants.py:244
 msgid "Recently Played"
 msgstr ""
 
 #. Item
-#: src/constants.py:247
+#: src/constants.py:249
 msgid "Most Played"
 msgstr ""
 
 #. Section
-#: src/constants.py:254 src/ui/pages/songs_all.blp:5
+#: src/constants.py:256 src/ui/pages/songs_all.blp:5
 #: src/ui/pages/songs_all.blp:28 src/ui/preferences.blp:243
-#: src/widgets/album/page.py:47 src/widgets/pages/home.py:38
-#: src/widgets/playlist/page.py:31
+#: src/widgets/album/page.py:45 src/widgets/pages/home.py:38
+#: src/widgets/playlist/page.py:29
 msgid "Songs"
 msgstr ""
 
 #. Item
-#: src/constants.py:267 src/ui/pages/radios.blp:5 src/ui/pages/radios.blp:13
+#: src/constants.py:269 src/ui/pages/radios.blp:5 src/ui/pages/radios.blp:13
 msgid "Radios"
 msgstr ""
 
 #. Section
-#: src/constants.py:274 src/ui/pages/playlists.blp:5
+#: src/constants.py:276 src/ui/pages/playlists.blp:5
 #: src/ui/pages/playlists.blp:28 src/ui/preferences.blp:267
 #: src/widgets/pages/home.py:59
 msgid "Playlists"
 msgstr ""
 
-#: src/constants.py:287 src/constants.py:338 src/ui/lyrics/dialog.blp:47
+#: src/constants.py:289 src/constants.py:340 src/ui/lyrics/dialog.blp:47
 #: src/ui/playing/control_page.blp:225 src/ui/playing/footer.blp:103
-#: src/ui/playing/popout_window.blp:127 src/ui/song/queue.blp:47
-#: src/ui/song/queue.blp:49
+#: src/ui/song/queue.blp:47 src/ui/song/queue.blp:49
 msgid "Play"
 msgstr ""
 
-#: src/constants.py:292 src/constants.py:325 src/constants.py:348
+#: src/constants.py:294 src/constants.py:327 src/constants.py:350
 msgid "Shuffle"
 msgstr ""
 
-#: src/constants.py:297 src/constants.py:353 src/constants.py:386
+#: src/constants.py:299 src/constants.py:355 src/constants.py:388
 #: src/ui/song/queue.blp:55 src/ui/song/queue.blp:57
 msgid "Play Next"
 msgstr ""
 
-#: src/constants.py:302 src/constants.py:358 src/constants.py:391
+#: src/constants.py:304 src/constants.py:360 src/constants.py:393
 #: src/ui/song/queue.blp:63 src/ui/song/queue.blp:65
 msgid "Play Later"
 msgstr ""
 
-#: src/constants.py:307 src/constants.py:406 src/ui/song/queue.blp:71
+#: src/constants.py:309 src/constants.py:403 src/ui/song/queue.blp:71
 #: src/ui/song/queue.blp:73
 msgid "Add To Playlist"
 msgstr ""
 
-#: src/constants.py:312 src/constants.py:363 src/constants.py:411
-#: src/ui/pages/setup.blp:23 src/ui/playing/lyrics_page.blp:147
-#: src/ui/playing/lyrics_page.blp:150 src/ui/song/queue.blp:79
+#: src/constants.py:314 src/constants.py:365 src/constants.py:408
+#: src/ui/pages/setup.blp:23 src/ui/playing/lyrics_page.blp:167
+#: src/ui/playing/lyrics_page.blp:170 src/ui/song/queue.blp:79
 #: src/ui/song/queue.blp:81
 msgid "Download"
 msgstr ""
 
-#: src/constants.py:317 src/constants.py:421 src/ui/playing/control_page.blp:83
+#: src/constants.py:319 src/constants.py:418 src/ui/playing/control_page.blp:83
 msgid "Show Artist"
 msgstr ""
 
-#: src/constants.py:330 src/ui/playing/lyrics_page.blp:126
+#: src/constants.py:332 src/ui/playing/lyrics_page.blp:146
 #: src/widgets/song/row.py:109
 msgid "Radio"
 msgstr ""
 
-#: src/constants.py:343
+#: src/constants.py:345
 msgid "Resume"
 msgstr ""
 
-#: src/constants.py:368 src/constants.py:396
+#: src/constants.py:370 src/constants.py:398
 msgid "Edit"
 msgstr ""
 
-#: src/constants.py:382
+#: src/constants.py:384
 msgid "Select"
 msgstr ""
 
-#: src/constants.py:401
-msgid "Edit Lyrics"
-msgstr ""
-
-#: src/constants.py:416 src/ui/album/button.blp:49
+#: src/constants.py:413 src/ui/album/button.blp:49
 #: src/ui/playing/control_page.blp:98
 msgid "Show Album"
 msgstr ""
 
-#: src/constants.py:432 src/ui/song/queue.blp:90 src/ui/song/queue.blp:92
+#: src/constants.py:429 src/ui/song/queue.blp:90 src/ui/song/queue.blp:92
 msgid "Remove"
 msgstr ""
 
-#: src/constants.py:437 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
+#: src/constants.py:434 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
 msgid "Delete Download"
 msgstr ""
 
-#: src/constants.py:443 src/main.py:134
+#: src/constants.py:440 src/main.py:134
 msgid "Show Details"
 msgstr ""
 
@@ -545,7 +540,15 @@ msgstr ""
 msgid "Delete Server"
 msgstr ""
 
-#: src/integrations/base.py:132
+#: src/constants.py:471
+msgid "Edit Lyrics"
+msgstr ""
+
+#: src/constants.py:476
+msgid "Remove Lyrics"
+msgstr ""
+
+#: src/integrations/base.py:148
 msgid "Could not generate SQL database"
 msgstr ""
 
@@ -573,36 +576,36 @@ msgstr ""
 msgid "Could not log in"
 msgstr ""
 
-#: src/integrations/jellyfin.py:966
+#: src/integrations/jellyfin.py:968
 msgid "Unknown"
 msgstr ""
 
-#: src/integrations/local.py:21 src/integrations/local.py:27
+#: src/integrations/local.py:20 src/integrations/local.py:26
 #: src/integrations/local.py:586
 msgid "Local Files"
 msgstr ""
 
-#: src/integrations/local.py:22
+#: src/integrations/local.py:21
 msgid ""
 "Let Nocturne load your local files directly, for big libraries it is "
 "recommended to use a dedicated server."
 msgstr ""
 
-#: src/integrations/local.py:24 src/ui/pages/setup.blp:67
+#: src/integrations/local.py:23 src/ui/pages/setup.blp:67
 #: src/ui/pages/setup.blp:68
 msgid "Continue"
 msgstr ""
 
-#: src/integrations/local.py:28
+#: src/integrations/local.py:27
 msgid "Limited functionality"
 msgstr ""
 
 #. load songs, albums, artists
-#: src/integrations/local.py:69
+#: src/integrations/local.py:68
 msgid "Loading Songs"
 msgstr ""
 
-#: src/integrations/local.py:281
+#: src/integrations/local.py:280
 msgid "No Album"
 msgstr ""
 
@@ -614,119 +617,119 @@ msgstr ""
 msgid "Access your downloads"
 msgstr ""
 
-#: src/integrations/models.py:137 src/ui/album/page.blp:5
-#: src/widgets/album/page.py:131
+#: src/integrations/models.py:138 src/ui/album/page.blp:5
+#: src/widgets/album/page.py:129
 msgid "Album"
 msgstr ""
 
-#: src/integrations/models.py:139
+#: src/integrations/models.py:140
 msgid "Display Artist"
 msgstr ""
 
-#: src/integrations/models.py:141
+#: src/integrations/models.py:142
 msgid "MusicBrainz ID"
 msgstr ""
 
-#: src/integrations/models.py:142
+#: src/integrations/models.py:143
 msgid "Track Number"
 msgstr ""
 
-#: src/integrations/models.py:143
+#: src/integrations/models.py:144
 msgid "Year"
 msgstr ""
 
-#: src/integrations/models.py:144
+#: src/integrations/models.py:145
 msgid "Size"
 msgstr ""
 
-#: src/integrations/models.py:145
+#: src/integrations/models.py:146
 msgid "Suffix"
 msgstr ""
 
-#: src/integrations/models.py:146 src/widgets/album/button.py:78
-#: src/widgets/album/page.py:147 src/widgets/artist/page.py:127
-#: src/widgets/playing/control_page.py:176 src/widgets/song/row.py:163
+#: src/integrations/models.py:147 src/widgets/album/button.py:90
+#: src/widgets/album/page.py:145 src/widgets/artist/page.py:125
+#: src/widgets/playing/control_page.py:178 src/widgets/song/row.py:183
 msgid "Favorite"
 msgstr ""
 
-#: src/integrations/models.py:147
+#: src/integrations/models.py:148
 msgid "Duration"
 msgstr ""
 
-#: src/integrations/models.py:149
+#: src/integrations/models.py:150
 msgid "Bit Rate"
 msgstr ""
 
-#: src/integrations/models.py:150
+#: src/integrations/models.py:151
 msgid "Bit Depth"
 msgstr ""
 
-#: src/integrations/models.py:151
+#: src/integrations/models.py:152
 msgid "Sampling Rate"
 msgstr ""
 
-#: src/integrations/models.py:152
+#: src/integrations/models.py:153
 msgid "Channel Count"
 msgstr ""
 
-#: src/integrations/models.py:154
+#: src/integrations/models.py:155
 msgid "Path"
 msgstr ""
 
-#: src/integrations/models.py:155
+#: src/integrations/models.py:156
 msgid "Disc Number"
 msgstr ""
 
-#: src/integrations/models.py:156
+#: src/integrations/models.py:157
 msgid "BPM"
 msgstr ""
 
-#: src/integrations/models.py:157
+#: src/integrations/models.py:158
 msgid "Genres"
 msgstr ""
 
 #. list
-#: src/integrations/models.py:159
+#: src/integrations/models.py:160
 msgid "Track Gain"
 msgstr ""
 
-#: src/integrations/models.py:160
+#: src/integrations/models.py:161
 msgid "Album Gain"
 msgstr ""
 
-#: src/integrations/navidrome.py:20
+#: src/integrations/navidrome.py:19
 msgid "Connect to an OpenSubsonic server like Navidrome."
 msgstr ""
 
-#: src/integrations/navidrome.py:24
+#: src/integrations/navidrome.py:23
 msgid "External Server"
 msgstr ""
 
-#: src/integrations/navidrome.py:25
+#: src/integrations/navidrome.py:24
 msgid "Use an existing OpenSubsonic / Navidrome instance"
 msgstr ""
 
-#: src/integrations/navidrome.py:142
+#: src/integrations/navidrome.py:141
 msgid "Server returned an error"
 msgstr ""
 
-#: src/integrations/navidrome.py:142
+#: src/integrations/navidrome.py:141
 msgid "Unknown Error"
 msgstr ""
 
-#: src/integrations/navidrome.py:592 src/integrations/navidrome.py:601
+#: src/integrations/navidrome.py:591 src/integrations/navidrome.py:600
 msgid "Managed Server"
 msgstr ""
 
-#: src/integrations/navidrome.py:593
+#: src/integrations/navidrome.py:592
 msgid "Connect to a Navidrome instance directly managed by Nocturne."
 msgstr ""
 
-#: src/integrations/navidrome.py:596
+#: src/integrations/navidrome.py:595
 msgid "Manage Server"
 msgstr ""
 
-#: src/integrations/navidrome.py:602
+#: src/integrations/navidrome.py:601
 msgid "Create and use a Navidrome instance"
 msgstr ""
 
@@ -781,17 +784,17 @@ msgstr ""
 msgid "Album cover art"
 msgstr ""
 
-#: src/ui/album/button.blp:88
+#: src/ui/album/button.blp:87
 msgid "Enter album page"
 msgstr ""
 
-#: src/ui/album/button.blp:113 src/ui/album/page.blp:85
+#: src/ui/album/button.blp:128 src/ui/album/page.blp:85
 #: src/ui/song/button.blp:81
 msgid "Enter artist page"
 msgstr ""
 
 #: src/ui/album/page.blp:95 src/ui/artist/page.blp:93
-#: src/ui/playing/control_page.blp:117
+#: src/ui/playing/control_page.blp:117 src/widgets/containers/context.py:50
 msgid "1 Star"
 msgstr ""
 
@@ -870,12 +873,11 @@ msgid "Lyrics Editor"
 msgstr ""
 
 #: src/ui/lyrics/dialog.blp:61 src/ui/playing/control_page.blp:240
-#: src/ui/playing/footer.blp:118 src/ui/playing/popout_window.blp:142
+#: src/ui/playing/footer.blp:118
 msgid "Pause"
 msgstr ""
 
 #: src/ui/lyrics/dialog.blp:98 src/ui/playing/control_page.blp:175
-#: src/ui/playing/popout_window.blp:229
 msgid "Current song progress bar"
 msgstr ""
 
@@ -1014,7 +1016,7 @@ msgstr ""
 msgid "Toggle Visualizer"
 msgstr ""
 
-#: src/ui/pages/playback.blp:54 src/window.py:204
+#: src/ui/pages/playback.blp:54 src/window.py:207
 msgid "Nocturne Playback"
 msgstr ""
 
@@ -1100,7 +1102,7 @@ msgstr ""
 msgid "Search songs"
 msgstr ""
 
-#: src/ui/pages/songs_all.blp:116 src/ui/pages/songs_starred.blp:95
+#: src/ui/pages/songs_all.blp:116 src/ui/pages/songs_starred.blp:96
 #: src/ui/song/queue.blp:124
 msgid "No Songs Found"
 msgstr ""
@@ -1134,12 +1136,10 @@ msgid "Visit current radio homepage"
 msgstr ""
 
 #: src/ui/playing/control_page.blp:210 src/ui/playing/footer.blp:88
-#: src/ui/playing/popout_window.blp:112
 msgid "Previous"
 msgstr ""
 
 #: src/ui/playing/control_page.blp:254 src/ui/playing/footer.blp:132
-#: src/ui/playing/popout_window.blp:156
 msgid "Next"
 msgstr ""
 
@@ -1148,7 +1148,7 @@ msgid "Star"
 msgstr ""
 
 #: src/ui/playing/control_page.blp:281
-msgid "Show Sidebar"
+msgid "Toggle Sidebar"
 msgstr ""
 
 #: src/ui/playing/cover_art.blp:28
@@ -1199,31 +1199,35 @@ msgstr ""
 msgid "Current song cover art"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:24 src/ui/playing/lyrics_page.blp:65
-#: src/ui/playing/lyrics_page.blp:95 src/ui/playing/lyrics_page.blp:99
-#: src/ui/playing/lyrics_page.blp:112 src/ui/playing/lyrics_page.blp:116
+#: src/ui/playing/lyrics_page.blp:25 src/ui/playing/lyrics_page.blp:85
+#: src/ui/playing/lyrics_page.blp:115 src/ui/playing/lyrics_page.blp:119
+#: src/ui/playing/lyrics_page.blp:132 src/ui/playing/lyrics_page.blp:136
 msgid "Go Back"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:92
+#: src/ui/playing/lyrics_page.blp:67
+msgid "Lyrics Options"
+msgstr ""
+
+#: src/ui/playing/lyrics_page.blp:112
 msgid "No Lyrics Found"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:109
+#: src/ui/playing/lyrics_page.blp:129
 msgid "Instrumental"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:134
+#: src/ui/playing/lyrics_page.blp:154
 msgid "Not Downloaded"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:136
+#: src/ui/playing/lyrics_page.blp:156
 msgid ""
 "The lyrics for this song have not been downloaded yet, they might be "
 "available for download"
 msgstr ""
 
-#: src/ui/playing/lyrics_page.blp:160 src/ui/playing/lyrics_page.blp:163
+#: src/ui/playing/lyrics_page.blp:180 src/ui/playing/lyrics_page.blp:183
 msgid "Load Lyrics File"
 msgstr ""
 
@@ -1231,31 +1235,18 @@ msgstr ""
 msgid "Pop-out Window"
 msgstr ""
 
-#: src/ui/playing/popout_window.blp:195
-msgid "Toggle Sidebar"
-msgstr ""
-
-#: src/ui/playing/popout_window.blp:240 src/ui/window.blp:159
-msgid "Player"
-msgstr ""
-
-#: src/ui/playing/popout_window.blp:257 src/ui/shortcuts-dialog.blp:50
-#: src/ui/window.blp:260 src/widgets/playing/popout_window.py:70
-msgid "Toggle Fullscreen"
-msgstr ""
-
-#: src/ui/playing/popout_window.blp:285 src/ui/song/details_dialog.blp:5
-#: src/ui/window.blp:199
+#: src/ui/playing/popout_window.blp:65 src/ui/song/details_dialog.blp:5
+#: src/ui/window.blp:214
 msgid "Song Details"
 msgstr ""
 
-#: src/ui/playing/popout_window.blp:305 src/ui/window.blp:165
-#: src/ui/window.blp:221
+#: src/ui/playing/popout_window.blp:85 src/ui/window.blp:180
+#: src/ui/window.blp:236
 msgid "Queue"
 msgstr ""
 
-#: src/ui/playing/popout_window.blp:317 src/ui/window.blp:181
-#: src/ui/window.blp:233
+#: src/ui/playing/popout_window.blp:97 src/ui/window.blp:196
+#: src/ui/window.blp:248
 msgid "Equalizer"
 msgstr ""
 
@@ -1301,7 +1292,7 @@ msgid "Enter playlist page"
 msgstr ""
 
 #: src/ui/playlist/dialog.blp:6 src/ui/playlist/page.blp:5
-#: src/widgets/playlist/page.py:86
+#: src/widgets/playlist/page.py:84
 msgid "Playlist"
 msgstr ""
 
@@ -1525,7 +1516,7 @@ msgstr ""
 msgid "Visualizer"
 msgstr ""
 
-#: src/ui/preferences.blp:285 src/ui/window.blp:250
+#: src/ui/preferences.blp:285 src/ui/window.blp:265
 msgid "Preferences"
 msgstr ""
 
@@ -1633,7 +1624,12 @@ msgstr ""
 msgid "Window"
 msgstr ""
 
-#: src/ui/shortcuts-dialog.blp:54 src/ui/window.blp:255
+#: src/ui/shortcuts-dialog.blp:50 src/ui/window.blp:275
+#: src/widgets/playing/popout_window.py:53
+msgid "Toggle Fullscreen"
+msgstr ""
+
+#: src/ui/shortcuts-dialog.blp:54 src/ui/window.blp:270
 msgid "Open Pop-Out Window"
 msgstr ""
 
@@ -1657,49 +1653,53 @@ msgstr ""
 msgid "Selection box"
 msgstr ""
 
-#: src/ui/window.blp:79
+#: src/ui/window.blp:99
 msgid "Play Random Queue"
 msgstr ""
 
-#: src/ui/window.blp:92
+#: src/ui/window.blp:107
 msgid "Menu"
 msgstr ""
 
-#: src/ui/window.blp:120
+#: src/ui/window.blp:135
 msgid "Random Albums"
 msgstr ""
 
-#: src/ui/window.blp:124
+#: src/ui/window.blp:139
 msgid "Favorite Albums"
 msgstr ""
 
-#: src/ui/window.blp:128
+#: src/ui/window.blp:143
 msgid "Newest Albums"
 msgstr ""
 
-#: src/ui/window.blp:132
+#: src/ui/window.blp:147
 msgid "Recent Albums"
 msgstr ""
 
-#: src/ui/window.blp:136
+#: src/ui/window.blp:151
 msgid "Frequent Albums"
 msgstr ""
 
-#: src/ui/window.blp:265
+#: src/ui/window.blp:174
+msgid "Player"
+msgstr ""
+
+#: src/ui/window.blp:280
 msgid "See Last Nocturne Playback"
 msgstr ""
 
-#: src/ui/window.blp:270
+#: src/ui/window.blp:285
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: src/ui/window.blp:275
+#: src/ui/window.blp:290
 msgid "About Nocturne"
 msgstr ""
 
-#: src/widgets/album/button.py:83 src/widgets/album/page.py:152
-#: src/widgets/artist/page.py:132 src/widgets/playing/control_page.py:181
-#: src/widgets/song/row.py:168
+#: src/widgets/album/button.py:95 src/widgets/album/page.py:150
+#: src/widgets/artist/page.py:130 src/widgets/playing/control_page.py:183
+#: src/widgets/song/row.py:188
 msgid "Not Favorite"
 msgstr ""
 
@@ -1708,23 +1708,28 @@ msgstr ""
 msgid "Disc {}"
 msgstr ""
 
-#: src/widgets/artist/button.py:57 src/widgets/artist/row.py:47
+#: src/widgets/artist/button.py:56 src/widgets/artist/row.py:46
 #, python-brace-format
 msgid "{} Album"
 msgid_plural "{} Albums"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/artist/page.py:50
+#: src/widgets/artist/page.py:48
 msgid "Top Songs"
 msgstr ""
 
-#: src/widgets/artist/page.py:60
+#: src/widgets/artist/page.py:58
 msgid "Related Artists"
 msgstr ""
 
-#: src/widgets/artist/page.py:115
+#: src/widgets/artist/page.py:113
 msgid "Author"
+msgstr ""
+
+#: src/widgets/containers/context.py:50
+#, python-brace-format
+msgid "{} Stars"
 msgstr ""
 
 #: src/widgets/lyrics/dialog.py:54
@@ -1777,16 +1782,16 @@ msgstr ""
 msgid "Integration"
 msgstr ""
 
-#: src/widgets/playing/lyrics_page.py:215
+#: src/widgets/playing/lyrics_page.py:234
 msgid "LRC File"
 msgstr ""
 
-#: src/widgets/playing/player.py:639
+#: src/widgets/playing/player.py:634
 msgid "Warning: Song changed but volume is set to 0"
 msgstr ""
 
-#: src/widgets/playlist/button.py:64 src/widgets/playlist/page.py:118
-#: src/widgets/playlist/row.py:48 src/widgets/playlist/selector_row.py:37
+#: src/widgets/playlist/button.py:63 src/widgets/playlist/page.py:116
+#: src/widgets/playlist/row.py:47 src/widgets/playlist/selector_row.py:36
 #, python-brace-format
 msgid "{} Song"
 msgid_plural "{} Songs"
@@ -1797,20 +1802,20 @@ msgstr[1] ""
 msgid "New Playlist"
 msgstr ""
 
-#: src/widgets/playlist/selector_row.py:34
+#: src/widgets/playlist/selector_row.py:33
 #, python-brace-format
 msgid "Add Songs to '{}'"
 msgstr ""
 
-#: src/widgets/song/details_dialog.py:23
+#: src/widgets/song/details_dialog.py:22
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/song/details_dialog.py:23
+#: src/widgets/song/details_dialog.py:22
 msgid "No"
 msgstr ""
 
-#: src/widgets/song/details_dialog.py:28
+#: src/widgets/song/details_dialog.py:27
 msgid "Not Found"
 msgstr ""
 
@@ -1818,15 +1823,15 @@ msgstr ""
 msgid "Multiple Artists"
 msgstr ""
 
-#: src/window.py:205
+#: src/window.py:208
 #, python-brace-format
 msgid "Your Playback queue for {} is available!"
 msgstr ""
 
-#: src/window.py:207
+#: src/window.py:210
 msgid "Show"
 msgstr ""
 
-#: src/window.py:208
+#: src/window.py:211
 msgid "Later"
 msgstr ""
