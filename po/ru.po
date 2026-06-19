@@ -9,23 +9,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-05 18:30-0600\n"
-"PO-Revision-Date: 2026-06-09 11:48+1100\n"
-"Last-Translator: gttn-84 <4youtome@rambler.ru>\n"
+"POT-Creation-Date: 2026-06-19 20:14+1100\n"
+"PO-Revision-Date: 2026-06-19 20:56+1100\n"
+"Last-Translator: Aleksandr Shamaraev <shad@altlinux.org>\n"
 "Language-Team: \n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : "
-"2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 "X-Generator: Poedit 3.9\n"
 
-#: data/com.jeffser.Nocturne.desktop.in:2 data/com.jeffser.Nocturne.metainfo.xml.in:7
+#: data/com.jeffser.Nocturne.desktop.in:3
+#: data/com.jeffser.Nocturne.metainfo.xml.in:7
 msgid "Nocturne"
 msgstr "Nocturne"
 
-#: data/com.jeffser.Nocturne.desktop.in:10
+#: data/com.jeffser.Nocturne.desktop.in:11
 msgid "GTK;Navidrome;Jellyfin;Music;"
 msgstr "GTK;Navidrome;Jellyfin;Music;Музыка;Аудио;"
 
@@ -89,8 +90,9 @@ msgstr "Главная страница"
 msgid "Song queue"
 msgstr "Очередь песен"
 
-#: data/com.jeffser.Nocturne.metainfo.xml.in:74 src/ui/playing/popout_window.blp:319 src/ui/window.blp:170
-#: src/ui/window.blp:222
+#: data/com.jeffser.Nocturne.metainfo.xml.in:74
+#: src/ui/playing/popout_window.blp:91 src/ui/window.blp:190
+#: src/ui/window.blp:242
 msgid "Lyrics"
 msgstr "Текст песни"
 
@@ -118,547 +120,711 @@ msgstr "музыка"
 msgid "gtk"
 msgstr "gtk"
 
-#: src/actions.py:211 src/ui/song/row.blp:69
-msgid "External File"
-msgstr "Внешний файл"
+#: src/actions.py:138 src/widgets/pages/login.py:107
+msgid "Error"
+msgstr "Ошибка"
 
-#: src/actions.py:212
-msgid ""
-"This track was loaded from an external file, this means it will have less features compared to a track inside the "
-"library"
-msgstr ""
-"Этот трек был загружен из внешнего файла, а это значит, что он будет иметь меньше функций по сравнению с треком из "
-"библиотеки"
+#: src/actions.py:139
+msgid "No details provided"
+msgstr "Подробности не предоставлены"
 
-#: src/actions.py:214 src/ui/song/queue.blp:40
+#: src/actions.py:141 src/actions.py:290 src/preferences.py:433
+#: src/ui/song/queue.blp:40
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/actions.py:232
+#: src/actions.py:182
+msgid "Not enough data found for Nocturne Playback ({})"
+msgstr "Найдено недостаточно данных для воспроизведения Nocturne ({})"
+
+#: src/actions.py:287 src/ui/song/row.blp:69
+msgid "External File"
+msgstr "Внешний файл"
+
+#: src/actions.py:288
+msgid ""
+"This track was loaded from an external file, this means it will have less "
+"features compared to a track inside the library"
+msgstr ""
+"Этот трек был загружен из внешнего файла, а это значит, что он будет иметь "
+"меньше функций по сравнению с треком из библиотеки"
+
+#: src/actions.py:308
 msgid "Navidrome server deleted successfully"
 msgstr "Сервер Navidrome успешно удален"
 
-#: src/actions.py:241
+#: src/actions.py:317
 msgid "Delete Navidrome Server"
 msgstr "Удалить сервер Navidrome"
 
-#: src/actions.py:242
+#: src/actions.py:318
 msgid "Are you sure you want to delete the integrated Navidrome server?"
 msgstr "Вы уверены, что хотите удалить встроенный сервер Navidrome?"
 
-#: src/actions.py:244 src/actions.py:355 src/actions.py:389 src/actions.py:674 src/actions.py:790
-#: src/preferences.py:322 src/ui/lyrics/dialog.blp:16 src/ui/lyrics/dialog.blp:17 src/widgets/pages/login.py:152
+#: src/actions.py:320 src/actions.py:465 src/actions.py:499 src/actions.py:841
+#: src/actions.py:944 src/preferences.py:386 src/ui/lyrics/dialog.blp:16
+#: src/ui/lyrics/dialog.blp:17 src/widgets/pages/login.py:152
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/actions.py:245
+#: src/actions.py:321
 msgid "Keep Data"
 msgstr "Оставить данные"
 
-#: src/actions.py:246
+#: src/actions.py:322
 msgid "Delete Everything"
 msgstr "Удалите всё"
 
-#: src/actions.py:301
+#: src/actions.py:411
 msgid "No Name"
 msgstr "Без имени"
 
-#: src/actions.py:320
+#: src/actions.py:430
 msgid "Radio updated successfully"
 msgstr "Радио успешно обновлено"
 
-#: src/actions.py:320
+#: src/actions.py:430
 msgid "Radio added successfully"
 msgstr "Радио успешно добавлено"
 
-#: src/actions.py:331
+#: src/actions.py:441
 msgid "Error updating radio"
 msgstr "Ошибка обновления радио"
 
-#: src/actions.py:331
+#: src/actions.py:441
 msgid "Error adding radio"
 msgstr "Ошибка добавления радио"
 
-#: src/actions.py:340 src/actions.py:666
+#: src/actions.py:450 src/actions.py:833
 msgid "Name"
 msgstr "Имя"
 
-#: src/actions.py:345
+#: src/actions.py:455
 msgid "Stream Url"
 msgstr "URL потока"
 
-#: src/actions.py:352
+#: src/actions.py:462
 msgid "Update Radio Station"
 msgstr "Обновление радиостанции"
 
-#: src/actions.py:352
+#: src/actions.py:462
 msgid "Add Radio Station"
 msgstr "Добавить радиостанцию"
 
-#: src/actions.py:356 src/preferences.py:323 src/ui/lyrics/dialog.blp:23 src/ui/lyrics/dialog.blp:24
+#: src/actions.py:466 src/preferences.py:387 src/ui/lyrics/dialog.blp:23
+#: src/ui/lyrics/dialog.blp:24
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/actions.py:372
+#: src/actions.py:482
 msgid "Radio deleted successfully"
 msgstr "Радио успешно удалено"
 
-#: src/actions.py:380
+#: src/actions.py:490
 msgid "Error deleting radio"
 msgstr "Ошибка удаления радио"
 
-#: src/actions.py:386
+#: src/actions.py:496
 msgid "Delete Radio Station"
 msgstr "Удалить радиостанцию"
 
-#: src/actions.py:387 src/actions.py:788
-#, python-brace-format
+#: src/actions.py:497 src/actions.py:942
 msgid "Are you sure you want to delete '{}'?"
 msgstr "Вы уверены, что хотите удалить '{}'?"
 
-#: src/actions.py:390 src/actions.py:791 src/constants.py:343 src/constants.py:396
+#: src/actions.py:500 src/actions.py:945 src/constants.py:375
+#: src/constants.py:423
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/actions.py:420 src/actions.py:447 src/actions.py:452 src/actions.py:541 src/actions.py:600
+#: src/actions.py:534 src/actions.py:566 src/actions.py:572 src/actions.py:674
+#: src/actions.py:762
 msgid "Playing Next"
 msgstr "Играть дальше"
 
-#: src/actions.py:430 src/actions.py:463 src/actions.py:468 src/actions.py:556 src/actions.py:615
+#: src/actions.py:546 src/actions.py:585 src/actions.py:591 src/actions.py:691
+#: src/actions.py:779
 msgid "Playing Later"
 msgstr "Играть позже"
 
-#: src/actions.py:447 src/actions.py:463 src/actions.py:905 src/actions.py:1040 src/widgets/playlist/button.py:50
-#: src/widgets/playlist/button.py:52 src/widgets/playlist/dialog.py:31 src/widgets/playlist/page.py:118
-#: src/widgets/playlist/page.py:120 src/widgets/playlist/row.py:49 src/widgets/playlist/row.py:51
-#: src/widgets/playlist/selector_row.py:38 src/widgets/playlist/selector_row.py:40
-#, python-brace-format
-msgid "{} Song"
-msgid_plural "{} Songs"
-msgstr[0] "{} Песня"
-msgstr[1] "{} Песни"
-msgstr[2] "{} Песен"
+#: src/actions.py:566 src/actions.py:585 src/actions.py:1059
+#: src/actions.py:1194 src/widgets/playlist/dialog.py:31
+msgid "{} Songs"
+msgstr "{} Песни"
 
-#: src/actions.py:497
+#: src/actions.py:621
 msgid "Lyrics Saved"
 msgstr "Текст песни сохранен"
 
-#: src/actions.py:647
+#: src/actions.py:814
 msgid "Playlist updated successfully"
 msgstr "Плейлист успешно обновлен"
 
-#: src/actions.py:647
+#: src/actions.py:814
 msgid "Playlist created successfully"
 msgstr "Плейлист успешно создан"
 
-#: src/actions.py:657
+#: src/actions.py:824
 msgid "Error updating playlist"
 msgstr "Ошибка обновления плейлиста"
 
-#: src/actions.py:657
+#: src/actions.py:824
 msgid "Error creating playlist"
 msgstr "Ошибка создания плейлиста"
 
-#: src/actions.py:671
+#: src/actions.py:838
 msgid "Update Playlist"
 msgstr "Обновить плейлист"
 
-#: src/actions.py:671 src/ui/pages/playlists.blp:41
+#: src/actions.py:838 src/ui/pages/playlists.blp:41
 msgid "Create Playlist"
 msgstr "Создать плейлист"
 
-#: src/actions.py:675
+#: src/actions.py:842
 msgid "Update"
 msgstr "Обновить"
 
-#: src/actions.py:675
+#: src/actions.py:842
 msgid "Create"
 msgstr "Создать"
 
-#: src/actions.py:695 src/actions.py:700
-#, python-brace-format
+#: src/actions.py:861
 msgid "{} Song Removed"
 msgid_plural "{} Songs Removed"
 msgstr[0] "{} Песня удалена"
 msgstr[1] "{} Песни удалены"
 msgstr[2] "{} Песен удалено"
 
-#: src/actions.py:732 src/actions.py:734 src/actions.py:754 src/actions.py:756
-#, python-brace-format
+#: src/actions.py:892 src/actions.py:912
 msgid "{} Song Added"
 msgid_plural "{} Songs Added"
 msgstr[0] "{} Песня добавлена"
 msgstr[1] "{} Песни добавлены"
 msgstr[2] "{} Песен добавлено"
 
-#: src/actions.py:761 src/actions.py:877 src/actions.py:910
-#, python-brace-format
+#: src/actions.py:916 src/actions.py:1064
 msgid "{} Song Skipped"
 msgid_plural "{} Songs Skipped"
 msgstr[0] "{} Песня пропущена"
 msgstr[1] "{} Песни пропущены"
 msgstr[2] "{} Песен пропущено"
 
-#: src/actions.py:775
+#: src/actions.py:929
 msgid "Playlist Deleted"
 msgstr "Плейлист удален"
 
-#: src/actions.py:787
+#: src/actions.py:941
 msgid "Delete Playlist"
 msgstr "Удалить плейлист"
 
-#: src/actions.py:836
+#: src/actions.py:990
 msgid "No songs found"
 msgstr "Песни не найдены"
 
-#: src/actions.py:879 src/actions.py:906 src/actions.py:943 src/actions.py:979
+#: src/actions.py:1033 src/actions.py:1060 src/actions.py:1097
+#: src/actions.py:1133
 msgid "Download Started"
 msgstr "Загрузка началась"
 
-#: src/actions.py:886 src/actions.py:917 src/actions.py:924 src/actions.py:959 src/actions.py:995
+#: src/actions.py:1040 src/actions.py:1071 src/actions.py:1078
+#: src/actions.py:1113 src/actions.py:1149
 msgid "Already Downloaded"
 msgstr "Уже загружено"
 
-#: src/actions.py:911
-#, python-brace-format
+#: src/actions.py:1065
 msgid "{} Song ({})"
 msgid_plural "{} Songs ({})"
 msgstr[0] "{} Песня ({})"
 msgstr[1] "{} Песни ({})"
 msgstr[2] "{} Песен ({})"
 
-#: src/actions.py:923
+#: src/actions.py:1077
 msgid "Download Skipped"
 msgstr "Загрузка пропущена"
 
-#: src/actions.py:947 src/actions.py:983
-#, python-brace-format
+#: src/actions.py:1101 src/actions.py:1137
 msgid "Download Started ({} Song Skipped)"
 msgid_plural "Download Started ({} Songs Skipped)"
 msgstr[0] "Загрузка началась ({} Песня пропущена)"
 msgstr[1] "Загрузка началась ({} Песни пропущены)"
 msgstr[2] "Загрузка началась ({} Песен пропущено)"
 
-#: src/actions.py:1022 src/actions.py:1041
+#: src/actions.py:1176 src/actions.py:1195
 msgid "Deleted"
 msgstr "Удалено"
 
-#: src/constants.py:159 src/ui/playing/playback_mode_button.blp:5
+#: src/constants.py:185 src/ui/playing/playback_mode_button.blp:5
 msgid "Consecutive"
 msgstr "Последовательно"
 
-#: src/constants.py:163
+#: src/constants.py:189
 msgid "Repeat All"
 msgstr "Повторить все"
 
-#: src/constants.py:167
+#: src/constants.py:193
 msgid "Repeat One"
 msgstr "Повторить одну"
 
-#: src/constants.py:172
-#, python-brace-format
+#: src/constants.py:198
 msgid "Low ({})"
 msgstr "Низкий ({})"
 
-#: src/constants.py:173
-#, python-brace-format
+#: src/constants.py:199
 msgid "Medium ({})"
 msgstr "Средний ({})"
 
-#: src/constants.py:174
-#, python-brace-format
+#: src/constants.py:200
 msgid "High ({})"
 msgstr "Высокий ({})"
 
-#: src/constants.py:175
-#, python-brace-format
+#: src/constants.py:201
 msgid "Ultra ({})"
 msgstr "Ультра ({})"
 
-#: src/constants.py:176
+#: src/constants.py:202
 msgid "Original File"
 msgstr "Исходный файл"
 
 #. Item
-#: src/constants.py:183 src/ui/pages/home.blp:5
+#: src/constants.py:209 src/ui/pages/home.blp:5
 msgid "Home"
 msgstr "Домой"
 
 #. Item
-#: src/constants.py:188 src/ui/pages/artists.blp:5 src/ui/pages/artists.blp:28 src/ui/preferences.blp:223
-#: src/widgets/pages/home.py:62
+#. list
+#: src/constants.py:214 src/integrations/models.py:159
+#: src/ui/pages/artists.blp:5 src/ui/pages/artists.blp:28
+#: src/ui/preferences.blp:259 src/widgets/pages/home.py:54
 msgid "Artists"
 msgstr "Артисты"
 
-#. Item
 #. Section
-#: src/constants.py:193 src/constants.py:255 src/ui/pages/playlists.blp:5 src/ui/pages/playlists.blp:28
-#: src/ui/preferences.blp:231 src/widgets/pages/home.py:74
-msgid "Playlists"
-msgstr "Плейлисты"
-
-#. Section
-#: src/constants.py:200 src/ui/pages/albums_all.blp:5 src/ui/pages/albums_all.blp:28 src/ui/preferences.blp:215
-#: src/widgets/artist/page.py:55 src/widgets/pages/home.py:50
+#: src/constants.py:221 src/ui/pages/albums_all.blp:5
+#: src/ui/pages/albums_all.blp:28 src/ui/preferences.blp:251
+#: src/widgets/artist/page.py:53 src/widgets/pages/home.py:49
 msgid "Albums"
 msgstr "Альбомы"
 
 #. Item
-#: src/constants.py:203 src/constants.py:238 src/window.py:135
+#: src/constants.py:224 src/constants.py:259 src/constants.py:279
+#: src/window.py:149
 msgid "All"
 msgstr "Все"
 
 #. Item
-#: src/constants.py:208
+#: src/constants.py:229
 msgid "Random"
 msgstr "Случайно"
 
 #. Item
-#: src/constants.py:213 src/constants.py:243
+#: src/constants.py:234 src/constants.py:264
 msgid "Favorites"
 msgstr "Избранное"
 
 #. Item
-#: src/constants.py:218
+#: src/constants.py:239
 msgid "Recently Added"
 msgstr "Недавно добавленные"
 
 #. Item
-#: src/constants.py:223
+#: src/constants.py:244
 msgid "Recently Played"
 msgstr "Недавно сыгранные"
 
 #. Item
-#: src/constants.py:228
+#: src/constants.py:249
 msgid "Most Played"
 msgstr "Самые популярные"
 
 #. Section
-#: src/constants.py:235 src/ui/pages/songs_all.blp:5 src/ui/pages/songs_all.blp:28 src/ui/preferences.blp:207
-#: src/widgets/album/page.py:47 src/widgets/pages/home.py:32 src/widgets/playlist/page.py:31
+#: src/constants.py:256 src/ui/pages/songs_all.blp:5
+#: src/ui/pages/songs_all.blp:28 src/ui/preferences.blp:243
+#: src/widgets/album/page.py:45 src/widgets/pages/home.py:38
+#: src/widgets/playlist/page.py:29
 msgid "Songs"
 msgstr "Песни"
 
 #. Item
-#: src/constants.py:248 src/ui/pages/radios.blp:5 src/ui/pages/radios.blp:13
+#: src/constants.py:269 src/ui/pages/radios.blp:5 src/ui/pages/radios.blp:13
 msgid "Radios"
 msgstr "Радио"
 
-#: src/constants.py:262 src/constants.py:313 src/ui/lyrics/dialog.blp:47 src/ui/playing/control_page.blp:244
-#: src/ui/playing/footer.blp:103 src/ui/playing/popout_window.blp:127 src/ui/song/queue.blp:47
-#: src/ui/song/queue.blp:49
+#. Section
+#: src/constants.py:276 src/ui/pages/playlists.blp:5
+#: src/ui/pages/playlists.blp:28 src/ui/preferences.blp:267
+#: src/widgets/pages/home.py:59
+msgid "Playlists"
+msgstr "Плейлисты"
+
+#: src/constants.py:289 src/constants.py:340 src/ui/lyrics/dialog.blp:47
+#: src/ui/playing/control_page.blp:225 src/ui/playing/footer.blp:103
+#: src/ui/song/queue.blp:47 src/ui/song/queue.blp:49
 msgid "Play"
 msgstr "Играть"
 
-#: src/constants.py:267 src/constants.py:300 src/constants.py:318
+#: src/constants.py:294 src/constants.py:327 src/constants.py:350
 msgid "Shuffle"
 msgstr "Перемешать"
 
-#: src/constants.py:272 src/constants.py:323 src/constants.py:356 src/ui/song/queue.blp:55 src/ui/song/queue.blp:57
+#: src/constants.py:299 src/constants.py:355 src/constants.py:388
+#: src/ui/song/queue.blp:55 src/ui/song/queue.blp:57
 msgid "Play Next"
 msgstr "Воспроизвести далее"
 
-#: src/constants.py:277 src/constants.py:328 src/constants.py:361 src/ui/song/queue.blp:63 src/ui/song/queue.blp:65
+#: src/constants.py:304 src/constants.py:360 src/constants.py:393
+#: src/ui/song/queue.blp:63 src/ui/song/queue.blp:65
 msgid "Play Later"
 msgstr "Воспроизвести позже"
 
-#: src/constants.py:282 src/constants.py:376 src/ui/song/queue.blp:71 src/ui/song/queue.blp:73
+#: src/constants.py:309 src/constants.py:403 src/ui/song/queue.blp:71
+#: src/ui/song/queue.blp:73
 msgid "Add To Playlist"
 msgstr "Добавить в плейлист"
 
-#: src/constants.py:287 src/constants.py:333 src/constants.py:381 src/ui/pages/setup.blp:23
-#: src/ui/playing/lyrics_page.blp:147 src/ui/playing/lyrics_page.blp:150 src/ui/song/queue.blp:79
+#: src/constants.py:314 src/constants.py:365 src/constants.py:408
+#: src/ui/pages/setup.blp:23 src/ui/playing/lyrics_page.blp:167
+#: src/ui/playing/lyrics_page.blp:170 src/ui/song/queue.blp:79
 #: src/ui/song/queue.blp:81
 msgid "Download"
 msgstr "Скачать"
 
-#: src/constants.py:292 src/constants.py:391 src/ui/playing/control_page.blp:102
+#: src/constants.py:319 src/constants.py:418 src/ui/playing/control_page.blp:83
 msgid "Show Artist"
 msgstr "Показать Артиста"
 
-#: src/constants.py:305 src/ui/playing/lyrics_page.blp:126 src/widgets/song/row.py:108
+#: src/constants.py:332 src/ui/playing/lyrics_page.blp:146
+#: src/widgets/song/row.py:109
 msgid "Radio"
 msgstr "Радио"
 
-#: src/constants.py:338 src/constants.py:366
+#: src/constants.py:345
+msgid "Resume"
+msgstr "Возобновить"
+
+#: src/constants.py:370 src/constants.py:398
 msgid "Edit"
 msgstr "Редактировать"
 
-#: src/constants.py:352
+#: src/constants.py:384
 msgid "Select"
 msgstr "Выбрать"
 
-#: src/constants.py:371
-msgid "Edit Lyrics"
-msgstr "Редактировать текст песни"
-
-#: src/constants.py:386 src/ui/album/button.blp:51 src/ui/playing/control_page.blp:117
+#: src/constants.py:413 src/ui/album/button.blp:49
+#: src/ui/playing/control_page.blp:98
 msgid "Show Album"
 msgstr "Показать альбом"
 
-#: src/constants.py:402 src/ui/song/queue.blp:90 src/ui/song/queue.blp:92
+#: src/constants.py:429 src/ui/song/queue.blp:90 src/ui/song/queue.blp:92
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/constants.py:407 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
+#: src/constants.py:434 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
 msgid "Delete Download"
 msgstr "Удалить загрузку"
 
-#: src/constants.py:416
+#: src/constants.py:440 src/main.py:134
+msgid "Show Details"
+msgstr "Показать подробности"
+
+#: src/constants.py:451
 msgid "Visit Webpage"
 msgstr "Перейти на веб-страницу"
 
-#: src/constants.py:422
+#: src/constants.py:457
 msgid "Update Server"
 msgstr "Обновить Сервер"
 
-#: src/constants.py:427
+#: src/constants.py:462
 msgid "Delete Server"
 msgstr "Удалить Сервер"
 
-#: src/integrations/jellyfin.py:15
+#: src/constants.py:471
+msgid "Edit Lyrics"
+msgstr "Редактировать текст песни"
+
+#: src/constants.py:476
+msgid "Remove Lyrics"
+msgstr "Удалить текст песни"
+
+#: src/integrations/base.py:148
+msgid "Could not generate SQL database"
+msgstr "Не удалось сгенерировать базу данных SQL"
+
+#: src/integrations/discord_rpc.py:171
+msgid "Browsing"
+msgstr "Просмотр"
+
+#: src/integrations/discord_rpc.py:189
+msgid "Listening to music"
+msgstr "Прослушивание музыки"
+
+#: src/integrations/jellyfin.py:18
 msgid "Connect to a Jellyfin server."
 msgstr "Подключится к серверу Jellyfin."
 
-#: src/integrations/jellyfin.py:19
+#: src/integrations/jellyfin.py:22
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
-#: src/integrations/jellyfin.py:20
+#: src/integrations/jellyfin.py:23
 msgid "Use an existing Jellyfin instance"
 msgstr "Используйте существующий Jellyfin"
 
-#: src/integrations/local.py:17 src/integrations/local.py:23 src/integrations/local.py:509
+#: src/integrations/jellyfin.py:232
+msgid "Could not log in"
+msgstr "Не удалось войти в систему"
+
+#: src/integrations/jellyfin.py:968
+msgid "Unknown"
+msgstr "Неизвестный"
+
+#: src/integrations/local.py:20 src/integrations/local.py:26
+#: src/integrations/local.py:586
 msgid "Local Files"
 msgstr "Локальные файлы"
 
-#: src/integrations/local.py:18
-msgid "Let Nocturne load your local files directly, for big libraries it is recommended to use a dedicated server."
+#: src/integrations/local.py:21
+msgid ""
+"Let Nocturne load your local files directly, for big libraries it is "
+"recommended to use a dedicated server."
 msgstr ""
-"Пусть Nocturne загружает ваши локальные файлы напрямую; для больших библиотек рекомендуется использовать выделенный "
-"сервер."
+"Пусть Nocturne загружает ваши локальные файлы напрямую; для больших "
+"библиотек рекомендуется использовать выделенный сервер."
 
-#: src/integrations/local.py:20 src/ui/pages/setup.blp:67 src/ui/pages/setup.blp:68
+#: src/integrations/local.py:23 src/ui/pages/setup.blp:67
+#: src/ui/pages/setup.blp:68
 msgid "Continue"
 msgstr "Продолжить"
 
-#: src/integrations/local.py:24
+#: src/integrations/local.py:27
 msgid "Limited functionality"
 msgstr "Ограниченная функциональность"
 
-#: src/integrations/local.py:36
+#. load songs, albums, artists
+#: src/integrations/local.py:68
 msgid "Loading Songs"
 msgstr "Загрузка песен"
 
-#: src/integrations/local.py:215
+#: src/integrations/local.py:280
 msgid "No Album"
 msgstr "Нет альбома"
 
-#: src/integrations/local.py:525 src/integrations/local.py:534
+#: src/integrations/local.py:602 src/integrations/local.py:611
 msgid "Offline Mode"
 msgstr "Автономный режим"
 
-#: src/integrations/local.py:526
+#: src/integrations/local.py:603
 msgid "Access your downloads"
 msgstr "Получть доступ к своим загрузкам"
 
-#: src/integrations/navidrome.py:18
-msgid "Connect to an OpenSubsonic server like Navidrome."
-msgstr "Подключитесь к серверу OpenSubsonic, как к Navidrome."
-
-#: src/integrations/navidrome.py:22
-msgid "External Server"
-msgstr "Внешний сервер"
-
-#: src/integrations/navidrome.py:23
-msgid "Use an existing OpenSubsonic / Navidrome instance"
-msgstr "Использовать существующий экземпляр OpenSubsonic / Navidrome"
-
-#: src/integrations/navidrome.py:550 src/integrations/navidrome.py:559
-msgid "Managed Server"
-msgstr "Управляемый сервер"
-
-#: src/integrations/navidrome.py:551
-msgid "Connect to a Navidrome instance directly managed by Nocturne."
-msgstr "Подключитесь к экземпляру Navidrome, управляемому непосредственно Nocturne."
-
-#: src/integrations/navidrome.py:554
-msgid "Manage Server"
-msgstr "Управление сервером"
-
-#: src/integrations/navidrome.py:560
-msgid "Create and use a Navidrome instance"
-msgstr "Создать и использовать экземпляр Navidrome"
-
-#: src/main.py:69
-msgid "Music is Playing"
-msgstr "Играет музыка"
-
-#: src/main.py:116
-msgid "Login Failed"
-msgstr "Ошибка входа"
-
-#: src/preferences.py:311
-msgid "Settings Page"
-msgstr "Страница настроек"
-
-#: src/preferences.py:314
-msgid "User Token"
-msgstr "Пользовательский токен"
-
-#: src/preferences.py:318
-msgid "Link ListenBrainz"
-msgstr "Ссылка ListenBrainz"
-
-#: src/preferences.py:319
-msgid "Connect your ListenBrainz account with a user token"
-msgstr "Подключите свою учетную запись ListenBrainz с помощью пользовательского токена"
-
-#: src/ui/album/button.blp:22
-msgid "Play Album"
-msgstr "Воспроизвести альбом"
-
-#: src/ui/album/button.blp:37 src/ui/album/page.blp:152 src/ui/artist/page.blp:150 src/ui/song/row.blp:112
-msgid "Toggle star"
-msgstr "Переключить звездочку"
-
-#: src/ui/album/button.blp:65 src/ui/album/page.blp:50 src/ui/album/row.blp:32
-msgid "Album cover art"
-msgstr "Обложка альбома"
-
-#: src/ui/album/button.blp:92
-msgid "Enter album page"
-msgstr "Перейти на страницу альбома"
-
-#: src/ui/album/button.blp:117 src/ui/album/page.blp:85
-msgid "Enter artist page"
-msgstr "Перейти на страницу исполнителя"
-
-#: src/ui/album/page.blp:5 src/widgets/album/page.py:131
+#: src/integrations/models.py:138 src/ui/album/page.blp:5
+#: src/widgets/album/page.py:129
 msgid "Album"
 msgstr "Альбом"
 
-#: src/ui/album/page.blp:95 src/ui/artist/page.blp:93 src/ui/playing/control_page.blp:136
+#: src/integrations/models.py:140
+msgid "Display Artist"
+msgstr "Художник-оформитель"
+
+#: src/integrations/models.py:142
+msgid "MusicBrainz ID"
+msgstr "Идентификатор MusicBrainz"
+
+#: src/integrations/models.py:143
+msgid "Track Number"
+msgstr "Номер трека"
+
+#: src/integrations/models.py:144
+msgid "Year"
+msgstr "Год"
+
+#: src/integrations/models.py:145
+msgid "Size"
+msgstr "Размер"
+
+#: src/integrations/models.py:146
+msgid "Suffix"
+msgstr "Приставка"
+
+#: src/integrations/models.py:147 src/widgets/album/button.py:90
+#: src/widgets/album/page.py:145 src/widgets/artist/page.py:125
+#: src/widgets/playing/control_page.py:178 src/widgets/song/row.py:183
+msgid "Favorite"
+msgstr "Избранное"
+
+#: src/integrations/models.py:148
+msgid "Duration"
+msgstr "Продолжительность"
+
+#: src/integrations/models.py:150
+msgid "Bit Rate"
+msgstr "Битрейт"
+
+#: src/integrations/models.py:151
+msgid "Bit Depth"
+msgstr "Глубина бита"
+
+#: src/integrations/models.py:152
+msgid "Sampling Rate"
+msgstr "Частота дискретизации"
+
+#: src/integrations/models.py:153
+msgid "Channel Count"
+msgstr "Количество каналов"
+
+#: src/integrations/models.py:155
+msgid "Path"
+msgstr "Путь"
+
+#: src/integrations/models.py:156
+msgid "Disc Number"
+msgstr "Номер диска"
+
+#: src/integrations/models.py:157
+msgid "BPM"
+msgstr "BPM"
+
+#: src/integrations/models.py:158
+msgid "Genres"
+msgstr "Жанры"
+
+#. list
+#: src/integrations/models.py:160
+msgid "Track Gain"
+msgstr "Усиление трека"
+
+#: src/integrations/models.py:161
+msgid "Album Gain"
+msgstr "Увеличение альбома"
+
+#: src/integrations/navidrome.py:19
+msgid "Connect to an OpenSubsonic server like Navidrome."
+msgstr "Подключитесь к серверу OpenSubsonic, как к Navidrome."
+
+#: src/integrations/navidrome.py:23
+msgid "External Server"
+msgstr "Внешний сервер"
+
+#: src/integrations/navidrome.py:24
+msgid "Use an existing OpenSubsonic / Navidrome instance"
+msgstr "Использовать существующий экземпляр OpenSubsonic / Navidrome"
+
+#: src/integrations/navidrome.py:141
+msgid "Server returned an error"
+msgstr "Сервер вернул ошибку"
+
+#: src/integrations/navidrome.py:141
+msgid "Unknown Error"
+msgstr "Неизвестная ошибка"
+
+#: src/integrations/navidrome.py:591 src/integrations/navidrome.py:600
+msgid "Managed Server"
+msgstr "Управляемый сервер"
+
+#: src/integrations/navidrome.py:592
+msgid "Connect to a Navidrome instance directly managed by Nocturne."
+msgstr ""
+"Подключитесь к экземпляру Navidrome, управляемому непосредственно Nocturne."
+
+#: src/integrations/navidrome.py:595
+msgid "Manage Server"
+msgstr "Управление сервером"
+
+#: src/integrations/navidrome.py:601
+msgid "Create and use a Navidrome instance"
+msgstr "Создать и использовать экземпляр Navidrome"
+
+#: src/main.py:70
+msgid "Music is Playing"
+msgstr "Играет музыка"
+
+#: src/main.py:83
+msgid "Fullscreen Player Active"
+msgstr "Активен полноэкранный проигрыватель"
+
+#: src/main.py:131
+msgid "Login Failed"
+msgstr "Ошибка входа"
+
+#: src/preferences.py:375
+msgid "Settings Page"
+msgstr "Страница настроек"
+
+#: src/preferences.py:378
+msgid "User Token"
+msgstr "Пользовательский токен"
+
+#: src/preferences.py:382
+msgid "Link ListenBrainz"
+msgstr "Ссылка ListenBrainz"
+
+#: src/preferences.py:383
+msgid "Connect your ListenBrainz account with a user token"
+msgstr ""
+"Подключите свою учетную запись ListenBrainz с помощью пользовательского "
+"токена"
+
+#: src/preferences.py:423
+msgid "Flatpak Sandbox Warning"
+msgstr "Предупреждение о песочнице Flatpak"
+
+#: src/preferences.py:424
+msgid ""
+"To connect to Discord, an additional permission is required, once you run "
+"the following command, please restart Nocturne"
+msgstr ""
+"Для подключения к Discord требуется дополнительное разрешение. После "
+"выполнения следующей команды перезапустите Nocturne"
+
+#: src/ui/album/button.blp:21
+msgid "Play Album"
+msgstr "Воспроизвести альбом"
+
+#: src/ui/album/button.blp:36 src/ui/album/page.blp:152
+#: src/ui/artist/page.blp:150 src/ui/song/row.blp:112
+msgid "Toggle star"
+msgstr "Переключить звездочку"
+
+#: src/ui/album/button.blp:61 src/ui/album/page.blp:50 src/ui/album/row.blp:32
+msgid "Album cover art"
+msgstr "Обложка альбома"
+
+#: src/ui/album/button.blp:87
+msgid "Enter album page"
+msgstr "Перейти на страницу альбома"
+
+#: src/ui/album/button.blp:128 src/ui/album/page.blp:85
+#: src/ui/song/button.blp:81
+msgid "Enter artist page"
+msgstr "Перейти на страницу исполнителя"
+
+#: src/ui/album/page.blp:95 src/ui/artist/page.blp:93
+#: src/ui/playing/control_page.blp:117 src/widgets/containers/context.py:50
 msgid "1 Star"
 msgstr "1 звезда"
 
-#: src/ui/album/page.blp:104 src/ui/artist/page.blp:102 src/ui/playing/control_page.blp:145
+#: src/ui/album/page.blp:104 src/ui/artist/page.blp:102
+#: src/ui/playing/control_page.blp:126
 msgid "2 Stars"
 msgstr "2 звезды"
 
-#: src/ui/album/page.blp:113 src/ui/artist/page.blp:111 src/ui/playing/control_page.blp:154
+#: src/ui/album/page.blp:113 src/ui/artist/page.blp:111
+#: src/ui/playing/control_page.blp:135
 msgid "3 Stars"
 msgstr "3 звезды"
 
-#: src/ui/album/page.blp:122 src/ui/artist/page.blp:120 src/ui/playing/control_page.blp:163
+#: src/ui/album/page.blp:122 src/ui/artist/page.blp:120
+#: src/ui/playing/control_page.blp:144
 msgid "4 Stars"
 msgstr "4 звезды"
 
-#: src/ui/album/page.blp:131 src/ui/artist/page.blp:129 src/ui/playing/control_page.blp:172
+#: src/ui/album/page.blp:131 src/ui/artist/page.blp:129
+#: src/ui/playing/control_page.blp:153
 msgid "5 Stars"
 msgstr "5 звезд"
 
-#: src/ui/album/row.blp:48 src/ui/artist/row.blp:40 src/ui/playlist/row.blp:48 src/ui/song/row.blp:127
+#: src/ui/album/row.blp:48 src/ui/artist/row.blp:40 src/ui/playlist/row.blp:48
+#: src/ui/song/row.blp:127
 msgid "Options"
 msgstr "Параметры"
 
@@ -670,12 +836,22 @@ msgstr "Артист"
 msgid "Expand Biography"
 msgstr "Развернуть биографию"
 
-#: src/ui/containers/carousel.blp:19 src/ui/containers/carousel.blp:21 src/ui/containers/wrapbox.blp:19
-#: src/ui/containers/wrapbox.blp:21 src/ui/pages/albums_all.blp:15 src/ui/pages/artists.blp:15
-#: src/ui/pages/playlists.blp:15 src/ui/pages/songs_all.blp:15 src/ui/pages/songs_starred.blp:15
-#: src/ui/song/queue.blp:16 src/ui/song/queue.blp:18
+#: src/ui/containers/carousel.blp:19 src/ui/containers/carousel.blp:21
+#: src/ui/containers/wrapbox.blp:19 src/ui/containers/wrapbox.blp:21
+#: src/ui/pages/albums_all.blp:15 src/ui/pages/artists.blp:15
+#: src/ui/pages/playlists.blp:15 src/ui/pages/songs_all.blp:15
+#: src/ui/pages/songs_starred.blp:15 src/ui/song/queue.blp:16
+#: src/ui/song/queue.blp:18
 msgid "List"
 msgstr "Список"
+
+#: src/ui/containers/carousel.blp:38
+msgid "Pan to the Left"
+msgstr "Поверните влево"
+
+#: src/ui/containers/carousel.blp:64
+msgid "Pan to the Right"
+msgstr "Поверните вправо"
 
 #: src/ui/containers/download_row.blp:31
 msgid "Downloaded"
@@ -701,12 +877,12 @@ msgstr "Очистить завершенные Загрузки"
 msgid "Lyrics Editor"
 msgstr "Редактор текстов песен"
 
-#: src/ui/lyrics/dialog.blp:61 src/ui/playing/control_page.blp:259 src/ui/playing/footer.blp:118
-#: src/ui/playing/popout_window.blp:142
+#: src/ui/lyrics/dialog.blp:61 src/ui/playing/control_page.blp:240
+#: src/ui/playing/footer.blp:118
 msgid "Pause"
 msgstr "Пауза"
 
-#: src/ui/lyrics/dialog.blp:98 src/ui/playing/control_page.blp:194 src/ui/playing/popout_window.blp:213
+#: src/ui/lyrics/dialog.blp:98 src/ui/playing/control_page.blp:175
 msgid "Current song progress bar"
 msgstr "Индикатор выполнения текущей песни"
 
@@ -742,8 +918,9 @@ msgstr "Установить текущую метку времени"
 msgid "Remove Line"
 msgstr "Удалить строку"
 
-#: src/ui/pages/albums_all.blp:20 src/ui/pages/artists.blp:20 src/ui/pages/playlists.blp:20
-#: src/ui/pages/songs_all.blp:20 src/ui/pages/songs_starred.blp:20
+#: src/ui/pages/albums_all.blp:20 src/ui/pages/artists.blp:20
+#: src/ui/pages/playlists.blp:20 src/ui/pages/songs_all.blp:20
+#: src/ui/pages/songs_starred.blp:20
 msgid "Grid"
 msgstr "Сетка"
 
@@ -751,7 +928,8 @@ msgstr "Сетка"
 msgid "Search albums"
 msgstr "Поиск альбомов"
 
-#: src/ui/pages/albums_all.blp:99 src/ui/pages/albums.blp:53 src/ui/pages/artists.blp:98
+#: src/ui/pages/albums_all.blp:99 src/ui/pages/albums.blp:53
+#: src/ui/pages/artists.blp:98 src/ui/pages/playlists.blp:111
 #: src/ui/pages/songs_all.blp:100
 msgid "Reached End of List"
 msgstr "Достигнут конец списка"
@@ -768,12 +946,21 @@ msgstr "Поиск артистов"
 msgid "No Artists Found"
 msgstr "Артистов не найдено"
 
-#: src/ui/pages/home.blp:47
+#: src/ui/pages/home.blp:15
+msgid "Toggle Search"
+msgstr "Переключить поиск"
+
+#: src/ui/pages/home.blp:24 src/ui/shortcuts-dialog.blp:8
+msgid "Search"
+msgstr "Поиск"
+
+#: src/ui/pages/home.blp:68
 msgid "No Elements Found"
 msgstr "Элементы не найдены"
 
 #. Login Button
-#: src/ui/pages/login.blp:5 src/ui/pages/login.blp:16 src/ui/pages/login.blp:102 src/ui/pages/login.blp:103
+#: src/ui/pages/login.blp:5 src/ui/pages/login.blp:16
+#: src/ui/pages/login.blp:102 src/ui/pages/login.blp:103
 #: src/widgets/pages/login.py:34 src/widgets/pages/login.py:68
 msgid "Login"
 msgstr "Вход"
@@ -822,11 +1009,43 @@ msgstr "Пароль"
 msgid "Use Quick Connect"
 msgstr "Использовать быстрое подключение"
 
+#: src/ui/pages/playback.blp:5 src/ui/shortcuts-dialog.blp:25
+msgid "Playback"
+msgstr "Воспроизведение"
+
+#: src/ui/pages/playback.blp:17
+msgid "Go Home"
+msgstr "Домой"
+
+#: src/ui/pages/playback.blp:24
+msgid "Toggle Visualizer"
+msgstr "Переключение визуализатора"
+
+#: src/ui/pages/playback.blp:54 src/window.py:207
+msgid "Nocturne Playback"
+msgstr "Воспроизведение Nocturne"
+
+#: src/ui/pages/playback.blp:64
+msgid "These are your most played songs from last month"
+msgstr "Это ваши самые часто проигрываемые песни за прошлый месяц"
+
+#: src/ui/pages/playback.blp:83 src/ui/pages/playback.blp:85
+msgid "Save Playlist"
+msgstr "Сохранить плейлист"
+
+#: src/ui/pages/playback.blp:98 src/ui/pages/playback.blp:100
+msgid "Playlist Added"
+msgstr "Плейлист добавлен"
+
+#: src/ui/pages/playback.blp:123
+msgid "Thank you for using Nocturne!"
+msgstr "Спасибо за использование Nocturne!"
+
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
 msgstr "Поиск плейлистов"
 
-#: src/ui/pages/playlists.blp:106
+#: src/ui/pages/playlists.blp:127
 msgid "No Playlists Found"
 msgstr "Плейлисты не найдены"
 
@@ -876,11 +1095,11 @@ msgstr "Загрузка прошла успешно"
 
 #: src/ui/pages/setup.blp:56
 msgid ""
-"Before continuing make sure you create an admin account and also make sure all your tracks are inside your music "
-"directory"
+"Before continuing make sure you create an admin account and also make sure "
+"all your tracks are inside your music directory"
 msgstr ""
-"Прежде чем продолжить, убедитесь, что вы создали учетную запись администратора, а также что все ваши треки "
-"находятся в папке с музыкой"
+"Прежде чем продолжить, убедитесь, что вы создали учетную запись "
+"администратора, а также что все ваши треки находятся в папке с музыкой"
 
 #: src/ui/pages/setup.blp:63
 msgid "Instance Webpage"
@@ -890,7 +1109,8 @@ msgstr "Пример Webpage"
 msgid "Search songs"
 msgstr "Поиск песен"
 
-#: src/ui/pages/songs_all.blp:116 src/ui/pages/songs_starred.blp:95 src/ui/song/queue.blp:124
+#: src/ui/pages/songs_all.blp:116 src/ui/pages/songs_starred.blp:96
+#: src/ui/song/queue.blp:124
 msgid "No Songs Found"
 msgstr "Песни не найдены"
 
@@ -918,29 +1138,37 @@ msgstr "Выберите тип экземпляра, чтобы начать р
 msgid "Playing"
 msgstr "Играет"
 
-#: src/ui/playing/control_page.blp:55 src/ui/playing/popout_window.blp:282
-msgid "Song Cover"
-msgstr "Обложка песни"
-
-#: src/ui/playing/control_page.blp:94
+#: src/ui/playing/control_page.blp:75
 msgid "Visit current radio homepage"
 msgstr "Перейти на главную страницу текущего радио"
 
-#: src/ui/playing/control_page.blp:229 src/ui/playing/footer.blp:88 src/ui/playing/popout_window.blp:112
+#: src/ui/playing/control_page.blp:210 src/ui/playing/footer.blp:88
 msgid "Previous"
 msgstr "Предыдущая"
 
-#: src/ui/playing/control_page.blp:273 src/ui/playing/footer.blp:132 src/ui/playing/popout_window.blp:156
+#: src/ui/playing/control_page.blp:254 src/ui/playing/footer.blp:132
 msgid "Next"
 msgstr "Следующая"
 
-#: src/ui/playing/control_page.blp:293
+#: src/ui/playing/control_page.blp:274
 msgid "Star"
 msgstr "Звезда"
 
-#: src/ui/playing/control_page.blp:300
-msgid "Show Sidebar"
-msgstr "Показать боковую панель"
+#: src/ui/playing/control_page.blp:281
+msgid "Toggle Sidebar"
+msgstr "Переключить боковую панель"
+
+#: src/ui/playing/cover_art.blp:28
+msgid "Audio"
+msgstr "Аудио"
+
+#: src/ui/playing/cover_art.blp:36 src/ui/song/details_dialog.blp:34
+msgid "Song Cover"
+msgstr "Обложка песни"
+
+#: src/ui/playing/cover_art.blp:42 src/ui/playing/cover_art.blp:50
+msgid "Video"
+msgstr "Видео"
 
 #: src/ui/playing/equalizer_page.blp:21
 msgid "Presets"
@@ -978,28 +1206,36 @@ msgstr "Индикатор текущего прогресса песни"
 msgid "Current song cover art"
 msgstr "Текущая обложка песни"
 
-#: src/ui/playing/lyrics_page.blp:24 src/ui/playing/lyrics_page.blp:65 src/ui/playing/lyrics_page.blp:95
-#: src/ui/playing/lyrics_page.blp:99 src/ui/playing/lyrics_page.blp:112 src/ui/playing/lyrics_page.blp:116
+#: src/ui/playing/lyrics_page.blp:25 src/ui/playing/lyrics_page.blp:85
+#: src/ui/playing/lyrics_page.blp:115 src/ui/playing/lyrics_page.blp:119
+#: src/ui/playing/lyrics_page.blp:132 src/ui/playing/lyrics_page.blp:136
 msgid "Go Back"
 msgstr "Вернуться"
 
-#: src/ui/playing/lyrics_page.blp:92
+#: src/ui/playing/lyrics_page.blp:67
+msgid "Lyrics Options"
+msgstr "Варианты текста песни"
+
+#: src/ui/playing/lyrics_page.blp:112
 msgid "No Lyrics Found"
 msgstr "Текст песни не найден"
 
-#: src/ui/playing/lyrics_page.blp:109
+#: src/ui/playing/lyrics_page.blp:129
 msgid "Instrumental"
 msgstr "Инструментальный"
 
-#: src/ui/playing/lyrics_page.blp:134
+#: src/ui/playing/lyrics_page.blp:154
 msgid "Not Downloaded"
 msgstr "Не загружен"
 
-#: src/ui/playing/lyrics_page.blp:136
-msgid "The lyrics for this song have not been downloaded yet, they might be available for download"
-msgstr "Текст этой песни пока не скачан, возможно, он уже доступен для скачивания"
+#: src/ui/playing/lyrics_page.blp:156
+msgid ""
+"The lyrics for this song have not been downloaded yet, they might be "
+"available for download"
+msgstr ""
+"Текст этой песни пока не скачан, возможно, он уже доступен для скачивания"
 
-#: src/ui/playing/lyrics_page.blp:160 src/ui/playing/lyrics_page.blp:163
+#: src/ui/playing/lyrics_page.blp:180 src/ui/playing/lyrics_page.blp:183
 msgid "Load Lyrics File"
 msgstr "Загрузить файл с текстом песни"
 
@@ -1007,29 +1243,23 @@ msgstr "Загрузить файл с текстом песни"
 msgid "Pop-out Window"
 msgstr "Всплывающее окно"
 
-#: src/ui/playing/popout_window.blp:223 src/ui/window.blp:154
-msgid "Player"
-msgstr "Плеер"
-
-#: src/ui/playing/popout_window.blp:240 src/ui/shortcuts-dialog.blp:16 src/ui/window.blp:255
-#: src/widgets/playing/popout_window.py:63
-msgid "Toggle Fullscreen"
-msgstr "Переключение полноэкранного режима"
-
-#: src/ui/playing/popout_window.blp:293 src/ui/window.blp:194
+#: src/ui/playing/popout_window.blp:65 src/ui/song/details_dialog.blp:5
+#: src/ui/window.blp:214
 msgid "Song Details"
 msgstr "Подробности о песне"
 
-#: src/ui/playing/popout_window.blp:313 src/ui/window.blp:160 src/ui/window.blp:216
+#: src/ui/playing/popout_window.blp:85 src/ui/window.blp:180
+#: src/ui/window.blp:236
 msgid "Queue"
 msgstr "Очередь"
 
-#: src/ui/playing/popout_window.blp:325 src/ui/window.blp:176 src/ui/window.blp:228
+#: src/ui/playing/popout_window.blp:97 src/ui/window.blp:196
+#: src/ui/window.blp:248
 msgid "Equalizer"
 msgstr "Эквалайзер"
 
 #: src/ui/playing/queue_page.blp:20
-msgid "Generating next queue"
+msgid "Generating Next Queue"
 msgstr "Создание следующей очереди"
 
 #: src/ui/playing/queue_page.blp:24
@@ -1052,24 +1282,25 @@ msgstr "Отключение звука динамика"
 msgid "Speaker Full Volume"
 msgstr "Динамик на полную громкость"
 
-#: src/ui/playlist/button.blp:29
+#: src/ui/playlist/button.blp:28
 msgid "Play Playlist"
 msgstr "Играть плейлист"
 
-#: src/ui/playlist/button.blp:43
+#: src/ui/playlist/button.blp:41
 msgid "Show Playlist"
 msgstr "Показать плейлист"
 
-#: src/ui/playlist/button.blp:56 src/ui/playlist/page.blp:50 src/ui/playlist/row.blp:32
-#: src/ui/playlist/selector_row.blp:24
+#: src/ui/playlist/button.blp:53 src/ui/playlist/page.blp:50
+#: src/ui/playlist/row.blp:32 src/ui/playlist/selector_row.blp:24
 msgid "Playlist cover art"
 msgstr "Обложка плейлиста"
 
-#: src/ui/playlist/button.blp:68
+#: src/ui/playlist/button.blp:65
 msgid "Enter playlist page"
 msgstr "Перейти на страницу плейлиста"
 
-#: src/ui/playlist/dialog.blp:6 src/ui/playlist/page.blp:5 src/widgets/playlist/page.py:86
+#: src/ui/playlist/dialog.blp:6 src/ui/playlist/page.blp:5
+#: src/widgets/playlist/page.py:84
 msgid "Playlist"
 msgstr "Плейлист"
 
@@ -1082,10 +1313,10 @@ msgid "Adding Music to Playlist"
 msgstr "Добавление музыки в плейлист"
 
 #: src/ui/playlist/dialog.blp:34
-msgid "Create new playlist and add songs"
+msgid "Create New Playlist and Add Songs"
 msgstr "Создать новый плейлист и добавить песни"
 
-#: src/ui/preferences.blp:7
+#: src/ui/preferences.blp:7 src/ui/shortcuts-dialog.blp:6
 msgid "General"
 msgstr "Общие"
 
@@ -1110,227 +1341,323 @@ msgid "Used when only line by line lyrics are available"
 msgstr "Используется, когда доступны только тексты песен построчно"
 
 #: src/ui/preferences.blp:22
+msgid "Use Track and Album Gain"
+msgstr "Использовать усиление трека и альбома"
+
+#: src/ui/preferences.blp:23
+msgid "Adjust the volume based on gain metadata"
+msgstr "Отрегулировать громкость на основе метаданных усиления"
+
+#: src/ui/preferences.blp:26
 msgid "Default Page on Login"
 msgstr "Страница по умолчанию при входе в систему"
 
-#: src/ui/preferences.blp:27
+#: src/ui/preferences.blp:31
 msgid "Maximum Bitrate"
 msgstr "Максимальная скорость передачи данных"
 
-#: src/ui/preferences.blp:33
+#: src/ui/preferences.blp:37
 msgid "Session"
 msgstr "Сессия"
 
-#: src/ui/preferences.blp:36
-msgid "ListenBrainz Link"
-msgstr ""
+#: src/ui/preferences.blp:40
+msgid "Discord Rich Presence"
+msgstr "Богатое присутствие в Discord"
 
-#: src/ui/preferences.blp:37
+#: src/ui/preferences.blp:41
+msgid "Share the currently playing song on Discord"
+msgstr "Поделитесь текущей воспроизводимой песней в Discord"
+
+#: src/ui/preferences.blp:45
+msgid "Share Cover Art With Discord"
+msgstr "Поделится обложкой с Discord"
+
+#: src/ui/preferences.blp:46
+msgid ""
+"If the instance is not reachable by Discord servers, CoverArtArchive will be "
+"used instead"
+msgstr ""
+"Если экземпляр недоступен для серверов Discord, вместо него будет "
+"использоваться CoverArtArchive"
+
+#: src/ui/preferences.blp:52
+msgid "ListenBrainz Link"
+msgstr "Ссылка ListenBrainz"
+
+#: src/ui/preferences.blp:53
 msgid "Keep track of your playback history"
 msgstr "Отслеживать историю воспроизведения"
 
-#: src/ui/preferences.blp:43 src/ui/preferences.blp:44
+#: src/ui/preferences.blp:59 src/ui/preferences.blp:60
 msgid "Link"
 msgstr "Ссылка"
 
-#: src/ui/preferences.blp:52 src/ui/preferences.blp:53
+#: src/ui/preferences.blp:68 src/ui/preferences.blp:69
 msgid "Unlink"
 msgstr "Отменить ссылку"
 
-#: src/ui/preferences.blp:65
+#: src/ui/preferences.blp:81
 msgid "User"
 msgstr "Пользователь"
 
-#: src/ui/preferences.blp:85
+#: src/ui/preferences.blp:101
 msgid "Logout"
 msgstr "Выйти"
 
-#: src/ui/preferences.blp:95
+#: src/ui/preferences.blp:111
 msgid "Customization"
 msgstr "Настройка"
 
-#: src/ui/preferences.blp:98
+#: src/ui/preferences.blp:114
 msgid "Interface"
 msgstr "Интерфейс"
 
-#: src/ui/preferences.blp:100
+#: src/ui/preferences.blp:116
 msgid "Show Context Button in Rows"
 msgstr "Показывать контекстную кнопку в строках"
 
-#: src/ui/preferences.blp:101
+#: src/ui/preferences.blp:117
 msgid "The menu can also be shown by right clicking / long pressing"
-msgstr "Меню также можно отобразить щелчком правой кнопкой мыши или длительным нажатием"
+msgstr ""
+"Меню также можно отобразить щелчком правой кнопкой мыши или длительным "
+"нажатием"
 
-#: src/ui/preferences.blp:104
+#: src/ui/preferences.blp:120
 msgid "Show Labels in Buttons of Pages"
 msgstr "Показывать подписи на кнопках страниц"
 
-#: src/ui/preferences.blp:107
-msgid "Show Playlists in Sidebar"
-msgstr "Отображение плейлистов в боковой панели"
-
-#: src/ui/preferences.blp:110
+#: src/ui/preferences.blp:123
 msgid "Show Progressbar in Player Footer"
 msgstr "Отобразить индикатор выполнения в нижнем колонтитуле проигрывателя"
 
-#: src/ui/preferences.blp:113
+#: src/ui/preferences.blp:126
 msgid "Make Background Translucent in Player"
 msgstr "Сделать фон в плеере полупрозрачным"
 
-#: src/ui/preferences.blp:116
+#: src/ui/preferences.blp:129
 msgid "Use Sidebar Player When Possible"
 msgstr "По возможности использовать боковой плеер"
 
-#: src/ui/preferences.blp:117
+#: src/ui/preferences.blp:130
 msgid "Sidebar player is only available when the window is wide enough"
 msgstr "Боковой плеер доступен только тогда, когда окно достаточно широкое"
 
-#: src/ui/preferences.blp:122
+#: src/ui/preferences.blp:133
+msgid "Show Pan Buttons on Carousels"
+msgstr "Показывать кнопки панорамирования на каруселях"
+
+#: src/ui/preferences.blp:134
+msgid "Only visible when a carousel has 5 or more items"
+msgstr ""
+"Отображается только в том случае, если в карусели 5 или более элементов"
+
+#: src/ui/preferences.blp:137
+msgid "Button Size"
+msgstr "Размер кнопки"
+
+#: src/ui/preferences.blp:138
+msgid "Affects albums, artists, playlists and songs"
+msgstr "Влияет на альбомы, исполнителей, плейлисты и песни"
+
+#: src/ui/preferences.blp:144 src/ui/preferences.blp:145
+msgid "Small"
+msgstr "Маленький"
+
+#: src/ui/preferences.blp:149 src/ui/preferences.blp:150
+msgid "Big"
+msgstr "Большой"
+
+#: src/ui/preferences.blp:158
 msgid "Dynamic Background"
 msgstr "Динамический фон"
 
-#: src/ui/preferences.blp:123
+#: src/ui/preferences.blp:159
 msgid "Background generated based on the album art of the current song"
 msgstr "Фоновое изображение создано на основе обложки альбома текущей песни"
 
-#: src/ui/preferences.blp:126
+#: src/ui/preferences.blp:162
 msgid "Use in Main Window"
 msgstr "Использовать в главном окне"
 
-#: src/ui/preferences.blp:127
+#: src/ui/preferences.blp:163
 msgid "Experimental"
 msgstr "Экспериментально"
 
-#: src/ui/preferences.blp:133 src/ui/preferences.blp:134 src/ui/preferences.blp:157 src/ui/preferences.blp:158
-#: src/ui/preferences.blp:181 src/ui/preferences.blp:182
+#: src/ui/preferences.blp:169 src/ui/preferences.blp:170
+#: src/ui/preferences.blp:193 src/ui/preferences.blp:194
+#: src/ui/preferences.blp:217 src/ui/preferences.blp:218
 msgid "Off"
 msgstr "Выключено"
 
-#: src/ui/preferences.blp:138 src/ui/preferences.blp:139 src/ui/preferences.blp:162 src/ui/preferences.blp:163
-#: src/ui/preferences.blp:186 src/ui/preferences.blp:187
+#: src/ui/preferences.blp:174 src/ui/preferences.blp:175
+#: src/ui/preferences.blp:198 src/ui/preferences.blp:199
+#: src/ui/preferences.blp:222 src/ui/preferences.blp:223
 msgid "Gradient"
 msgstr "Градиент"
 
-#: src/ui/preferences.blp:143 src/ui/preferences.blp:144 src/ui/preferences.blp:167 src/ui/preferences.blp:168
-#: src/ui/preferences.blp:191 src/ui/preferences.blp:192
+#: src/ui/preferences.blp:179 src/ui/preferences.blp:180
+#: src/ui/preferences.blp:203 src/ui/preferences.blp:204
+#: src/ui/preferences.blp:227 src/ui/preferences.blp:228
 msgid "Blur"
 msgstr "Размытие"
 
-#: src/ui/preferences.blp:151
+#: src/ui/preferences.blp:187
 msgid "Use in Player"
 msgstr "Использовать в плеере"
 
-#: src/ui/preferences.blp:175
+#: src/ui/preferences.blp:211
 msgid "Use in Pop-out Window"
 msgstr "Использовать во всплывающем окне"
 
-#: src/ui/preferences.blp:199
+#: src/ui/preferences.blp:235
 msgid "Use as Accent Color"
 msgstr "Использовать в качестве акцентного цвета"
 
-#: src/ui/preferences.blp:204
+#: src/ui/preferences.blp:240
 msgid "Homepage"
 msgstr "Домашняя страница"
 
-#: src/ui/preferences.blp:205
+#: src/ui/preferences.blp:241
 msgid "Reload homepage to see changes"
 msgstr "Обновите главную страницу, чтобы увидеть изменения"
 
-#: src/ui/preferences.blp:241
+#: src/ui/preferences.blp:277
+msgid "Sidebar"
+msgstr "Боковая панель"
+
+#: src/ui/preferences.blp:281
 msgid "Visualizer"
 msgstr "Визуализатор"
 
-#: src/ui/preferences.blp:245 src/ui/window.blp:245
+#: src/ui/preferences.blp:285 src/ui/window.blp:265
 msgid "Preferences"
 msgstr "Настройки"
 
-#: src/ui/preferences.blp:247
+#: src/ui/preferences.blp:287
 msgid "Show Visualizer in Player"
 msgstr "Показать визуализатор в плеере"
 
-#: src/ui/preferences.blp:248
+#: src/ui/preferences.blp:288
 msgid "Show an audio spectrum visualizer on top of the album art in the player"
-msgstr "Отобразить визуализатор звукового спектра поверх обложки альбома в плеере"
+msgstr ""
+"Отобразить визуализатор звукового спектра поверх обложки альбома в плеере"
 
-#: src/ui/preferences.blp:253
+#: src/ui/preferences.blp:293
 msgid "Appearance"
 msgstr "Внешний вид"
 
-#: src/ui/preferences.blp:257
+#: src/ui/preferences.blp:297
 msgid "Number of Bars"
 msgstr "Количество брусьев"
 
-#: src/ui/preferences.blp:268
+#: src/ui/preferences.blp:308
 msgid "Visualizer Type"
 msgstr "Тип визуализатора"
 
-#: src/ui/preferences.blp:274 src/ui/preferences.blp:275
+#: src/ui/preferences.blp:314 src/ui/preferences.blp:315
 msgid "Wave"
 msgstr "Волна"
 
-#: src/ui/preferences.blp:279 src/ui/preferences.blp:280
+#: src/ui/preferences.blp:319 src/ui/preferences.blp:320
 msgid "Bars"
 msgstr "Брусья"
 
-#: src/ui/preferences.blp:284 src/ui/preferences.blp:285
+#: src/ui/preferences.blp:324 src/ui/preferences.blp:325
 msgid "Particles"
 msgstr "Частицы"
 
-#: src/ui/preferences.blp:292
+#: src/ui/preferences.blp:332
 msgid "Fill Mode"
 msgstr "Режим заполнения"
 
-#: src/ui/preferences.blp:298 src/ui/preferences.blp:299
+#: src/ui/preferences.blp:338 src/ui/preferences.blp:339
 msgid "Solid"
 msgstr "Сплошной"
 
-#: src/ui/preferences.blp:303 src/ui/preferences.blp:304
+#: src/ui/preferences.blp:343 src/ui/preferences.blp:344
 msgid "Translucent"
 msgstr "Полупрозрачный"
 
-#: src/ui/preferences.blp:308 src/ui/preferences.blp:309
+#: src/ui/preferences.blp:348 src/ui/preferences.blp:349
 msgid "Border"
 msgstr "Граница"
 
-#: src/ui/preferences.blp:317
+#: src/ui/preferences.blp:357
 msgid "Color"
 msgstr "Цвет"
 
-#: src/ui/preferences.blp:321
+#: src/ui/preferences.blp:361
 msgid "Use Dynamic Color"
 msgstr "Использовать динамический цвет"
 
-#: src/ui/preferences.blp:324
+#: src/ui/preferences.blp:364
 msgid "Invert Color"
 msgstr "Инвертировать цвет"
 
-#: src/ui/preferences.blp:328
+#: src/ui/preferences.blp:368
 msgid "Manual Color"
 msgstr "Ручной цвет"
 
-#: src/ui/preferences.blp:334
+#: src/ui/preferences.blp:374
 msgid "Visualizer Color"
 msgstr "Визуализатор цвета"
 
-#: src/ui/shortcuts-dialog.blp:6
-msgid "Shortcuts"
-msgstr "Сочетания клавиш"
-
-#: src/ui/shortcuts-dialog.blp:8
+#: src/ui/shortcuts-dialog.blp:12
 msgid "Show Shortcuts"
 msgstr "Показать сочетания клавиш"
 
-#: src/ui/shortcuts-dialog.blp:12
+#: src/ui/shortcuts-dialog.blp:16
 msgid "Show Preferences"
 msgstr "Показать настройки"
 
-#: src/ui/shortcuts-dialog.blp:20 src/ui/window.blp:250
+#: src/ui/shortcuts-dialog.blp:20
+msgid "Quit"
+msgstr "Выход"
+
+#: src/ui/shortcuts-dialog.blp:27
+msgid "Toggle Playback"
+msgstr "Переключить воспроизведение"
+
+#: src/ui/shortcuts-dialog.blp:31
+msgid "Next Song"
+msgstr "Следующая песня"
+
+#: src/ui/shortcuts-dialog.blp:35
+msgid "Previous Song"
+msgstr "Предыдущая песня"
+
+#: src/ui/shortcuts-dialog.blp:39
+msgid "Raise Volume"
+msgstr "Увеличеть громкость"
+
+#: src/ui/shortcuts-dialog.blp:43
+msgid "Lower Volume"
+msgstr "Уменьшить громкость"
+
+#: src/ui/shortcuts-dialog.blp:48
+msgid "Window"
+msgstr "Окно"
+
+#: src/ui/shortcuts-dialog.blp:50 src/ui/window.blp:275
+#: src/widgets/playing/popout_window.py:53
+msgid "Toggle Fullscreen"
+msgstr "Переключение полноэкранного режима"
+
+#: src/ui/shortcuts-dialog.blp:54 src/ui/window.blp:270
 msgid "Open Pop-Out Window"
 msgstr "Открыть всплывающее окно"
 
-#: src/ui/shortcuts-dialog.blp:24
-msgid "Quit"
-msgstr "Выход"
+#: src/ui/song/button.blp:16
+msgid "Play Song"
+msgstr "Воспроизвести песню"
+
+#: src/ui/song/button.blp:31 src/ui/song/small_row.blp:37
+msgid "Song cover art"
+msgstr "Обложка песни"
+
+#: src/ui/song/button.blp:45
+msgid "Play Indicator"
+msgstr "Индикатор воспроизведения"
 
 #: src/ui/song/row.blp:41
 msgid "Drag icon"
@@ -1340,80 +1667,82 @@ msgstr "Перетащить значок"
 msgid "Selection box"
 msgstr "Поле выбора"
 
-#: src/ui/song/small_row.blp:37
-msgid "Song cover art"
-msgstr "Обложка песни"
-
-#: src/ui/window.blp:74
+#: src/ui/window.blp:99
 msgid "Play Random Queue"
 msgstr "Играть случайную очередь"
 
-#: src/ui/window.blp:87
+#: src/ui/window.blp:107
 msgid "Menu"
 msgstr "Меню"
 
-#: src/ui/window.blp:115
+#: src/ui/window.blp:135
 msgid "Random Albums"
 msgstr "Случайные альбомы"
 
-#: src/ui/window.blp:119
+#: src/ui/window.blp:139
 msgid "Favorite Albums"
 msgstr "Любимые альбомы"
 
-#: src/ui/window.blp:123
+#: src/ui/window.blp:143
 msgid "Newest Albums"
 msgstr "Новейшие альбомы"
 
-#: src/ui/window.blp:127
+#: src/ui/window.blp:147
 msgid "Recent Albums"
 msgstr "Недавние альбомы"
 
-#: src/ui/window.blp:131
+#: src/ui/window.blp:151
 msgid "Frequent Albums"
 msgstr "Частые альбомов"
 
-#: src/ui/window.blp:260
+#: src/ui/window.blp:174
+msgid "Player"
+msgstr "Плеер"
+
+#: src/ui/window.blp:280
+msgid "See Last Nocturne Playback"
+msgstr "Смотрите Последнее Воспроизведение Nocturne"
+
+#: src/ui/window.blp:285
 msgid "Keyboard Shortcuts"
 msgstr "Сочетания клавиш"
 
-#: src/ui/window.blp:265
+#: src/ui/window.blp:290
 msgid "About Nocturne"
 msgstr "О Nocturne"
 
-#: src/widgets/album/button.py:63 src/widgets/album/page.py:147 src/widgets/artist/page.py:127
-#: src/widgets/playing/control_page.py:217 src/widgets/song/row.py:162
-msgid "Favorite"
-msgstr "Избранное"
-
-#: src/widgets/album/button.py:68 src/widgets/album/page.py:152 src/widgets/artist/page.py:132
-#: src/widgets/playing/control_page.py:222 src/widgets/song/row.py:167
+#: src/widgets/album/button.py:95 src/widgets/album/page.py:150
+#: src/widgets/artist/page.py:130 src/widgets/playing/control_page.py:183
+#: src/widgets/song/row.py:188
 msgid "Not Favorite"
 msgstr "Не избранное"
 
 #: src/widgets/album/page.py:18
-#, python-brace-format
 msgid "Disc {}"
 msgstr "Диск {}"
 
-#: src/widgets/artist/button.py:43 src/widgets/artist/row.py:48
-#, python-brace-format
+#: src/widgets/artist/button.py:56 src/widgets/artist/row.py:46
 msgid "{} Album"
 msgid_plural "{} Albums"
 msgstr[0] "{} Альбом"
 msgstr[1] "{} Альбома"
 msgstr[2] "{} Альбомов"
 
-#: src/widgets/artist/page.py:50
+#: src/widgets/artist/page.py:48
 msgid "Top Songs"
 msgstr "Лучшие песни"
 
-#: src/widgets/artist/page.py:60
+#: src/widgets/artist/page.py:58
 msgid "Related Artists"
 msgstr "Связанные артисты"
 
-#: src/widgets/artist/page.py:115
+#: src/widgets/artist/page.py:113
 msgid "Author"
 msgstr "Автор"
+
+#: src/widgets/containers/context.py:50
+msgid "{} Stars"
+msgstr "{} Звезды"
 
 #: src/widgets/lyrics/dialog.py:54
 msgid "No Timestamp"
@@ -1435,10 +1764,6 @@ msgstr "Локальная музыкальная библиотека"
 msgid "Restarted"
 msgstr "Перезапущено"
 
-#: src/widgets/pages/login.py:107
-msgid "Error"
-msgstr "Ошибка"
-
 #: src/widgets/pages/login.py:143
 msgid "Quick Connect"
 msgstr "Быстрое подключение"
@@ -1451,7 +1776,15 @@ msgstr "Ошибка при получении кода"
 msgid "Quick Connect Page"
 msgstr "Страница быстрого подключения"
 
-#: src/widgets/pages/setup.py:62
+#: src/widgets/pages/playback.py:29
+msgid "Nocturne Playback ~ {}"
+msgstr "Воспроизведение Nocturne ~ {}"
+
+#: src/widgets/pages/playback.py:48 src/widgets/pages/playback.py:57
+msgid "{} Plays"
+msgstr "{} Играет"
+
+#: src/widgets/pages/setup.py:63
 msgid "Installing"
 msgstr "Установка"
 
@@ -1459,26 +1792,76 @@ msgstr "Установка"
 msgid "Integration"
 msgstr "Интеграция"
 
-#: src/widgets/playing/lyrics_page.py:215
+#: src/widgets/playing/lyrics_page.py:234
 msgid "LRC File"
 msgstr "LRC Файл"
+
+#: src/widgets/playing/player.py:634
+msgid "Warning: Song changed but volume is set to 0"
+msgstr "Внимание: песня сменилась, но громкость установлена ​​на 0"
+
+#: src/widgets/playlist/button.py:63 src/widgets/playlist/page.py:116
+#: src/widgets/playlist/row.py:47 src/widgets/playlist/selector_row.py:36
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} Песня"
+msgstr[1] "{} Песни"
+msgstr[2] "{} Песен"
 
 #: src/widgets/playlist/dialog.py:55
 msgid "New Playlist"
 msgstr "Новый плейлист"
 
-#: src/widgets/playlist/selector_row.py:34
-#, python-brace-format
-msgid "Add songs to '{}'"
+#: src/widgets/playlist/selector_row.py:33
+msgid "Add Songs to '{}'"
 msgstr "Добавить песни в '{}'"
 
-#: src/widgets/song/row.py:146 src/widgets/song/row.py:151
+#: src/widgets/song/details_dialog.py:22
+msgid "Yes"
+msgstr "Да"
+
+#: src/widgets/song/details_dialog.py:22
+msgid "No"
+msgstr "Нет"
+
+#: src/widgets/song/details_dialog.py:27
+msgid "Not Found"
+msgstr "Не найдено"
+
+#: src/widgets/song/row.py:147 src/widgets/song/row.py:152
 msgid "Multiple Artists"
 msgstr "Множество Артистов"
 
+#: src/window.py:208
+msgid "Your Playback queue for {} is available!"
+msgstr "Ваша очередь воспроизведения для {} доступна!"
+
+#: src/window.py:210
+msgid "Show"
+msgstr "Показать"
+
+#: src/window.py:211
+msgid "Later"
+msgstr "Позже"
+
+#~ msgid "Show Sidebar"
+#~ msgstr "Показать боковую панель"
+
+#~ msgid "Generating next queue"
+#~ msgstr "Создание следующей очереди"
+
+#~ msgid "Create new playlist and add songs"
+#~ msgstr "Создать новый плейлист и добавить песни"
+
+#~ msgid "Show Playlists in Sidebar"
+#~ msgstr "Отображение плейлистов в боковой панели"
+
+#~ msgid "Shortcuts"
+#~ msgstr "Сочетания клавиш"
+
 #, python-brace-format
-#~ msgid "{} Songs"
-#~ msgstr "{} Песни"
+#~ msgid "Add songs to '{}'"
+#~ msgstr "Добавить песни в '{}'"
 
 #, python-brace-format
 #~ msgid "{} Songs Removed"
@@ -1520,11 +1903,12 @@ msgstr "Множество Артистов"
 #~ msgstr "Перейти на страницу приветствия"
 
 #~ msgid ""
-#~ "Nocturne is powered by a Subsonic compatible instance, if you do not have one Nocturne can automatically set up "
-#~ "a Navidrome instance for you!"
+#~ "Nocturne is powered by a Subsonic compatible instance, if you do not have "
+#~ "one Nocturne can automatically set up a Navidrome instance for you!"
 #~ msgstr ""
-#~ "Nocturne работает на основе совместимого с Subsonic экземпляра, если у вас его нет, Nocturne может автоматически "
-#~ "настроить для вас экземпляр Navidrome!"
+#~ "Nocturne работает на основе совместимого с Subsonic экземпляра, если у "
+#~ "вас его нет, Nocturne может автоматически настроить для вас экземпляр "
+#~ "Navidrome!"
 
 #~ msgid "Open Pop-out Window"
 #~ msgstr "Открыть всплывающее окно"
