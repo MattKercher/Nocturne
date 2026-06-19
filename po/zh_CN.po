@@ -160,7 +160,7 @@ msgstr "删掉全部内容"
 
 #: src/actions.py:301
 msgid "No Name"
-msgstr ""
+msgstr "无名"
 
 #: src/actions.py:320
 msgid "Radio updated successfully"
@@ -283,22 +283,22 @@ msgstr "添加"
 #, python-brace-format
 msgid "{} Song Removed"
 msgid_plural "{} Songs Removed"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "已移除 {} 首歌曲"
+msgstr[1] "已移除 {} 首歌曲"
 
 #: src/actions.py:732 src/actions.py:734 src/actions.py:754 src/actions.py:756
 #, python-brace-format
 msgid "{} Song Added"
 msgid_plural "{} Songs Added"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "已添加 {} 首歌曲"
+msgstr[1] "已添加 {} 首歌曲"
 
 #: src/actions.py:761 src/actions.py:877 src/actions.py:910
 #, python-brace-format
 msgid "{} Song Skipped"
 msgid_plural "{} Songs Skipped"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "已跳过 {} 首歌曲"
+msgstr[1] "已跳过 {} 首歌曲"
 
 #: src/actions.py:775
 msgid "Playlist Deleted"
@@ -314,34 +314,34 @@ msgstr "未找到歌曲成立"
 
 #: src/actions.py:879 src/actions.py:906 src/actions.py:943 src/actions.py:979
 msgid "Download Started"
-msgstr ""
+msgstr "下载已开始"
 
 #: src/actions.py:886 src/actions.py:917 src/actions.py:924 src/actions.py:959
 #: src/actions.py:995
 msgid "Already Downloaded"
-msgstr ""
+msgstr "已下载"
 
 #: src/actions.py:911
 #, python-brace-format
 msgid "{} Song ({})"
 msgid_plural "{} Songs ({})"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} 首歌曲 ({})"
+msgstr[1] "{} 首歌曲 ({})"
 
 #: src/actions.py:923
 msgid "Download Skipped"
-msgstr ""
+msgstr "下载已跳过"
 
 #: src/actions.py:947 src/actions.py:983
 #, python-brace-format
 msgid "Download Started ({} Song Skipped)"
 msgid_plural "Download Started ({} Songs Skipped)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "下载已开始（已跳过 {} 首歌曲）"
+msgstr[1] "下载已开始（已跳过 {} 首歌曲）"
 
 #: src/actions.py:1022 src/actions.py:1041
 msgid "Deleted"
-msgstr ""
+msgstr "已删除"
 
 #: src/constants.py:159 src/ui/playing/playback_mode_button.blp:5
 msgid "Consecutive"
@@ -358,26 +358,26 @@ msgstr "重复一次"
 #: src/constants.py:172
 #, python-brace-format
 msgid "Low ({})"
-msgstr ""
+msgstr "低 （{}）"
 
 #: src/constants.py:173
 #, python-brace-format
 msgid "Medium ({})"
-msgstr ""
+msgstr "中 （{}）"
 
 #: src/constants.py:174
 #, python-brace-format
 msgid "High ({})"
-msgstr ""
+msgstr "高 （{}）"
 
 #: src/constants.py:175
 #, python-brace-format
 msgid "Ultra ({})"
-msgstr ""
+msgstr "极高 （{}）"
 
 #: src/constants.py:176
 msgid "Original File"
-msgstr ""
+msgstr "原件"
 
 #. Item
 #: src/constants.py:183 src/ui/pages/home.blp:5
@@ -418,7 +418,7 @@ msgstr "随机"
 #. Item
 #: src/constants.py:213 src/constants.py:243
 msgid "Favorites"
-msgstr ""
+msgstr "收藏"
 
 #. Item
 #: src/constants.py:218
@@ -493,7 +493,7 @@ msgstr "收音机"
 
 #: src/constants.py:338 src/constants.py:366
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "编辑"
 
 #: src/constants.py:352
 msgid "Select"
@@ -514,11 +514,11 @@ msgstr "删掉"
 
 #: src/constants.py:407 src/ui/song/queue.blp:101 src/ui/song/queue.blp:103
 msgid "Delete Download"
-msgstr ""
+msgstr "删除下载"
 
 #: src/constants.py:416
 msgid "Visit Webpage"
-msgstr ""
+msgstr "访问网页"
 
 #: src/constants.py:422
 msgid "Update Server"
@@ -530,11 +530,11 @@ msgstr "删掉服务器"
 
 #: src/integrations/jellyfin.py:15
 msgid "Connect to a Jellyfin server."
-msgstr ""
+msgstr "连接到 Jellyfin 服务器。 "
 
 #: src/integrations/jellyfin.py:19
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 #: src/integrations/jellyfin.py:20
 msgid "Use an existing Jellyfin instance"
@@ -550,6 +550,8 @@ msgid ""
 "Let Nocturne load your local files directly, for big libraries it is "
 "recommended to use a dedicated server."
 msgstr ""
+"让 Nocturne 直接加载您的本地文件，对于大型媒体库。 "
+"建议使用专用服务器。"
 
 #: src/integrations/local.py:20 src/ui/pages/setup.blp:67
 #: src/ui/pages/setup.blp:68
@@ -562,23 +564,23 @@ msgstr "有限的功能"
 
 #: src/integrations/local.py:36
 msgid "Loading Songs"
-msgstr ""
+msgstr "正在加载歌曲"
 
 #: src/integrations/local.py:215
 msgid "No Album"
-msgstr ""
+msgstr "无专辑"
 
 #: src/integrations/local.py:525 src/integrations/local.py:534
 msgid "Offline Mode"
-msgstr ""
+msgstr "离线模式"
 
 #: src/integrations/local.py:526
 msgid "Access your downloads"
-msgstr ""
+msgstr "访问您的下载"
 
 #: src/integrations/navidrome.py:18
 msgid "Connect to an OpenSubsonic server like Navidrome."
-msgstr ""
+msgstr "连接到 OpenSubsonic 服务器（如 Navidrome）。"
 
 #: src/integrations/navidrome.py:22
 msgid "External Server"
@@ -586,7 +588,7 @@ msgstr "外部的服务器"
 
 #: src/integrations/navidrome.py:23
 msgid "Use an existing OpenSubsonic / Navidrome instance"
-msgstr ""
+msgstr "使用现有的 OpenSubsonic / Navidrome 实例"
 
 #: src/integrations/navidrome.py:550 src/integrations/navidrome.py:559
 msgid "Managed Server"
@@ -594,7 +596,7 @@ msgstr "管理了服务器"
 
 #: src/integrations/navidrome.py:551
 msgid "Connect to a Navidrome instance directly managed by Nocturne."
-msgstr ""
+msgstr "连接到由 Nocturne 直接管理的 Navidrome 实例。"
 
 #: src/integrations/navidrome.py:554
 msgid "Manage Server"
@@ -602,11 +604,11 @@ msgstr "管理服务器"
 
 #: src/integrations/navidrome.py:560
 msgid "Create and use a Navidrome instance"
-msgstr ""
+msgstr "创建并使用 Navidrome 实例"
 
 #: src/main.py:69
 msgid "Music is Playing"
-msgstr ""
+msgstr "音乐正在播放"
 
 #: src/main.py:116
 msgid "Login Failed"
@@ -614,19 +616,19 @@ msgstr "登录失败"
 
 #: src/preferences.py:311
 msgid "Settings Page"
-msgstr ""
+msgstr "设置页面"
 
 #: src/preferences.py:314
 msgid "User Token"
-msgstr ""
+msgstr "用户令牌"
 
 #: src/preferences.py:318
 msgid "Link ListenBrainz"
-msgstr ""
+msgstr "关联 ListenBrainz"
 
 #: src/preferences.py:319
 msgid "Connect your ListenBrainz account with a user token"
-msgstr ""
+msgstr "使用用户令牌关联您的 ListenBrainz 账户"
 
 #: src/ui/album/button.blp:22
 msgid "Play Album"
@@ -656,27 +658,27 @@ msgstr "专辑"
 #: src/ui/album/page.blp:95 src/ui/artist/page.blp:93
 #: src/ui/playing/control_page.blp:136
 msgid "1 Star"
-msgstr ""
+msgstr "1 星"
 
 #: src/ui/album/page.blp:104 src/ui/artist/page.blp:102
 #: src/ui/playing/control_page.blp:145
 msgid "2 Stars"
-msgstr ""
+msgstr "2 星"
 
 #: src/ui/album/page.blp:113 src/ui/artist/page.blp:111
 #: src/ui/playing/control_page.blp:154
 msgid "3 Stars"
-msgstr ""
+msgstr "3 星"
 
 #: src/ui/album/page.blp:122 src/ui/artist/page.blp:120
 #: src/ui/playing/control_page.blp:163
 msgid "4 Stars"
-msgstr ""
+msgstr "4 星"
 
 #: src/ui/album/page.blp:131 src/ui/artist/page.blp:129
 #: src/ui/playing/control_page.blp:172
 msgid "5 Stars"
-msgstr ""
+msgstr "5 星"
 
 #: src/ui/album/row.blp:48 src/ui/artist/row.blp:40 src/ui/playlist/row.blp:48
 #: src/ui/song/row.blp:127
@@ -702,23 +704,23 @@ msgstr "列表"
 
 #: src/ui/containers/download_row.blp:31
 msgid "Downloaded"
-msgstr ""
+msgstr "已下载"
 
 #: src/ui/containers/download_row.blp:52
 msgid "Remove From Queue"
-msgstr ""
+msgstr "从队列中移除"
 
 #: src/ui/containers/downloads_queue_button.blp:10
 msgid "Downloads Queue"
-msgstr ""
+msgstr "下载队列"
 
 #: src/ui/containers/downloads_queue_button.blp:11
 msgid "Downloaded songs are available in offline mode"
-msgstr ""
+msgstr "已下载的歌曲可在离线模式下使用"
 
 #: src/ui/containers/downloads_queue_button.blp:19
 msgid "Clear Done Downloads"
-msgstr ""
+msgstr "清除已完成下载"
 
 #: src/ui/lyrics/dialog.blp:5
 msgid "Lyrics Editor"
@@ -806,15 +808,15 @@ msgstr "登录"
 
 #: src/ui/pages/login.blp:31
 msgid "Server Status"
-msgstr ""
+msgstr "服务器状态"
 
 #: src/ui/pages/login.blp:32 src/widgets/pages/login.py:42
 msgid "Not Running"
-msgstr ""
+msgstr "未运行"
 
 #: src/ui/pages/login.blp:33
 msgid "Restart Instance"
-msgstr ""
+msgstr "重启实例"
 
 #: src/ui/pages/login.blp:45
 msgid "Manage Navidrome Server"
@@ -846,7 +848,7 @@ msgstr "密码"
 
 #: src/ui/pages/login.blp:112 src/ui/pages/login.blp:113
 msgid "Use Quick Connect"
-msgstr ""
+msgstr "使用快速连接"
 
 #: src/ui/pages/playlists.blp:31
 msgid "Search playlists"
@@ -905,8 +907,8 @@ msgid ""
 "Before continuing make sure you create an admin account and also make sure "
 "all your tracks are inside your music directory"
 msgstr ""
-"在继续操作之前，请确保您已创建管理员帐户，并确保您的所有曲目都位于您的音乐目"
-"录中"
+"在继续操作之前，请确保您已创建管理员帐户"
+"并确保您的所有曲目都位于您的音乐目"
 
 #: src/ui/pages/setup.blp:63
 msgid "Instance Webpage"
@@ -923,11 +925,11 @@ msgstr "未找到歌曲"
 
 #: src/ui/pages/songs_starred.blp:5 src/ui/pages/songs_starred.blp:28
 msgid "Favorite Songs"
-msgstr ""
+msgstr "收藏的歌曲"
 
 #: src/ui/pages/songs_starred.blp:31
 msgid "Search favorite songs"
-msgstr ""
+msgstr "搜索收藏的歌曲"
 
 #: src/ui/pages/welcome.blp:5
 msgid "Welcome"
@@ -1060,7 +1062,7 @@ msgstr "队列"
 #: src/ui/playing/popout_window.blp:325 src/ui/window.blp:176
 #: src/ui/window.blp:228
 msgid "Equalizer"
-msgstr ""
+msgstr "均衡器"
 
 #: src/ui/playing/queue_page.blp:20
 msgid "Generating next queue"
@@ -1130,7 +1132,7 @@ msgstr "行为"
 
 #: src/ui/preferences.blp:12
 msgid "Restore Queue on Launch"
-msgstr ""
+msgstr "启动时恢复队列"
 
 #: src/ui/preferences.blp:15
 msgid "Hide on Close"
@@ -1138,19 +1140,19 @@ msgstr "关闭时隐藏"
 
 #: src/ui/preferences.blp:18
 msgid "Simulate Word by Word Lyrics"
-msgstr ""
+msgstr "模拟逐词歌词"
 
 #: src/ui/preferences.blp:19
 msgid "Used when only line by line lyrics are available"
-msgstr ""
+msgstr "当只有逐行歌词可用时使用"
 
 #: src/ui/preferences.blp:22
 msgid "Default Page on Login"
-msgstr ""
+msgstr "登录后默认页面"
 
 #: src/ui/preferences.blp:27
 msgid "Maximum Bitrate"
-msgstr ""
+msgstr "最大比特率"
 
 #: src/ui/preferences.blp:33
 msgid "Session"
@@ -1158,19 +1160,19 @@ msgstr "会话"
 
 #: src/ui/preferences.blp:36
 msgid "ListenBrainz Link"
-msgstr ""
+msgstr "关联 ListenBrainz "
 
 #: src/ui/preferences.blp:37
 msgid "Keep track of your playback history"
-msgstr ""
+msgstr "追踪您的播放历史记录"
 
 #: src/ui/preferences.blp:43 src/ui/preferences.blp:44
 msgid "Link"
-msgstr ""
+msgstr "关联"
 
 #: src/ui/preferences.blp:52 src/ui/preferences.blp:53
 msgid "Unlink"
-msgstr ""
+msgstr "取消关联"
 
 #: src/ui/preferences.blp:65
 msgid "User"
@@ -1182,7 +1184,7 @@ msgstr "登出"
 
 #: src/ui/preferences.blp:95
 msgid "Customization"
-msgstr ""
+msgstr "自定义"
 
 #: src/ui/preferences.blp:98
 msgid "Interface"
@@ -1198,73 +1200,73 @@ msgstr "也可以通过右键单击/长按来显示菜单。"
 
 #: src/ui/preferences.blp:104
 msgid "Show Labels in Buttons of Pages"
-msgstr ""
+msgstr "在页面按钮中显示标签"
 
 #: src/ui/preferences.blp:107
 msgid "Show Playlists in Sidebar"
-msgstr ""
+msgstr "在侧边栏中显示播放列表"
 
 #: src/ui/preferences.blp:110
 msgid "Show Progressbar in Player Footer"
-msgstr ""
+msgstr "在播放器底部显示进度条"
 
 #: src/ui/preferences.blp:113
 msgid "Make Background Translucent in Player"
-msgstr ""
+msgstr "使播放器背景半透明"
 
 #: src/ui/preferences.blp:116
 msgid "Use Sidebar Player When Possible"
-msgstr ""
+msgstr "可用时使用侧边栏播放器"
 
 #: src/ui/preferences.blp:117
 msgid "Sidebar player is only available when the window is wide enough"
-msgstr ""
+msgstr "仅当窗口足够宽时侧边栏播放器才可用"
 
 #: src/ui/preferences.blp:122
 msgid "Dynamic Background"
-msgstr ""
+msgstr "动态背景"
 
 #: src/ui/preferences.blp:123
 msgid "Background generated based on the album art of the current song"
-msgstr ""
+msgstr "根据当前歌曲的专辑封面生成的背景"
 
 #: src/ui/preferences.blp:126
 msgid "Use in Main Window"
-msgstr ""
+msgstr "在主窗口中使用"
 
 #: src/ui/preferences.blp:127
 msgid "Experimental"
-msgstr ""
+msgstr "实验性"
 
 #: src/ui/preferences.blp:133 src/ui/preferences.blp:134
 #: src/ui/preferences.blp:157 src/ui/preferences.blp:158
 #: src/ui/preferences.blp:181 src/ui/preferences.blp:182
 msgid "Off"
-msgstr ""
+msgstr "关闭"
 
 #: src/ui/preferences.blp:138 src/ui/preferences.blp:139
 #: src/ui/preferences.blp:162 src/ui/preferences.blp:163
 #: src/ui/preferences.blp:186 src/ui/preferences.blp:187
 msgid "Gradient"
-msgstr ""
+msgstr "渐变色"
 
 #: src/ui/preferences.blp:143 src/ui/preferences.blp:144
 #: src/ui/preferences.blp:167 src/ui/preferences.blp:168
 #: src/ui/preferences.blp:191 src/ui/preferences.blp:192
 msgid "Blur"
-msgstr ""
+msgstr "模糊"
 
 #: src/ui/preferences.blp:151
 msgid "Use in Player"
-msgstr ""
+msgstr "在播放器中使用"
 
 #: src/ui/preferences.blp:175
 msgid "Use in Pop-out Window"
-msgstr ""
+msgstr "在弹出窗口中使用"
 
 #: src/ui/preferences.blp:199
 msgid "Use as Accent Color"
-msgstr ""
+msgstr "用作强调色"
 
 #: src/ui/preferences.blp:204
 msgid "Homepage"
@@ -1276,7 +1278,7 @@ msgstr "重新加载首页以查看更改"
 
 #: src/ui/preferences.blp:241
 msgid "Visualizer"
-msgstr ""
+msgstr "可视化工具"
 
 #: src/ui/preferences.blp:245 src/ui/window.blp:245
 msgid "Preferences"
@@ -1284,71 +1286,71 @@ msgstr "设置"
 
 #: src/ui/preferences.blp:247
 msgid "Show Visualizer in Player"
-msgstr ""
+msgstr "在播放器中显示可视化效果"
 
 #: src/ui/preferences.blp:248
 msgid "Show an audio spectrum visualizer on top of the album art in the player"
-msgstr ""
+msgstr "在播放器的专辑封面上方显示音频频谱可视化效果"
 
 #: src/ui/preferences.blp:253
 msgid "Appearance"
-msgstr ""
+msgstr "外观"
 
 #: src/ui/preferences.blp:257
 msgid "Number of Bars"
-msgstr ""
+msgstr "条数"
 
 #: src/ui/preferences.blp:268
 msgid "Visualizer Type"
-msgstr ""
+msgstr "可视化类型"
 
 #: src/ui/preferences.blp:274 src/ui/preferences.blp:275
 msgid "Wave"
-msgstr ""
+msgstr "波浪"
 
 #: src/ui/preferences.blp:279 src/ui/preferences.blp:280
 msgid "Bars"
-msgstr ""
+msgstr "条形"
 
 #: src/ui/preferences.blp:284 src/ui/preferences.blp:285
 msgid "Particles"
-msgstr ""
+msgstr "粒子"
 
 #: src/ui/preferences.blp:292
 msgid "Fill Mode"
-msgstr ""
+msgstr "填充模式"
 
 #: src/ui/preferences.blp:298 src/ui/preferences.blp:299
 msgid "Solid"
-msgstr ""
+msgstr "实心"
 
 #: src/ui/preferences.blp:303 src/ui/preferences.blp:304
 msgid "Translucent"
-msgstr ""
+msgstr "半透明"
 
 #: src/ui/preferences.blp:308 src/ui/preferences.blp:309
 msgid "Border"
-msgstr ""
+msgstr "边框"
 
 #: src/ui/preferences.blp:317
 msgid "Color"
-msgstr ""
+msgstr "颜色"
 
 #: src/ui/preferences.blp:321
 msgid "Use Dynamic Color"
-msgstr ""
+msgstr "使用动态颜色"
 
 #: src/ui/preferences.blp:324
 msgid "Invert Color"
-msgstr ""
+msgstr "反转颜色"
 
 #: src/ui/preferences.blp:328
 msgid "Manual Color"
-msgstr ""
+msgstr "手动颜色"
 
 #: src/ui/preferences.blp:334
 msgid "Visualizer Color"
-msgstr ""
+msgstr "可视化颜色"
 
 #: src/ui/shortcuts-dialog.blp:6
 msgid "Shortcuts"
@@ -1364,7 +1366,7 @@ msgstr "显示设置"
 
 #: src/ui/shortcuts-dialog.blp:20 src/ui/window.blp:250
 msgid "Open Pop-Out Window"
-msgstr ""
+msgstr "打开弹出窗口"
 
 #: src/ui/shortcuts-dialog.blp:24
 msgid "Quit"
@@ -1392,23 +1394,23 @@ msgstr "菜单"
 
 #: src/ui/window.blp:115
 msgid "Random Albums"
-msgstr ""
+msgstr "随机专辑"
 
 #: src/ui/window.blp:119
 msgid "Favorite Albums"
-msgstr ""
+msgstr "收藏的专辑"
 
 #: src/ui/window.blp:123
 msgid "Newest Albums"
-msgstr ""
+msgstr "最新专辑"
 
 #: src/ui/window.blp:127
 msgid "Recent Albums"
-msgstr ""
+msgstr "最近专辑"
 
 #: src/ui/window.blp:131
 msgid "Frequent Albums"
-msgstr ""
+msgstr "常听专辑"
 
 #: src/ui/window.blp:260
 msgid "Keyboard Shortcuts"
@@ -1422,29 +1424,29 @@ msgstr "关于 Nocturne"
 #: src/widgets/artist/page.py:127 src/widgets/playing/control_page.py:217
 #: src/widgets/song/row.py:162
 msgid "Favorite"
-msgstr ""
+msgstr "收藏"
 
 #: src/widgets/album/button.py:68 src/widgets/album/page.py:152
 #: src/widgets/artist/page.py:132 src/widgets/playing/control_page.py:222
 #: src/widgets/song/row.py:167
 msgid "Not Favorite"
-msgstr ""
+msgstr "不收藏"
 
 #: src/widgets/album/page.py:18
 #, python-brace-format
 msgid "Disc {}"
-msgstr ""
+msgstr "第 {} 碟"
 
 #: src/widgets/artist/button.py:43 src/widgets/artist/row.py:48
 #, python-brace-format
 msgid "{} Album"
 msgid_plural "{} Albums"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{} 张专辑"
+msgstr[1] "{} 张专辑"
 
 #: src/widgets/artist/page.py:50
 msgid "Top Songs"
-msgstr ""
+msgstr "热门歌曲"
 
 #: src/widgets/artist/page.py:60
 msgid "Related Artists"
@@ -1460,7 +1462,7 @@ msgstr "无时间戳"
 
 #: src/widgets/pages/login.py:42 src/widgets/pages/login.py:105
 msgid "Running"
-msgstr ""
+msgstr "运行中"
 
 #: src/widgets/pages/login.py:76
 msgid "Extra Menu"
@@ -1472,23 +1474,23 @@ msgstr "本地音乐库"
 
 #: src/widgets/pages/login.py:104
 msgid "Restarted"
-msgstr ""
+msgstr "重启了"
 
 #: src/widgets/pages/login.py:107
 msgid "Error"
-msgstr ""
+msgstr "出错"
 
 #: src/widgets/pages/login.py:143
 msgid "Quick Connect"
-msgstr ""
+msgstr "快速连接"
 
 #: src/widgets/pages/login.py:144
 msgid "Error getting code"
-msgstr ""
+msgstr "获取代码时出错"
 
 #: src/widgets/pages/login.py:146
 msgid "Quick Connect Page"
-msgstr ""
+msgstr "快速连接页面"
 
 #: src/widgets/pages/setup.py:62
 msgid "Installing"
