@@ -359,7 +359,7 @@ class Jellyfin(Base):
 
         return [song.get("Id") for song in songs]
 
-    def verifyArtist(self, model_id:str, artist_object:models.Artist=None, lite:bool=False, force_update:bool=False, use_threading:bool=True):
+    def verifyArtist(self, model_id:str, force_update:bool=False, use_threading:bool=True, artist_object:models.Artist=None, lite:bool=False):
         def run():
             artist = artist_object
             if artist is None:
@@ -377,7 +377,8 @@ class Jellyfin(Base):
                     "SortBy": "PremiereDate"
                 }
                 if lite:
-                    params["Limit"]=0
+                    params["Limit"]=0 #Prevents complex db query
+
                 albums_request = self.make_request(
                     action='Users/{userId}/Items',
                     mode="GET",
@@ -386,7 +387,7 @@ class Jellyfin(Base):
                 albums = albums_request.get("Items", [])
 
                 similar = []
-                if not lite: #Reduce request size
+                if not lite: #Reduces round trips
                     similar = self.make_request(
                         action='/Items/{id}/Similar?userId={userId}',
                         action_keys={"id": model_id},
@@ -430,9 +431,7 @@ class Jellyfin(Base):
             else:
                 run()
 
-        #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifyAlbum(self, model_id:str, album_object:models.Album=None, force_update:bool=False, lite:bool=False, use_threading:bool=True):
+    def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True, album_object:models.Album=None, lite:bool=False):
         def run():
             album = album_object
             if album is None:
@@ -502,9 +501,7 @@ class Jellyfin(Base):
             else:
                 run()
 
-        #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifyPlaylist(self, model_id:str, playlist_object:models.Playlist=None, lite:bool=False, force_update:bool=False, use_threading:bool=True):
+    def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True, playlist_object:models.Playlist=None, lite:bool=False):
         def run():
             playlist = playlist_object
             if playlist is None:
@@ -563,9 +560,7 @@ class Jellyfin(Base):
             else:
                 run()
 
-        #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifySong(self, model_id:str, song_object:models.Song=None, force_update:bool=False, use_threading:bool=True):
+    def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True, song_object:models.Song=None):
         def run():
             song = song_object
             if song is None:
@@ -622,8 +617,6 @@ class Jellyfin(Base):
                 threading.Thread(target=run, daemon=True).start()
             else:
                 run()
-
-        #threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
 
     def star(self, model_id:str) -> bool:
         response = self.make_request(
