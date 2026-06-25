@@ -322,7 +322,7 @@ class Jellyfin(Base):
         id_list = []
         for artist in response.get('Items', []):
             if artist.get("Id"):
-                self.verifyArtist(artist.get("Id"), artist_object=artist)
+                self.verifyArtist(artist.get("Id"), artist_object=artist, lite=True)
                 id_list.append(artist.get("Id"))
         return id_list
 
