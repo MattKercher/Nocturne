@@ -59,7 +59,11 @@ Nocturne is packaged unofficially in the AUR, to install it first make sure you 
 ```sh
 yay -S nocturne
 ```
-
+### Debian
+Nocturne is packaged unofficially in the official Debian archive (Available in Debian 14 'forky' and above). Install it via apt.
+```sh
+apt install nocturne
+```
 ### NixOS/nix
 Nocturne is packaged unofficially in nixpkgs.
 You can either try it out using nix-shell:
