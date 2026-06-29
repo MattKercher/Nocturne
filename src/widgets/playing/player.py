@@ -248,7 +248,7 @@ class Player(EventAdapter):
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         self.settings.set_double("volume", self.settings.get_value("volume").unpack())
         self.application = application
-        self.gst = Gst.ElementFactory.make("playbin", "music-player")
+        self.gst = Gst.ElementFactory.make("playbin3", "music-player")
         self.gst.connect("source-setup", self.on_source_setup)
         try:
             self.gst.set_property("video-sink", Gst.ElementFactory.make("gtk4paintablesink", "video-sink"))

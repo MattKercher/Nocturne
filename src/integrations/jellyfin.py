@@ -39,6 +39,7 @@ class Jellyfin(Base):
     # Loaded by API
     accessToken = GObject.Property(type=str)
     userId = GObject.Property(type=str)
+    deviceId = str(abs(hash(platform.node())))
 
     @property
     def libraryId(self) -> str:
@@ -151,15 +152,19 @@ class Jellyfin(Base):
         base_url = self.get_url('Audio/{}/stream'.format(song_id))
         max_bitrate = self.settings.get_value('max-bitrate').unpack()
         if max_bitrate == 0:
+            base_url = self.get_url('Audio/{}/stream'.format(song_id))
             return '{}?static=true&api_key={}'.format(
                 base_url,
                 self.get_property('accessToken')
             )
         else:
-            return '{}?static=true&audioBitrate={}&api_key={}'.format(
+            base_url = self.get_url('Audio/{}/universal'.format(song_id))
+            return '{}?userId={}&api_key={}&deviceId={}&maxStreamingBitrate={}&container=opus&audioCodec=opus&transcodingContainer=ogg&transcodingProtocol=hls'.format(
                 base_url,
-                max_bitrate*1000,
-                self.get_property('accessToken')
+                self.userId,
+                self.get_property('accessToken'),
+                self.deviceId,
+                max_bitrate*1000
             )
 
     def initiateQuickConnect(self) -> dict:
