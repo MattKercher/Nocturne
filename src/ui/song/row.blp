@@ -31,6 +31,9 @@ template $NocturneSongRow: Adw.ActionRow {
     Gtk.Image icon_el {
       valign: center;
       visible: false;
+      styles [
+        "dimmed"
+      ]
 
       Gtk.DragSource {
         drag-begin => $on_drag_begin();
