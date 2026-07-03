@@ -22,7 +22,6 @@ cleanup:
   - '*.la'
   - '*.a'
 modules:
-  - shared-modules/libayatana-appindicator/libayatana-appindicator-gtk3.json
   - name: python3-requests
     buildsystem: simple
     build-commands:
