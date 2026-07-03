@@ -1006,7 +1006,7 @@ def __request_song_download(model_id:str) -> bool:
         artist_name = song_model.get_property('artist').split(';')[0]
         if artists := song_model.get_property('artists'):
             artist_name = artists[0].get('name')
-        file_title = '{} - {} - {}'.format(song_model.get_property('title'), song_model.get_property('album'), artist_name)
+        file_title = '{} - {} - {}'.format(song_model.get_property('title'), song_model.get_property('album'), artist_name).replace('/', ' ')
         if any(pathlib.Path(DOWNLOADS_DIR).glob('{}.*'.format(file_title))):
             return False
         found, position = download_queue.find_with_equal_func(
