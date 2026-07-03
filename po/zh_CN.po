@@ -48,11 +48,11 @@ msgstr "播放列表管理"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:15
 msgid "Compatibility with Jellyfin, OpenSubsonic and local files"
-msgstr ""
+msgstr "兼容 Jellyfin、OpenSubsonic 和本地文件"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:16
 msgid "Audio equalizer and audio visualizer"
-msgstr ""
+msgstr "音频均衡器和音频可视化器"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:17
 msgid "Mpris integration"
@@ -68,7 +68,7 @@ msgstr "自动获取词歌"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:20
 msgid "Downloads and offline mode"
-msgstr ""
+msgstr "下载和离线模式"
 
 #: data/com.jeffser.Nocturne.metainfo.xml.in:21
 msgid "Cool interface"
