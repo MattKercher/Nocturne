@@ -46,7 +46,6 @@ The following dependencies are requirements of the project.
 - `python-mpris-server >= 0.10.0`
 - `python-tinytag >= 2.2.1`
 - `gstreamer1.0-plugins-gstreamer-rs` (optional, needed for video rendering)
-- `libayatana-appindicator` (optional, needed for tray icon)
 
 ## Install
 ### Linux (Flatpak)
