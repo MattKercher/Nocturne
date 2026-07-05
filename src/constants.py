@@ -17,7 +17,7 @@ def get_xdg_home(env: str, default: str) -> str:
     return path
 
 COMPATIBLE_EXTENSIONS = {
-    'audio': ['.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opous', '.wav'],
+    'audio': ['.mp3', '.flac', '.m4a', '.oga', '.ogg', '.opus', '.wav'],
     'video': ['.mp4', '.mov', '.m4v', '.avi', '.webm', '.mkv']
 }
 DATA_DIR = get_xdg_home("XDG_DATA_HOME", "~/.local/share")
