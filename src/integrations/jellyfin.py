@@ -34,8 +34,6 @@ class Jellyfin(Base):
         }
     }
 
-    ongoing_requests = set()
-
     AUTH_HEADER = 'MediaBrowser Client="Nocturne", Device="{}", DeviceId="{}", Version="1.0.0"'.format(platform.node(), str(abs(hash(platform.node()))))
 
     url = GObject.Property(type=str, default="http://127.0.0.1:8096")
@@ -421,19 +419,12 @@ class Jellyfin(Base):
                     threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
-            self.ongoing_requests.remove(model_id)
 
         if not model_id or not model_id.strip():
-            logger.warning ("Empty Artist model_id, aborting.")
+            logger.debug("Empty Artist model_id, aborting.")
             return
 
         if model_id not in self.loaded_models or force_update:
-            # Prevent repeated requests
-            if model_id in self.ongoing_requests and not force_update:
-                logger.debug(f"GET request for Artist: {model_id} is ongoing, aborting.")
-                return
-            self.ongoing_requests.add(model_id)
-
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Artist(id=model_id)
             if use_threading:
@@ -494,19 +485,12 @@ class Jellyfin(Base):
                     threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
-            self.ongoing_requests.remove(model_id)
 
         if not model_id or not model_id.strip():
-            logger.warning("Empty Album model_id, aborting.")
+            logger.debug("Empty Album model_id, aborting.")
             return
 
         if model_id not in self.loaded_models or force_update:
-            # Prevent repeated requests
-            if model_id in self.ongoing_requests and not force_update:
-                logger.debug(f"GET request for Album: {model_id} is ongoing, aborting.")
-                return
-            self.ongoing_requests.add(model_id)
-
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Album(id=model_id)
             if use_threading:
@@ -559,19 +543,12 @@ class Jellyfin(Base):
                     threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
-            self.ongoing_requests.remove(model_id)
 
         if not model_id or not model_id.strip():
-            logger.warning("Empty Playlist model_id, aborting.")
+            logger.debug("Empty Playlist model_id, aborting.")
             return
 
         if model_id not in self.loaded_models or force_update:
-            # Prevent repeated requests
-            if model_id in self.ongoing_requests and not force_update:
-                logger.debug(f"GET request for Playlist: {model_id} is ongoing, aborting.")
-                return
-            self.ongoing_requests.add(model_id)
-
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Playlist(id=model_id)
             if use_threading:
@@ -630,19 +607,12 @@ class Jellyfin(Base):
             elif model_id in self.loaded_models:
                 self.loaded_models.get(model_id).set_property('deleted', True)
                 del self.loaded_models[model_id]
-            self.ongoing_requests.remove(model_id)
 
         if not model_id or not model_id.strip():
-            logger.warning ("Empty Song model_id, aborting.")
+            logger.debug("Empty Song model_id, aborting.")
             return
 
         if model_id not in self.loaded_models or force_update:
-            # Prevent repeated requests
-            if model_id in self.ongoing_requests and not force_update:
-                logger.debug(f"GET request for Song: {model_id} is ongoing, aborting.")
-                return
-            self.ongoing_requests.add(model_id)
-
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Song(id=model_id)
             if use_threading:
