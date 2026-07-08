@@ -170,8 +170,8 @@ class Jellyfin(Base):
     def getCoverArtBytes(self, model_id:str, size:int) -> bytes:
         try:
             url = self.get_url('Items/{id}/Images/Primary', id=model_id)
-            if image_id := self.loaded_models.get(model_id).get_property('coverArt'):
-                url = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=image_id)
+            if image_url := self.loaded_models.get(model_id).get_property('coverArt'):
+                url = image_url
 
             response = self.make_request(
                 action='Items/{id}/Images/Primary',
@@ -228,7 +228,10 @@ class Jellyfin(Base):
             }
             if token := self.get_property('accessToken'):
                 params['api_key'] = token
-            return '{}?{}'.format(self.get_url('Items/{id}/Images/Primary', id=model.get_property('coverArt') or model_id), urlencode(params))
+
+            url = model.get_property('coverArt') or self.get_url('Items/{id}/Images/Primary', id=model_id)
+
+            return '{}?{}'.format(url, urlencode(params))
         return ""
 
     def ping(self) -> dict:
@@ -395,10 +398,13 @@ class Jellyfin(Base):
                         mode="GET"
                     ).get("Items", [])
 
+                primary_tag = artist.get('ImageTags', {}).get('Primary', '')
+                cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag) if primary_tag else ""
+
                 self.loaded_models.get(model_id).update_data(
                     id=artist.get("Id"),
                     name=artist.get("Name"),
-                    coverArt=artist.get('ImageTags', {}).get('Primary', ''),
+                    coverArt=cover_art,
                     albumCount=albums_request.get("TotalRecordCount"),
                     album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
                     starred=artist.get("UserData", {}).get("IsFavorite", False),
@@ -457,6 +463,9 @@ class Jellyfin(Base):
                         }
                     ).get("Items", [])
 
+                primary_tag = album.get('ImageTags', {}).get('Primary', '')
+                cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag) if primary_tag else ""
+
                 duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
 
                 for i, song in enumerate(songs):
@@ -468,7 +477,7 @@ class Jellyfin(Base):
                     name=album.get("Name"),
                     artist=album.get("AlbumArtist"),
                     artistId=album.get("ArtistItems", [{}])[0].get("Id") if album.get("ArtistItems") else None,
-                    coverArt=album.get('ImageTags', {}).get('Primary', ''),
+                    coverArt=cover_art,
                     songCount=len(songs),
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in album.get("ArtistItems", [])],
@@ -528,10 +537,13 @@ class Jellyfin(Base):
                 songs = songs_response.get("Items", [])
                 duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
 
+                primary_tag = playlist.get('ImageTags', {}).get('Primary', '')
+                cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag) if primary_tag else ""
+
                 self.loaded_models.get(model_id).update_data(
                     id=playlist.get("Id"),
                     name=playlist.get("Name"),
-                    coverArt=playlist.get('ImageTags', {}).get('Primary', ''),
+                    coverArt=cover_art,
                     songCount=songs_response.get("TotalRecordCount"),
                     duration=duration,
                     entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
@@ -574,6 +586,19 @@ class Jellyfin(Base):
                     params=params
                 )
 
+            cover_art = ''
+            primary_tag = song.get('ImageTags', {}).get('Primary', '')
+            if primary_tag:
+                cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag)
+            else:
+                album = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": song.get("AlbumId")},
+                    mode="GET"
+                )
+                if primary_tag := album.get('ImageTags', {}).get('Primary', ''):
+                    cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=song.get("AlbumId"), tag_id=primary_tag)
+
             if song.get("Id"):
                 duration = int(song.get("RunTimeTicks", 0) / 10000000)
                 self.loaded_models.get(model_id).update_data(
@@ -583,7 +608,7 @@ class Jellyfin(Base):
                     albumId=song.get("AlbumId"),
                     artist=song.get("AlbumArtist"),
                     artistId=(song.get("ArtistItems") or [{}])[0].get("Id"),
-                    coverArt=song.get('ImageTags', {}).get('Primary', ''),
+                    coverArt=cover_art,
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
                     starred=song.get("UserData", {}).get("IsFavorite", False),
