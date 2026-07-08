@@ -381,6 +381,10 @@ class Jellyfin(Base):
                 }
                 if lite:
                     params["Limit"]=0 #Prevents complex db query
+                    params["Fields"]=None
+                    params["EnableImages"]="false"
+                    params["EnableUserData"]="false"
+                    del params["SortBy"]
 
                 albums_request = self.make_request(
                     action='Users/{userId}/Items',
@@ -525,7 +529,10 @@ class Jellyfin(Base):
                     "Fields": "RunTimeTicks"
                 }
                 if(lite):
-                    params["Limit"]=0,
+                    params["Limit"]=0
+                    params["Fields"]=None
+                    params["EnableImages"]="false"
+                    params["EnableUserData"]="false"
 
                 songs_response = self.make_request(
                     action='Playlists/{id}/Items',
@@ -818,11 +825,11 @@ class Jellyfin(Base):
             if item_type == "MusicArtist":
                 self.verifyArtist(item.get("Id"), artist_object=item, lite=True)
             elif item_type == "MusicAlbum":
-                self.verifyAlbum(item.get("Id"), album_object=item)
+                self.verifyAlbum(item.get("Id"), album_object=item, lite=True)
             elif item_type == "Audio":
                 self.verifySong(item.get("Id"), song_object=item)
             elif item_type == "Playlist":
-                self.verifyPlaylist(item.get("Id"), playlist_object=item)
+                self.verifyPlaylist(item.get("Id"), playlist_object=item, lite=True)
 
     def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         return {
