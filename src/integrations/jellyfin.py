@@ -748,7 +748,7 @@ class Jellyfin(Base):
         id_list = []
         for song in songs:
             if song.get("Id"):
-                self.verifySong(song.get("Id"), song)
+                self.verifySong(song.get("Id"), song_object=song)
                 id_list.append(song.get("Id"))
         return id_list
 
