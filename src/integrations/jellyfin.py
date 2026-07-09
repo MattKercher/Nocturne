@@ -6,6 +6,7 @@ from .base import Base
 from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
 import threading, os, platform, logging
 from urllib.parse import urlencode
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -378,35 +379,6 @@ class Jellyfin(Base):
                 )
 
             if artist.get("Id"):
-                params={
-                    "AlbumArtistIds": [model_id],
-                    "IncludeItemTypes": "MusicAlbum",
-                    "Recursive": "true",
-                    "SortBy": "PremiereDate"
-                }
-                if lite:
-                    params["Limit"]=0 #Prevents complex db query
-                    params["Fields"]=None
-                    params["EnableImages"]="false"
-                    params["EnableUserData"]="false"
-                    del params["SortBy"]
-
-                albums_request = self.make_request(
-                    action='Users/{userId}/Items',
-                    mode="GET",
-                    params=params
-                )
-                albums = albums_request.get("Items", [])
-
-                similar = []
-                if not lite: #Reduces round trips
-                    similar = self.make_request(
-                        action='/Items/{id}/Similar?userId={userId}',
-                        action_keys={"id": model_id},
-                        params={"limit": 12},
-                        mode="GET"
-                    ).get("Items", [])
-
                 primary_tag = artist.get('ImageTags', {}).get('Primary', '')
                 cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag) if primary_tag else ""
 
@@ -414,18 +386,69 @@ class Jellyfin(Base):
                     id=artist.get("Id"),
                     name=artist.get("Name"),
                     coverArt=cover_art,
-                    albumCount=albums_request.get("TotalRecordCount"),
-                    album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
                     starred=artist.get("UserData", {}).get("IsFavorite", False),
                     biography=artist.get("Overview", ""),
-                    similarArtist=[{"id": sim.get("Id"), "name": sim.get("Name")} for sim in similar],
-                    #similarArtists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artist.get("SimilarItems", [])],
                     userRating=self.get_rating(artist.get("Id"))
                 )
-                if(artist.get('ImageTags', {}).get('Primary', '')):
-                    threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
+
+                #Queue background session requests in order of importance: albums -> coverArt -> similar artists
+                if use_threading:
+                    time.sleep(0.5) #allow CPU cycles for main thread
+                    threading.Thread(target=get_albums, daemon=True).start()
+                    if(primary_tag):
+                        threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
+                    if not lite:
+                        threading.Thread(target=get_similar, daemon=True).start()
+                else:
+                    get_albums()
+                    if(primary_tag):
+                        threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
+                    if not lite:
+                        get_similar()
+
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
+
+        def get_albums():
+            params={
+                "AlbumArtistIds": [model_id],
+                "IncludeItemTypes": "MusicAlbum",
+                "Recursive": "true",
+                "SortBy": "PremiereDate"
+            }
+            if lite:
+                params["Limit"]=0 #Prevents complex db query
+                params["Fields"]=None
+                params["EnableImages"]="false"
+                params["EnableUserData"]="false"
+                del params["SortBy"]
+
+            albums_request = self.make_request(
+                action='Users/{userId}/Items',
+                mode="GET",
+                params=params
+            )
+            albums = albums_request.get("Items", [])
+            if not lite:
+                self.__bulk_verify("MusicAlbum", albums)
+
+            self.loaded_models.get(model_id).update_data(
+                albumCount=albums_request.get("TotalRecordCount"),
+                album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
+            )
+
+        def get_similar():
+            similar = self.make_request(
+                action='/Items/{id}/Similar?userId={userId}',
+                action_keys={"id": model_id},
+                params={"limit": 12},
+                mode="GET"
+            ).get("Items", [])
+
+            self.__bulk_verify("MusicArtist", similar)
+            self.loaded_models.get(model_id).update_data(
+                similarArtist=[{"id": sim.get("Id"), "name": sim.get("Name")} for sim in similar]
+            )
 
         if not model_id or not model_id.strip():
             logger.debug("Empty Artist model_id, aborting.")
@@ -515,41 +538,50 @@ class Jellyfin(Base):
                     mode="GET"
                 )
             if playlist.get("Id"):
-                params = {
-                    "UserId": self.get_property("userId"),
-                    "Fields": "RunTimeTicks"
-                }
-                if(lite):
-                    params["Limit"]=0
-                    params["Fields"]=None
-                    params["EnableImages"]="false"
-                    params["EnableUserData"]="false"
-
-                songs_response = self.make_request(
-                    action='Playlists/{id}/Items',
-                    action_keys={"id": model_id},
-                    mode="GET",
-                    params=params
-                )#.get("Items", [])
-
-                songs = songs_response.get("Items", [])
-                duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
-
                 primary_tag = playlist.get('ImageTags', {}).get('Primary', '')
                 cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag) if primary_tag else ""
 
                 self.loaded_models.get(model_id).update_data(
                     id=playlist.get("Id"),
                     name=playlist.get("Name"),
-                    coverArt=cover_art,
-                    songCount=songs_response.get("TotalRecordCount"),
-                    duration=duration,
-                    entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
+                    coverArt=cover_art
                 )
-                if(playlist.get('ImageTags', {}).get('Primary', '')):
+                if use_threading:
+                    threading.Thread(target=get_songs, daemon=True).start()
+                else:
+                    get_songs()
+                if(primary_tag):
                     threading.Thread(target=self.updateCoverArt, kwargs={"model_id": model_id}, daemon=True).start()
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
+
+        def get_songs():
+            time.sleep(0.5)
+            params = {
+                "UserId": self.get_property("userId"),
+                "Fields": "RunTimeTicks"
+            }
+            if(lite):
+                params["Limit"]=0
+                params["Fields"]=None
+                params["EnableImages"]="false"
+                params["EnableUserData"]="false"
+
+            songs_response = self.make_request(
+                action='Playlists/{id}/Items',
+                action_keys={"id": model_id},
+                mode="GET",
+                params=params
+            )
+
+            songs = songs_response.get("Items", [])
+            duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
+
+            self.loaded_models.get(model_id).update_data(
+                songCount=songs_response.get("TotalRecordCount"),
+                duration=duration,
+                entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
+            )
 
         if not model_id or not model_id.strip():
             logger.debug("Empty Playlist model_id, aborting.")
@@ -579,6 +611,8 @@ class Jellyfin(Base):
 
             cover_art = ''
             primary_tag = song.get('ImageTags', {}).get('Primary', '')
+
+            #Check for cover art on Song object and query Album object if it's missing
             if primary_tag:
                 cover_art = self.get_url('Items/{id}/Images/Primary?={tag_id}', id=model_id, tag_id=primary_tag)
             else:
@@ -794,10 +828,11 @@ class Jellyfin(Base):
             ).get('Items', [])
 
         if verify:
-            threading.Thread(target=self.__bulk_verify, args=(item_type, items), daemon=True).start()
+            self.__bulk_verify(item_type, items)
         return items
 
     def __bulk_verify(self, item_type:str, items:list):
+        #Method exclusive to Jellyfin, pre-verifies response objects so the UI loads faster
         for item in items:
             if item_type == "MusicArtist":
                 self.verifyArtist(item.get("Id"), artist_object=item, lite=True)
