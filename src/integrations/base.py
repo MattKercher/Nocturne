@@ -113,9 +113,15 @@ class Base(GObject.Object):
         pool_maxsize=100,
         max_retries=retries
     )
-    session = requests.Session()
-    session.mount("http://", session_adapter)
-    session.mount("https://", session_adapter)
+
+    @property
+    def session(self):
+        session = requests.Session()
+        session.mount("http://", self.session_adapter)
+        session.mount("https://", self.session_adapter)
+
+        return session
+
 
     # Epic custom lightweight cache manager
     cache_manager = CacheManager()
