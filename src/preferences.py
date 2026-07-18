@@ -4,7 +4,7 @@ from gi.repository import Gtk, Adw, GLib, Gio, Gdk, Pango
 
 from .integrations import get_current_integration, secret
 from .constants import SIDEBAR_MENU, BITRATE_OPTIONS, IN_FLATPAK
-import os
+import os, threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/preferences.ui')
 class NocturnePreferences(Adw.PreferencesDialog):
@@ -185,23 +185,11 @@ class NocturnePreferences(Adw.PreferencesDialog):
             GLib.idle_add(self.show_discord_flatpak_warning, settings, "discord-rpc-enabled")
 
         self.listenbrainz_stack_el.set_visible_child_name("unlink" if secret.get_plain_password(schema_type="listenbrainz") else "link")
-        if integration:
-            data = integration.getServerInformation()
-            self.instance_el.set_title(data.get('username', ""))
 
-            self.instance_el.set_subtitle(data.get('title', ""))
-
-            self.instance_el.set_tooltip_text(data.get('link'))
-            self.instance_el.set_action_target_value(GLib.Variant('s', data.get('link', '')))
-            self.instance_icon_el.set_visible(data.get('link'))
-            self.instance_el.set_activatable(data.get('link'))
-
-            self.instance_avatar_el.set_custom_image(data.get('picture'))
-            self.instance_avatar_el.set_text(data.get('username', ''))
-            self.instance_el.set_visible(len(data) > 0)
-            self.session_group_el.set_visible(True)
-        else:
-            self.session_group_el.set_visible(False)
+        ### Instance Row
+        self.session_group_el.set_visible(integration)
+        self.instance_el.set_visible(False)
+        threading.Thread(target=self.update_instance_row).start()
 
         # Customization
         ## Interface
@@ -380,6 +368,22 @@ class NocturnePreferences(Adw.PreferencesDialog):
             blue=rgb_list[2],
             alpha=1
         ))
+
+    def update_instance_row(self):
+        if integration := get_current_integration():
+            data = integration.getServerInformation()
+            GLib.idle_add(self.instance_el.set_title, data.get('username', ""))
+
+            GLib.idle_add(self.instance_el.set_subtitle, data.get('title', ""))
+
+            GLib.idle_add(self.instance_el.set_tooltip_text, data.get('link'))
+            GLib.idle_add(self.instance_el.set_action_target_value, GLib.Variant('s', data.get('link', '')))
+            GLib.idle_add(self.instance_icon_el.set_visible, data.get('link'))
+            GLib.idle_add(self.instance_el.set_activatable, data.get('link'))
+
+            GLib.idle_add(self.instance_avatar_el.set_custom_image, data.get('picture'))
+            GLib.idle_add(self.instance_avatar_el.set_text, data.get('username', ''))
+            GLib.idle_add(self.instance_el.set_visible, data)
 
     @Gtk.Template.Callback()
     def default_page_changed(self, combo_row, ud):
