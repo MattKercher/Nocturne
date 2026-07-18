@@ -117,6 +117,9 @@ class PlayingLyricsPage(Gtk.Stack):
         self.set_visible_child_name('loading')
         def update_lyrics():
             lyrics = get_lyrics(song_id, lrclib_download)
+            integration = get_current_integration()
+            if integration.loaded_models.get('currentSong').get_property('songId') != song_id:
+                return
             GLib.idle_add(self.set_visible_child_name, lyrics.get('type'))
 
             if lyrics.get('type') == 'plain':
@@ -249,3 +252,4 @@ class PlayingLyricsPage(Gtk.Stack):
         if existing_path := self.get_lrc_path():
             if os.path.isfile(existing_path):
                 os.remove(existing_path)
+
