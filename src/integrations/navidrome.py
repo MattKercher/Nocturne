@@ -14,14 +14,14 @@ class Navidrome(Base):
     _use_apikey_auth = False
 
     login_page_metadata = {
-        'icon-name': "network-server-symbolic",
+        'icon-name': "opensubsonic-symbolic",
         'title': "External Server",
         'description': _("Connect to an OpenSubsonic server like Navidrome."),
         'entries': ['url', 'user', 'password', 'trust-server']
     }
     button_metadata = {
         'title': _("External Server"),
-        'subtitle': _("Use an existing OpenSubsonic / Navidrome instance")
+        'subtitle': _("Use an existing OpenSubsonic instance")
     }
 
     url = GObject.Property(type=str, default="http://127.0.0.1:4533")
@@ -737,7 +737,7 @@ class Bandcamp(Navidrome):
     __gtype_name__ = 'NocturneIntegrationBandcamp'
 
     login_page_metadata = {
-        'icon-name': "music-note-symbolic",
+        'icon-name': "bandcamp-symbolic",
         'title': _("Bandcamp"),
         'description': _("Important: Use your Subsonic login information."),
         'entries': ['user', 'password'],

@@ -668,7 +668,9 @@ class Local(Base):
 class Offline(Local):
     __gtype_name__ = 'NocturneIntegrationOffline'
 
-    login_page_metadata = {}
+    login_page_metadata = {
+        'icon-name': 'network-offline-symbolic'
+    }
     button_metadata = {
         'title': _("Offline Mode"),
         'subtitle': _("Access your downloads")

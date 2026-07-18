@@ -13,7 +13,7 @@ class Jellyfin(Base):
     __gtype_name__ = 'NocturneIntegrationJellyfin'
 
     login_page_metadata = {
-        'icon-name': "network-server-symbolic",
+        'icon-name': "jellyfin-symbolic",
         'title': "Jellyfin",
         'description': _("Connect to a Jellyfin server."),
         'entries': ["url", "user", "password", "trust-server"],

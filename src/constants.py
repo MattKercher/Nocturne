@@ -7,6 +7,14 @@ DISCORD_APP_ID = "1504946005764739092"
 
 IN_FLATPAK = bool(os.getenv("FLATPAK_ID"))
 
+COPYRIGHT_NOTICE = """Nocturne © 2026 Jeffry Samuel, Jeffser
+
+Nocturne is an independent application and is not affiliated with, endorsed, or sponsored by OpenSubsonic, Bandcamp, or Jellyfin. All logos and illustrative assets used within the app are the property of their respective owners. All rights are reserved by their respective holders, and will be taken down if requested.
+
+Nocturne functions strictly as a client application. All network connections and data transfers are performed exclusively at the request and authorization of the server owner. Nocturne does not independently access or host any content.
+
+Nocturne does not facilitate, encourage, or provide mechanisms for music piracy. Users are responsible for ensuring they have the legal right to access and stream the content hosted on the servers they connect to."""
+
 def get_xdg_home(env: str, default: str) -> str:
     base = os.getenv(env) or os.path.expanduser(default)
     if IN_FLATPAK:

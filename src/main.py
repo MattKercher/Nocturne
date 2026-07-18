@@ -29,7 +29,7 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gtk, Gdk, Gio, Adw, GLib
 from .window import NocturneWindow
 from .preferences import NocturnePreferences
-from .constants import get_song_info_from_file, TRANSLATORS, set_version
+from .constants import get_song_info_from_file, TRANSLATORS, COPYRIGHT_NOTICE, set_version
 from .integrations import get_current_integration, set_current_integration, get_available_integrations, models
 from .widgets.playing import Player
 from .widgets.pages import LoginDialog
@@ -195,7 +195,7 @@ class NocturneApplication(Adw.Application):
         about = Adw.AboutDialog(
             application_icon="com.jeffser.Nocturne",
             application_name="Nocturne",
-            copyright="© 2026 Jeffry Samuel",
+            copyright=COPYRIGHT_NOTICE,
             developer_name="Jeffry Samuel",
             issue_url="https://github.com/Jeffser/Nocturne/issues",
             license="GPL-3.0-or-later",

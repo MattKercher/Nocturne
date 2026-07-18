@@ -13,7 +13,7 @@ class WelcomePage(Adw.NavigationPage):
 
     def __init__(self):
         super().__init__()
-        integrations = [Navidrome, NavidromeIntegrated, Bandcamp, Jellyfin, Local, Offline]
+        integrations = [Navidrome, NavidromeIntegrated, Jellyfin, Bandcamp, Local, Offline]
         for integration in integrations:
             metadata = integration.button_metadata
             row = Adw.ActionRow(
@@ -22,6 +22,11 @@ class WelcomePage(Adw.NavigationPage):
                 tooltip_text=metadata.get('title', _("Integration")),
                 activatable=True
             )
+            if icon_name := integration.login_page_metadata.get('icon-name'):
+                row.add_prefix(Gtk.Image(
+                    icon_name=icon_name,
+                    valign=Gtk.Align.CENTER
+                ))
             row.add_suffix(Gtk.Image(
                 icon_name="go-next-symbolic",
                 valign=Gtk.Align.CENTER
