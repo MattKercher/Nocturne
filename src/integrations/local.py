@@ -166,14 +166,22 @@ class Local(Base):
         if not model_id:
             return None
         if model := self.loaded_models.get(model_id):
-            if not big and not isinstance(model, models.Playlist) and model.get_property('gdkPaintable'):
-                return model.get_property('gdkPaintable')
+            if big:
+                if paintable := model.get_property('gdkPaintableBig'):
+                    return paintable
+            else:
+                if paintable := model.get_property('gdkPaintable'):
+                    return paintable
             try:
                 if raw_data := self.getCoverArtBytes(model_id, 720 if big else 240):
                     gbytes = GLib.Bytes.new(raw_data)
                     texture = Gdk.Texture.new_from_bytes(gbytes)
-                    model.set_property('gdkPaintable', texture)
-                    return model.get_property('gdkPaintable')
+                    if big:
+                        model.set_property('gdkPaintableBig', texture)
+                        return model.get_property('gdkPaintableBig')
+                    else:
+                        model.set_property('gdkPaintable', texture)
+                        return model.get_property('gdkPaintable')
             except Exception as e:
                 logger.error(f"can't get image from {model_id}: {e}")
         return None

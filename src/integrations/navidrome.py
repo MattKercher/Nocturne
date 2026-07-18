@@ -112,8 +112,12 @@ class Navidrome(Base):
         if model := self.loaded_models.get(model_id):
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 return local.Local.getCoverArt(self, model_id, big=big)
-            if not big and model.get_property('gdkPaintable'):
-                return model.get_property('gdkPaintable')
+            if big:
+                if paintable := model.get_property('gdkPaintableBig'):
+                    return paintable
+            else:
+                if paintable := model.get_property('gdkPaintable'):
+                    return paintable
 
             response_bytes = self.getCoverArtBytes(model_id, 720 if big else 240)
             if not response_bytes and isinstance(model, models.Song):
@@ -126,9 +130,11 @@ class Navidrome(Base):
                     gbytes = GLib.Bytes.new(response_bytes)
                     texture = Gdk.Texture.new_from_bytes(gbytes)
                     if big:
-                        return texture
-                    model.set_property('gdkPaintable', texture)
-                    return model.get_property('gdkPaintable')
+                        model.set_property('gdkPaintableBig', texture)
+                        return model.get_property('gdkPaintableBig')
+                    else:
+                        model.set_property('gdkPaintable', texture)
+                        return model.get_property('gdkPaintable')
                 except Exception as e:
                     logger.error(f"can't convert image from {model_id}: {e}")
         return None
