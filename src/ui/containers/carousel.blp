@@ -5,21 +5,51 @@ template $NocturneCarousel: Gtk.Box {
   orientation: vertical;
   spacing: 10;
 
-  Gtk.Button header_button {
-    styles [
-      "flat",
-      "title-2",
-      "active_appearance_button"
-    ]
+  Gtk.Box {
+    orientation: horizontal;
+    spacing: 10;
+    hexpand: true;
     margin-start: 10;
     margin-end: 10;
-    halign: start;
-    sensitive: false;
-    child: Adw.ButtonContent {
-      label: _("List");
-    };
-    tooltip-text: _("List");
-    visible: false;
+
+    Gtk.Button header_button {
+      styles [
+        "flat",
+        "title-2",
+        "active_appearance_button"
+      ]
+      halign: start;
+      sensitive: false;
+      child: Adw.ButtonContent {
+        label: _("List");
+      };
+      tooltip-text: _("List");
+      visible: false;
+    }
+
+    Gtk.Box pan_container_el {
+      styles [
+        "linked",
+        "accent"
+      ]
+      halign: end;
+      valign: center;
+      hexpand: true;
+      visible: false;
+
+      Gtk.Button pan_start_el {
+        tooltip-text: _("Pan to the Left");
+        icon-name: "pan-start-symbolic";
+        clicked => $pan_start();
+      }
+
+      Gtk.Button pan_end_el {
+        tooltip-text: _("Pan to the Right");
+        icon-name: "pan-end-symbolic";
+        clicked => $pan_end();
+      }
+
+    }
   }
 
   Gtk.Overlay {
@@ -34,44 +64,12 @@ template $NocturneCarousel: Gtk.Box {
     }
 
     [overlay]
-    Gtk.Button pan_start_el {
-      tooltip-text: _("Pan to the Left");
-      icon-name: "pan-start-symbolic";
-      valign: end;
-      halign: start;
-      margin-start: 10;
-      margin-bottom: 10;
-      visible: false;
-      clicked => $pan_start();
-      styles [
-        "circular",
-        "accent"
-      ]
-    }
-
-    [overlay]
     Adw.Bin {
       halign: end;
       vexpand: true;
       width-request: 10;
       styles [
         "carousel-overlay-right"
-      ]
-    }
-
-    [overlay]
-    Gtk.Button pan_end_el {
-      tooltip-text: _("Pan to the Right");
-      icon-name: "pan-end-symbolic";
-      valign: end;
-      halign: end;
-      margin-end: 10;
-      margin-bottom: 10;
-      visible: false;
-      clicked => $pan_end();
-      styles [
-        "circular",
-        "accent"
       ]
     }
 
