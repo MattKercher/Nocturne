@@ -189,17 +189,22 @@ class Navidrome(Base):
 
         album_ids = []
         for album_dict in response.get('albumList2', {}).get('album', []):
-            if new_id := str(album_dict.get('id', '')):
-                album_dict['id'] = new_id
-                album_ids.append(new_id)
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    album_dict['userRating'] = self.get_rating(new_id)
+            if list_type != 'starred' or album_dict.get('starred'):
+                if new_id := str(album_dict.get('id', '')):
+                    album_dict['id'] = new_id
+                    album_ids.append(new_id)
+                    if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
+                        # TODO remove once Bandcamp implements rating and favorite albums
+                        album_dict['userRating'] = self.get_rating(new_id)
+                        conn, cursor = sql_instance.get_connection(self)
+                        cursor.execute("SELECT id FROM stars")
+                        album_dict['starred'] = album_dict['id'] in [str(r[0]) for r in cursor.fetchall()]
+                        conn.close()
 
-                if new_id in self.loaded_models:
-                    self.loaded_models.get(new_id).update_data(**album_dict)
-                else:
-                    self.loaded_models[new_id] = models.Album(**album_dict)
+                    if new_id in self.loaded_models:
+                        self.loaded_models.get(new_id).update_data(**album_dict)
+                    else:
+                        self.loaded_models[new_id] = models.Album(**album_dict)
 
         return album_ids
 
@@ -285,8 +290,12 @@ class Navidrome(Base):
             response = self.make_request('getAlbum', {'id': model_id})
             album_dict = response.get('album', {})
             if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                # TODO remove once Bandcamp implements rating
+                # TODO remove once Bandcamp implements rating and favorite albums
                 album_dict['userRating'] = self.get_rating(model_id)
+                conn, cursor = sql_instance.get_connection(self)
+                cursor.execute("SELECT id FROM stars")
+                album_dict['starred'] = album_dict['id'] in [str(r[0]) for r in cursor.fetchall()]
+                conn.close()
             if album_dict.get('id'):
                 self.loaded_models.get(model_id).update_data(**album_dict)
             elif model_id in self.loaded_models:
@@ -365,6 +374,7 @@ class Navidrome(Base):
 
     def unstar(self, model_id:str) -> bool:
         response = self.make_request('unstar', {'id': model_id})
+        print(response)
         return response.get('status') == 'ok'
 
     def getPlayQueue(self) -> tuple:
@@ -451,12 +461,19 @@ class Navidrome(Base):
             model['id'] = str(model.get('id', ''))
             if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
                 # TODO remove once Bandcamp implements rating
-                artist_dict['userRating'] = self.get_rating(model['id'])
+                model['userRating'] = self.get_rating(model['id'])
             if model.get('id') not in self.loaded_models:
                 self.loaded_models[model.get('id')] = models.Artist(**model)
         for model in search_results.get('album', []):
             model['id'] = str(model.get('id', ''))
             if model.get('id') not in self.loaded_models:
+                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
+                    # TODO remove once Bandcamp implements rating and favorite albums
+                    model['userRating'] = self.get_rating(model['id'])
+                    conn, cursor = sql_instance.get_connection(self)
+                    cursor.execute("SELECT id FROM stars")
+                    model['starred'] = model['id'] in [str(r[0]) for r in cursor.fetchall()]
+                    conn.close()
                 self.loaded_models[model.get('id')] = models.Album(**model)
         for model in search_results.get('song', []):
             model['id'] = str(model.get('id', ''))
@@ -477,7 +494,7 @@ class Navidrome(Base):
             'artist': [m.get('id') for m in search_results.get('artist', [])],
             'album': [m.get('id') for m in search_results.get('album', [])],
             'song': [m.get('id') for m in search_results.get('song', [])],
-            'playlist': playlist_ids
+            'playlist': playlist_ids[playlistOffset:playlistCount+playlistOffset]
         }
 
     def systemSearch(self, query:str) -> dict:
@@ -794,9 +811,12 @@ class Bandcamp(Navidrome):
     }
 
     url = GObject.Property(type=str, default="https://bandcamp.com/api/subsonic")
-    limitations = ('no-downloads',)
+    limitations = ('no-downloads', 'no-autoplay')
 
     sqlSchema = {
+        'stars': {
+            'id': 'TEXT PRIMARY KEY'
+        },
         'radios': {
             'id': 'TEXT PRIMARY KEY',
             'name': 'TEXT NOT NULL',
@@ -876,11 +896,111 @@ class Bandcamp(Navidrome):
         conn.close()
         return True
 
+    def star(self, model_id:str) -> bool:
+        if model := self.loaded_models.get(model_id):
+            if not isinstance(model, models.Album):
+                return super().star(model_id)
+        conn, cursor = sql_instance.get_connection(self)
+        cursor.execute("INSERT OR IGNORE INTO stars (id) VALUES (?)", (model_id,))
+        conn.commit()
+        conn.close()
+        return True
+
+    def unstar(self, model_id:str) -> bool:
+        if model := self.loaded_models.get(model_id):
+            if not isinstance(model, models.Album):
+                return super().unstar(model_id)
+        conn, cursor = sql_instance.get_connection(self)
+        cursor.execute("DELETE FROM stars WHERE id=?", (model_id,))
+        conn.commit()
+        conn.close()
+        return True
+
+    def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+        if model := self.loaded_models.get(model_id):
+            if entries := model.get_property('entry'):
+                threading.Thread(target=self.getCoverArt, args=(entries[0].get('id'),), daemon=True).start()
+
+    def createPlaylist(self, name:str=None, playlistId:str=None, songId:list=[]) -> str:
+        playlist_dict = self.open_json('playlists.json')
+
+        playlistId = playlistId or 'PLAYLIST:{}'.format(str(uuid.uuid4()))
+
+        playlist_dict[playlistId] = {
+            'name': name,
+            'songId': songId
+        }
+
+        path_str = ""
+        if len(songId) > 0:
+            if model := self.loaded_models.get(songId[0]):
+                path_str = model.get_property('path')
+
+        self.loaded_models[playlistId] = models.Playlist(
+            id=playlistId,
+            name=name,
+            songCount=len(songId),
+            entry=[{'id': model_id} for model_id in songId],
+            coverArt = path_str
+        )
+        self.save_json('playlists.json', playlist_dict)
+        return playlistId
+
+    def updatePlaylist(self, playlistId:str, songIdToAdd:list=[], songIndexToRemove:list=[]) -> bool:
+        playlist_dict = self.open_json('playlists.json')
+
+        if playlistId in playlist_dict:
+            songs = playlist_dict.get(playlistId).get('songId')
+            for index in songIndexToRemove:
+                songs.pop(int(index))
+            songs.extend(songIdToAdd)
+            playlist_dict[playlistId]['songId'] = songs
+
+            if model := self.loaded_models.get(playlistId):
+                songId = playlist_dict.get(playlistId).get('songId')
+                model.set_property('songCount', len(songId))
+                model.set_property('entry', [{'id': model_id} for model_id in songId])
+                path_str = ""
+                if len(songId) > 0:
+                    if model := self.loaded_models.get(songId[0]):
+                        path_str = model.get_property('path')
+                model.set_property('coverArt', path_str)
+
+        self.save_json('playlists.json', playlist_dict)
+        return True
+
+    def deletePlaylist(self, model_id:str) -> bool:
+        playlist_dict = self.open_json('playlists.json')
+        if model_id in playlist_dict:
+            del playlist_dict[model_id]
+        self.save_json('playlists.json', playlist_dict)
+        return True
+
+    def getPlaylists(self) -> list:
+        playlist_dict = self.open_json('playlists.json')
+        playlist_ids = []
+        for playlist_id, playlist in playlist_dict.items():
+            playlist_ids.append(playlist_id)
+            if playlist_id not in self.loaded_models:
+                path_str = ""
+                if len(playlist.get('songId', [])) > 0:
+                    if model := self.loaded_models.get(playlist.get('songId')[0]):
+                        path_str = model.get_property('path')
+
+                self.loaded_models[playlist_id] = models.Playlist(
+                    id=playlist_id,
+                    name=playlist.get('name'),
+                    songCount=len(playlist.get('songId', [])),
+                    entry=[{'id': model_id} for model_id in playlist.get('songId', [])],
+                    coverArt = path_str
+                )
+        return playlist_ids
+
     #TODO
     # These are all features missing right now (Bandcamp's server is in beta)
     # [X] Implement ratings
     # [X] Implement radios
-    # [] Implement playlists
-    # [] Implement auto queue (missing getSimilarSongs and getRandomSongs)
-    # [] Check if scrobble works
+    # [X] Implement favorites (for albums, songs do work)
+    # [X] Implement playlists
+    # [] Implement scrobble
 
