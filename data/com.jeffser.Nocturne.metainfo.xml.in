@@ -103,6 +103,7 @@
         <p>New</p>
         <ul>
           <li>Added Bandcamp (Beta) integration</li>
+          <li>Added logos for instances in welcome page</li>
           <li>Added option to auto download lyrics</li>
           <li>Fallback to album cover if song does not have one</li>
           <li>Removed music folder permission (Flatpak), now relying on portal paths</li>
