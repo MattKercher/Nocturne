@@ -36,6 +36,8 @@ class CacheManager(GObject.Object):
     def get_result(self, cache_id:str, job:callable, *job_args) -> object:
         # Will either pull result from cache or do the job (callable)
         # Call this in a different thread, job will be done in that thread
+        # Job should return a tuple: state, object.
+        # Where state dictates if it should be saved in cache and object is what is returned
         result = None
         is_origin = False
         with self.lock:
@@ -57,16 +59,22 @@ class CacheManager(GObject.Object):
 
         if is_origin:
             try:
-                result = job(*job_args)
-                self.insert_result(cache_id, result)
+                state, result = job(*job_args)
+                if state:
+                    self.insert_result(cache_id, result)
             finally:
                 event.set()
                 with self.lock:
                     del self.events[cache_id]
         else:
             event.wait(timeout=self.get_property('timeout'))
-            logger.info(f'(Cache) Job Skipped : {cache_id}')
             result = self.results.get(cache_id)
+            if result:
+                logger.info(f'(Cache) Job Skipped : {cache_id}')
+            else:
+                # No result, just do the job at this point
+                state, result = job(*job_args)
+
         return result
 
 # DO NOT USE DIRECTLY

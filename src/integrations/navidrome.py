@@ -49,15 +49,15 @@ class Navidrome(Base):
         return '{}/rest/{}'.format(self.get_property('url').strip('/'), action)
 
     def send_request(self, action:str, params:dict={}):
-        def request_job(url, parameters):
-            return self.session.get(
+        def request_job(url, parameters) -> tuple:
+            result = self.session.get(
                 url,
                 params={**self.get_base_params(), **parameters},
                 verify=not self.get_property('trustServer')
             )
+            return result.status_code in (200, 201), result
         action_url = self.get_url(action)
         request_id = '{}?{}'.format(action_url, urlencode(params))
-        return request_job(action_url,params)
         return self.cache_manager.get_result(request_id, request_job, action_url, params)
 
     def make_request(self, action:str, params:dict={}) -> dict:

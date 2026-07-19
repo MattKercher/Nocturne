@@ -87,20 +87,21 @@ class Jellyfin(Base):
                     )
                 elif mode == 'RAWGET':
                     # Get without calling json()
-                    return self.session.get(
+                    response = self.session.get(
                         self.get_url(action, **action_keys),
                         params=params,
                         json=json,
                         headers=headers,
                         verify=not self.get_property('trustServer')
                     )
+                    return response.status_code in (200, 201), response
                 if response.status_code in (200, 201):
-                    return response.json()
+                    return True, response.json()
                 elif response.status_code == 204:
-                    return {'state': 'ok'}
+                    return True, {'state': 'ok'}
             except Exception as e:
                 logger.error(f"action error {action}: {e}")
-            return {}
+            return False, {}
         action_url = self.get_url(action, **action_keys)
         request_id = '({}) {}?{}'.format(mode, action_url, urlencode(params))
         return self.cache_manager.get_result(request_id, request_job, action_url)
