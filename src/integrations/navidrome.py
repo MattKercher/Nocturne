@@ -183,6 +183,7 @@ class Navidrome(Base):
 
         if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
             if list_type == 'starred':
+                # TODO remove once Bandcamp implements album stars
                 conn, cursor = sql_instance.get_connection(self)
                 cursor.execute("SELECT id FROM stars")
                 all_stars = [str(r[0]) for r in cursor.fetchall()]
