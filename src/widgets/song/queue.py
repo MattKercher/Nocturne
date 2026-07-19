@@ -111,6 +111,11 @@ class SongQueue(Gtk.Box):
         self.close_selector()
 
     @Gtk.Template.Callback()
+    def select_all(self, button):
+        for row in list(self.list_el):
+            row.check_el.set_active(True)
+
+    @Gtk.Template.Callback()
     def play_selected(self, button):
         selected_rows = self.get_selected_rows()
         selected_ids = [r.id for r in selected_rows]

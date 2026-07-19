@@ -41,6 +41,14 @@ template $NocturneSongQueue: Gtk.Box {
         clicked => $close_selector();
       }
 
+      Gtk.Button select_all_el {
+        child: Adw.ButtonContent {
+          icon-name: "check-plain-symbolic";
+          label: _("Select All");
+        };
+        tooltip-text: _("Select All");
+        clicked => $select_all();
+      }
       Gtk.Button play_el {
         child: Adw.ButtonContent {
           icon-name: "media-playback-start-symbolic";
