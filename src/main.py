@@ -239,15 +239,16 @@ def main(version):
     exit = False
     try:
         args = parser.parse_args()
-        if app_service := SessionBus().get("com.jeffser.Nocturne"):
-            if not app_service.Ping():
-                raise Exception("Nocturne is not running")
-            for action, value in vars(args).items():
-                if value:
-                    if isinstance(value, str):
-                        app_service["org.gtk.Actions"].Activate(action, [GLib.Variant('s', value)], {})
-                    else:
-                        app_service["org.gtk.Actions"].Activate(action, [], {})
+        actions_to_call = {} # action-name : value
+        for action, value in vars(args).items():
+            if value:
+                actions_to_call[action] = [GLib.Variant('s', value)] if isinstance(value, str) else []
+        if len(actions_to_call) > 0:
+            if app_service := SessionBus().get("com.jeffser.Nocturne"):
+                if not app_service.Ping():
+                    raise Exception("Nocturne is not running")
+                for action, value in actions_to_call.items():
+                    app_service["org.gtk.Actions"].Activate(action, value, {})
                     exit = True
     except Exception as e:
         logger.error(e)
