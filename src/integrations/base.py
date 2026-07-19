@@ -202,7 +202,7 @@ class Base(GObject.Object):
         else:
             self.song_connections['callbacks'][parameter] = [callback]
 
-        if current_song_id := self.loaded_models.get('currentSong'):
+        if current_song_id := self.loaded_models.get('currentSong').get_property('songId'):
             if current_song_model := self.loaded_models.get(current_song_id):
                 GLib.idle_add(callback, current_song_model.get_property(parameter))
 
@@ -533,3 +533,4 @@ class Base(GObject.Object):
         # link : str
         print('WARNING', 'getServerInformation', 'not implemented')
         return {}
+
