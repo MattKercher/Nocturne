@@ -453,21 +453,21 @@ class Navidrome(Base):
             'songOffset': songOffset
         })
         search_results = response.get('searchResult3')
-        for model in search_results.get('artist', []):
+        for model in search_results.get('artist') or []:
             model['id'] = str(model.get('id', ''))
             if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
                 # TODO remove once Bandcamp implements rating
                 model['userRating'] = self.get_rating(model['id'])
             if model.get('id') not in self.loaded_models:
                 self.loaded_models[model.get('id')] = models.Artist(**model)
-        for model in search_results.get('album', []):
+        for model in search_results.get('album') or []:
             model['id'] = str(model.get('id', ''))
             if model.get('id') not in self.loaded_models:
                 if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
                     # TODO remove once Bandcamp implements rating
                     model['userRating'] = self.get_rating(model['id'])
                 self.loaded_models[model.get('id')] = models.Album(**model)
-        for model in search_results.get('song', []):
+        for model in search_results.get('song') or []:
             model['id'] = str(model.get('id', ''))
             if model.get('id') not in self.loaded_models:
                 if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
@@ -813,7 +813,7 @@ class Bandcamp(Navidrome):
     }
 
     url = GObject.Property(type=str, default="https://bandcamp.com/api/subsonic")
-    limitations = ('no-autoplay',)
+    limitations = ('no-autoplay','no-random-queue')
 
     sqlSchema = {
         'radios': {
