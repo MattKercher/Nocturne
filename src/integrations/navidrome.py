@@ -483,9 +483,9 @@ class Navidrome(Base):
                     playlist_ids.append(playlistId)
 
         return {
-            'artist': [m.get('id') for m in search_results.get('artist', [])],
-            'album': [m.get('id') for m in search_results.get('album', [])],
-            'song': [m.get('id') for m in search_results.get('song', [])],
+            'artist': [m.get('id') for m in search_results.get('artist') or []],
+            'album': [m.get('id') for m in search_results.get('album') or []],
+            'song': [m.get('id') for m in search_results.get('song') or []],
             'playlist': playlist_ids[playlistOffset:playlistCount+playlistOffset]
         }
 
