@@ -813,7 +813,6 @@ class Bandcamp(Navidrome):
     }
 
     url = GObject.Property(type=str, default="https://bandcamp.com/api/subsonic")
-    limitations = ('no-autoplay','no-random-queue')
 
     sqlSchema = {
         'radios': {
@@ -895,8 +894,19 @@ class Bandcamp(Navidrome):
         conn.close()
         return True
 
-    #TODO
-    # These are all features missing right now (Bandcamp's server is in beta)
-    # [X] Implement ratings
-    # [X] Implement radios
+    def getRandomSongs(self, size:int=20) -> list:
+        song_ids = []
+        albums = self.make_request('getAlbumList2', {
+            'type': 'random',
+            'size': 20
+        }).get('albumList2', {}).get('album', [])
+        for album in albums:
+            album_detail = self.make_request('getAlbum', {
+                'id': album.get('id')
+            }).get('album', {})
+            song_ids.extend([s.get('id') for s in album_detail.get('song')])
+        song_ids = random.sample(song_ids, size)
+        for song_id in song_ids:
+            self.verifySong(song_id)
+        return song_ids
 

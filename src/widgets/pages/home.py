@@ -107,25 +107,25 @@ class HomePage(Adw.NavigationPage):
                 search_results = self.get_default_results()
             threading.Thread(
                 target=self.song_wrapbox.set_widgets,
-                args=([SongSmallRow(id) for id in search_results.get('song', [])],),
+                args=([SongSmallRow(id) for id in search_results.get('song') or []],),
                 daemon=True
             ).start()
             threading.Thread(
                 target=self.album_carousel.set_widgets,
-                args=([AlbumButton(id) for id in search_results.get('album', [])],),
+                args=([AlbumButton(id) for id in search_results.get('album') or []],),
                 daemon=True
             ).start()
             threading.Thread(
                 target=self.artist_carousel.set_widgets,
-                args=([ArtistButton(id) for id in search_results.get('artist', [])],),
+                args=([ArtistButton(id) for id in search_results.get('artist') or []],),
                 daemon=True
             ).start()
             threading.Thread(
                 target=self.playlist_carousel.set_widgets,
-                args=([PlaylistButton(id) for id in search_results.get('playlist', [])],),
+                args=([PlaylistButton(id) for id in search_results.get('playlist') or []],),
                 daemon=True
             ).start()
-            has_results = any([len(search_results.get(key)) > 0 for key in list(search_results)])
+            has_results = any([len(search_results.get(key) or []) > 0 for key in list(search_results)])
         else:
             has_results = False
         GLib.idle_add(self.main_stack.set_visible_child_name, 'content' if has_results else 'no-content')

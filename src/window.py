@@ -35,7 +35,6 @@ class NocturneWindow(Adw.ApplicationWindow):
     __gtype_name__ = 'NocturneWindow'
 
     sidebar_headerbar = Gtk.Template.Child()
-    random_queue_button = Gtk.Template.Child()
     loading_label_el = Gtk.Template.Child()
     breakpoint_el = Gtk.Template.Child()
     main_navigationview = Gtk.Template.Child()
@@ -178,7 +177,6 @@ class NocturneWindow(Adw.ApplicationWindow):
         self.sidebar_playing_page.show_sidebar_el.set_visible(False)
         integration = get_current_integration()
         integration.connect_to_model('currentSong', 'songId', self.song_changed)
-        self.random_queue_button.set_visible('no-random-queue' not in integration.limitations)
 
     def song_changed(self, songId:str):
         playing = bool(songId)
