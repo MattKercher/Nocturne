@@ -17,7 +17,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import sys, threading, logging
+import sys, threading, logging, argparse, sys
 from pydbus import SessionBus
 import gi
 
@@ -29,13 +29,15 @@ gi.require_version('Gst', '1.0')
 from gi.repository import Gtk, Gdk, Gio, Adw, GLib
 from .window import NocturneWindow
 from .preferences import NocturnePreferences
-from .constants import get_song_info_from_file, TRANSLATORS, COPYRIGHT_NOTICE, set_version
+from .constants import get_song_info_from_file, CLI_ARGUMENTS, TRANSLATORS, COPYRIGHT_NOTICE, set_version
 from .integrations import get_current_integration, set_current_integration, get_available_integrations, models
 from .widgets.playing import Player
 from .widgets.pages import LoginDialog
 
 GLib.set_prgname('com.jeffser.Nocturne')
-GLib.set_application_name("Nocturne")
+GLib.set_application_name("Nocturne has to already be running for the options to work")
+logger = logging.getLogger(__name__)
+parser = argparse.ArgumentParser(description="Nocturne")
 
 class NocturneService:
     """
@@ -226,6 +228,34 @@ def main(version):
         handlers=[logging.StreamHandler(stream=sys.stdout)]
     )
 
-    print("Nocturne version:", version)
+    for group_name, group_data in CLI_ARGUMENTS.items():
+        group = parser.add_argument_group(group_name)
+        for argument_name, argument_data in group_data.items():
+            if action_name := argument_data.get('action-name'):
+                if metavar := argument_data.get('metavar'):
+                    group.add_argument(argument_name, type=str, metavar=metavar, help=argument_data.get('message'), dest=action_name)
+                else:
+                    group.add_argument(argument_name, action='store_true', help=argument_data.get('message'), dest=action_name)
+    exit = False
+    try:
+        args = parser.parse_args()
+        if app_service := SessionBus().get("com.jeffser.Nocturne"):
+            if not app_service.Ping():
+                raise Exception("Nocturne is not running")
+            for action, value in vars(args).items():
+                if value:
+                    if isinstance(value, str):
+                        app_service["org.gtk.Actions"].Activate(action, [GLib.Variant('s', value)], {})
+                    else:
+                        app_service["org.gtk.Actions"].Activate(action, [], {})
+                    exit = True
+    except Exception as e:
+        logger.error(e)
+        sys.exit(1)
+    finally:
+        if exit:
+            sys.exit(0)
+
+    logger.info(f"Nocturne version: {version}")
     set_version(version)
     return NocturneApplication(version).run(sys.argv)

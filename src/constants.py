@@ -3,6 +3,157 @@
 import os, subprocess, json, shutil
 from tinytag import TinyTag
 
+CLI_ARGUMENTS = {
+    "Play Control": {
+        '--player-next': {
+            'message': 'skip to the next song',
+            'action-name': 'player_next'
+        },
+        '--player-previous': {
+            'message': 'skip to the previous song',
+            'action-name': 'player_previous'
+        },
+        '--player-pause': {
+            'message': 'pauses the current song',
+            'action-name': 'player_pause'
+        },
+        '--player-play': {
+            'message': 'plays the current song',
+            'action-name': 'player_play'
+        },
+        '--player-toggle': {
+            'message': 'toggles between playing and pausing the current song',
+            'action-name': 'player_toggle'
+        },
+        '--player-raise-volume': {
+            'message': 'raises volume',
+            'action-name': 'player_raise_volume'
+        },
+        '--player-lower-volume': {
+            'message': 'lowers volume',
+            'action-name': 'player_lower_volume'
+        }
+    },
+    "Songs": {
+        '--song-show': {
+            'message': 'show details of the specified song',
+            'action-name': 'show_song_details',
+            'metavar': 'SONG_ID'
+        },
+        '--song-play': {
+            'message': 'play the specified song',
+            'action-name': 'play_song',
+            'metavar': 'SONG_ID'
+        },
+        '--play-song-later': {
+            'message': 'play the specified song later',
+            'action-name': 'play_song_later',
+            'metavar': 'SONG_ID'
+        },
+        '--play-song-next': {
+            'message': 'play the specified song next',
+            'action-name': 'play_song_next',
+            'metavar': 'SONG_ID'
+        }
+    },
+    "Albums": {
+        '--album-show': {
+            'message': 'show the specified album',
+            'action-name': 'show_album',
+            'metavar': 'ALBUM_ID'
+        },
+        '--album-show-from-song': {
+            'message': 'show the album of the specified song',
+            'action-name': 'show_album_from_song',
+            'metavar': 'SONG_ID'
+        },
+        '--album-play': {
+            'message': 'play the specified album',
+            'action-name': 'play_album',
+            'metavar': 'ALBUM_ID'
+        },
+        '--album-play-later': {
+            'message': 'play the specified album later',
+            'action-name': 'play_album_later',
+            'metavar': 'ALBUM_ID'
+        },
+        '--album-play-next': {
+            'message': 'play the specified album next',
+            'action-name': 'play_album_next',
+            'metavar': 'ALBUM_ID'
+        },
+        '--album-play-shuffle': {
+            'message': 'shuffle and play the specified album',
+            'action-name': 'play_album_shuffle',
+            'metavar': 'ALBUM_ID'
+        },
+    },
+    "Artists": {
+        '--artist-show': {
+            'message': 'show the specified artist',
+            'action-name': 'show_artist',
+            'metavar': 'ARTIST_ID'
+        },
+        '--artist-show-from-album': {
+            'message': 'show the artist of the specified album',
+            'action-name': 'show_artist_from_album',
+            'metavar': 'ALBUM_ID'
+        },
+        '--artist-show-from-song': {
+            'message': 'show the artist of the specified song',
+            'action-name': 'show_artist_from_song',
+            'metavar': 'SONG_ID'
+        },
+        '--artist-play-shuffle': {
+            'message': 'shuffle and play music from the specified artist',
+            'action-name': 'play_shuffle_artist',
+            'metavar': 'ARTIST_ID'
+        },
+        '--artist-play-radio': {
+            'message': 'start a radio based on music from the specified artist',
+            'action-name': 'play_radio_artist',
+            'metavar': 'ARTIST_ID'
+        },
+    },
+    "Playlists": {
+        '--playlist-show': {
+            'message': 'show the specified playlist',
+            'action-name': 'show_playlist',
+            'metavar': 'PLAYLIST_ID'
+        },
+        '--playlist-play': {
+            'message': 'play the specified playlist',
+            'action-name': 'play_playlist',
+            'metavar': 'PLAYLIST_ID'
+        },
+        '--playlist-play-later': {
+            'message': 'play the specified playlist later',
+            'action-name': 'play_playlist_later',
+            'metavar': 'PLAYLIST_ID'
+        },
+        '--playlist-play-next': {
+            'message': 'play the specified playlist next',
+            'action-name': 'play_playlist_next',
+            'metavar': 'PLAYLIST_ID'
+        },
+        '--playlist-play-shuffle': {
+            'message': 'shuffle and play the specified playlist',
+            'action-name': 'play_playlist_shuffle',
+            'metavar': 'PLAYLIST_ID'
+        }
+    },
+    "Miscellaneous": {
+        '--toggle-fullscreen': {
+            'message': 'toggle the fullscreen mode',
+            'action-name': 'toggle_fullscreen'
+        },
+        '--logout': {
+            'message': 'logout from the current instance',
+            'action-name': 'logout'
+        }
+    }
+}
+
 DISCORD_APP_ID = "1504946005764739092"
 
 IN_FLATPAK = bool(os.getenv("FLATPAK_ID"))

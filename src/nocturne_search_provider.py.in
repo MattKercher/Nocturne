@@ -85,7 +85,7 @@ class NocturneSearchProvider:
                     if item.get('type') in self.allowed_types:
                         self.last_results[item_id] = item
         except Exception as e:
-            print(e)
+            print('s',e)
 
         return list(self.last_results)
 
