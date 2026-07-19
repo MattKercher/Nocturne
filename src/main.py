@@ -35,9 +35,9 @@ from .widgets.playing import Player
 from .widgets.pages import LoginDialog
 
 GLib.set_prgname('com.jeffser.Nocturne')
-GLib.set_application_name("Nocturne has to already be running for the options to work")
+GLib.set_application_name("Nocturne")
 logger = logging.getLogger(__name__)
-parser = argparse.ArgumentParser(description="Nocturne")
+parser = argparse.ArgumentParser(description="Nocturne has to already be running for the options to work")
 
 class NocturneService:
     """
