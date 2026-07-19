@@ -10,6 +10,7 @@ from .constants import DATA_DIR, BASE_NAVIDROME_DIR, DOWNLOADS_DIR
 # -- HELPER --
 
 def __show_page(window, page:Adw.NavigationPage):
+    # Call on main thread
     for dialog in window.get_dialogs():
         dialog.close()
     application = window.get_application()
@@ -27,6 +28,7 @@ def __show_page(window, page:Adw.NavigationPage):
         active_window.main_navigationview.push(page)
 
 def __show_custom_toast(window, model_id:str, title_property:str, subtitle:str, icon_name:str=None):
+    # Thread safe
     integration = get_current_integration()
     model = integration.loaded_models.get(model_id)
     custom_widget = Adw.ActionRow(
@@ -34,7 +36,7 @@ def __show_custom_toast(window, model_id:str, title_property:str, subtitle:str, 
         subtitle=subtitle
     )
     if icon_name:
-        custom_widget.set_icon_name(icon_name)
+        GLib.idle_add(custom_widget.set_icon_name, icon_name)
     else:
         album_art = Gtk.Image(
             css_classes=['card'],
@@ -46,11 +48,11 @@ def __show_custom_toast(window, model_id:str, title_property:str, subtitle:str, 
         )
         if model:
             if paintable := model.get_property('gdkPaintable'):
-                album_art.set_from_paintable(paintable)
-                album_art.set_pixel_size(48)
+                GLib.idle_add(album_art.set_from_paintable, paintable)
+                GLib.idle_add(album_art.set_pixel_size, 48)
         if not album_art.get_paintable():
-            album_art.set_from_icon_name("music-note-symbolic")
-        custom_widget.add_prefix(album_art)
+            GLib.idle_add(album_art.set_from_icon_name, "music-note-symbolic")
+        GLib.idle_add(custom_widget.add_prefix, album_art)
     toast = Adw.Toast(
         custom_title=custom_widget,
         timeout=2
@@ -59,6 +61,7 @@ def __show_custom_toast(window, model_id:str, title_property:str, subtitle:str, 
 
 def __save_playlist_resume(window):
     # Check if current queue origin is a playlist if so, save the resume state
+    # Call in different thread
     integration = get_current_integration()
     queue_origin = integration.loaded_models.get('currentSong').get_property('queueOrigin') or ""
     if model := integration.loaded_models.get(queue_origin):
@@ -900,10 +903,10 @@ def show_artist_from_album(window, model_id:str):
         integration.verifyAlbum(model_id, force_update=True, use_threading=False)
         if model := integration.loaded_models.get(model_id):
             if artist_id := model.get_property('artistId'):
-                __show_page(window, Widgets.ArtistPage(artist_id))
+                GLib.idle_add(__show_page, window, Widgets.ArtistPage(artist_id))
             elif artists := model.get_property('artists'):
                 if artist_id := artists[0].get('id'):
-                    __show_page(window, Widgets.ArtistPage(artist_id))
+                    GLib.idle_add(__show_page, window, Widgets.ArtistPage(artist_id))
     threading.Thread(target=run, daemon=True).start()
 
 def play_shuffle_artist(window, model_id:str):
