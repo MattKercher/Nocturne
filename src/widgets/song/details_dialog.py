@@ -36,8 +36,12 @@ class SongDetailsDialog(Adw.Dialog):
 
         song_details = integration.getSongDetails(self.id)
         self.title_el.set_label(song_details.get_property('title'))
-        self.cover_el.set_paintable(integration.getCoverArt(self.id))
-        self.cover_el.set_visible(self.cover_el.get_paintable())
+
+        paintable = None
+        if model := integration.loaded_models.get(self.id):
+            paintable = model.get_property('gdkPaintable')
+        self.cover_el.set_paintable(paintable)
+        self.cover_el.set_visible(paintable)
         property_list = song_details.list_properties()
         property_list.sort(key=lambda x: order_map.get(x.get_name(), -1))
 

@@ -44,10 +44,11 @@ def __show_custom_toast(window, model_id:str, title_property:str, subtitle:str, 
             halign=Gtk.Align.CENTER,
             valign=Gtk.Align.CENTER,
         )
-        if paintable := integration.getCoverArt(model_id):
-            album_art.set_from_paintable(paintable)
-            album_art.set_pixel_size(48)
-        else:
+        if model:
+            if paintable := model.get_property('gdkPaintable')
+                album_art.set_from_paintable(paintable)
+                album_art.set_pixel_size(48)
+        if not album_art.get_paintable():
             album_art.set_from_icon_name("music-note-symbolic")
         custom_widget.add_prefix(album_art)
     toast = Adw.Toast(

@@ -16,7 +16,7 @@ class PlayingCoverArt(Gtk.Box):
 
     def setup(self):
         integration = get_current_integration()
-        integration.connect_to_model('currentSong', 'songId', self.song_changed)
+        integration.connect_to_current_song('gdkPaintableBig', self.update_cover_art)
         integration.connect_to_model('currentSong', 'videoId', self.video_changed)
         self.spectrum_el.setup()
 
@@ -26,29 +26,21 @@ class PlayingCoverArt(Gtk.Box):
                     if video_sink := player.gst.get_property('video-sink'):
                         self.video_el.set_paintable(video_sink.get_property('paintable'))
 
-    def song_changed(self, songId:str):
-        def run():
-            integration = get_current_integration()
-            if songId in integration.loaded_models:
-                paintable = integration.getCoverArt(songId, big=True)
-                if not paintable:
-                    paintable = integration.getCoverArt(songId)
-
-                if paintable:
-                    GLib.idle_add(self.cover_el.remove_css_class, 'p50')
-                else:
-                    icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
-                    paintable = icon_theme.lookup_icon(
-                        'music-note-symbolic',
-                        None,
-                        64,
-                        1,
-                        Gtk.TextDirection.NONE,
-                        0
-                    )
-                    GLib.idle_add(self.cover_el.add_css_class, 'p50')
-                GLib.idle_add(self.cover_el.set_paintable, paintable)
-        threading.Thread(target=run, daemon=True).start()
+    def update_cover_art(self, paintable):
+        if paintable:
+            self.cover_el.remove_css_class('p50')
+        else:
+            icon_theme = Gtk.IconTheme.get_for_display(Gdk.Display.get_default())
+            paintable = icon_theme.lookup_icon(
+                'music-note-symbolic',
+                None,
+                64,
+                1,
+                Gtk.TextDirection.NONE,
+                0
+            )
+            self.cover_el.add_css_class('p50')
+        self.cover_el.set_paintable(paintable)
 
     def video_changed(self, videoId:str):
         integration = get_current_integration()
