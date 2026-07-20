@@ -3,7 +3,7 @@ using Adw 1;
 
 template $NocturnePopoutWindow: Adw.ApplicationWindow {
   title: _("Pop-out Window");
-  width-request: 430;
+  width-request: 360;
   height-request: 120;
   default-width: 430;
   default-height: 740;
@@ -26,7 +26,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
     unapply => $big_mode_unapply();
   }
   Adw.Breakpoint breakpoint_el {
-    condition ("max-width: 520sp")
+    condition ("max-width: 620sp")
     setters {
       split_view.collapsed: true;
       header.title-widget: null;
@@ -35,7 +35,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
     }
   }
   Adw.Breakpoint {
-    condition ("max-height: 120sp")
+    condition ("max-height: 130sp")
     setters {
       main_stack.visible-child-name: "footer";
     }
@@ -44,6 +44,7 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
   content: Adw.ToastOverlay toast_overlay{
     Gtk.Stack main_stack {
       transition-type: crossfade;
+      hhomogeneous: false;
 
       Gtk.StackPage {
         name: "content";
@@ -110,9 +111,12 @@ template $NocturnePopoutWindow: Adw.ApplicationWindow {
           child: Gtk.Overlay {
             child: $NocturneSpectrum footer_spectrum_el {
               opacity: 0.5;
+              overflow: hidden;
             };
             [overlay]
-            $NocturnePlayingFooter footer {}
+            $NocturnePlayingFooter footer {
+              valign: center;
+            }
           };
         };
       }

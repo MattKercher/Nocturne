@@ -6,21 +6,13 @@ template $NocturneWindow: Adw.ApplicationWindow {
   width-request: 360;
   height-request: 560;
   close-request => $close_request();
-  Adw.Breakpoint big_breakpoint_el {
+  Adw.Breakpoint {
     condition ("max-width: 840sp")
     apply => $big_breakpoint_toggled();
     unapply => $big_breakpoint_toggled();
   }
-  Adw.Breakpoint {
-    condition ("max-width: 480sp")
-    setters {
-      main_split_view.collapsed: true;
-      main_split_view.show-content: true;
-      main_sidebar.mode: page;
-    }
-  }
   Adw.Breakpoint breakpoint_el {
-    condition ("max-width: 400sp")
+    condition ("max-width: 620sp")
     setters {
       main_split_view.collapsed: true;
       main_split_view.show-content: true;

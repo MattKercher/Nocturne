@@ -13,126 +13,138 @@ template $NocturnePlayingFooter: Gtk.Overlay {
     }
   }
 
-  child: Gtk.Box {
-    valign: start;
-    orientation: horizontal;
-    spacing: 10;
-    styles [
-      "p10"
-    ]
+  child: Adw.BreakpointBin {
+    width-request: 360;
+    height-request: 32;
+    Adw.Breakpoint {
+      condition ("max-width: 480sp")
+      setters {
+        previous_el.visible: false;
+        next_el.visible: false;
+      }
+    }
 
-    Gtk.Box {
+    child: Gtk.Box {
+      valign: start;
       orientation: horizontal;
       spacing: 10;
-      hexpand: true;
+      styles [
+        "p10"
+      ]
 
-      Gtk.Image cover_el {
-        styles [
-          "card"
-        ]
-        accessibility {
-          label: _("Current song cover art");
-        }
-        height-request: 48;
-        width-request: 48;
-        overflow: hidden;
-        valign: center;
-        paintable: Adw.SpinnerPaintable {
-          widget: cover_el;
-        };
-      }
-
-      Gtk.Box detail_container {
-        orientation: vertical;
-        spacing: 5;
-        valign: center;
+      Gtk.Box {
+        orientation: horizontal;
+        spacing: 10;
         hexpand: true;
 
-        Gtk.Label title_el {
+        Gtk.Image cover_el {
           styles [
-            "title-4"
+            "card"
           ]
-          xalign: 0;
-          halign: start;
-          ellipsize: end;
-        }
-
-        Gtk.Label artist_el {
-          styles [
-            "dimmed"
-          ]
-          xalign: 0;
-          halign: start;
-          ellipsize: end;
-        }
-
-        Gtk.Scale progress_el {
-          styles [
-            "p0"
-          ]
-          adjustment: Gtk.Adjustment {
-            lower: 0;
-            upper: 1;
-            value: 0;
+          accessibility {
+            label: _("Current song cover art");
+          }
+          height-request: 48;
+          width-request: 48;
+          overflow: hidden;
+          valign: center;
+          paintable: Adw.SpinnerPaintable {
+            widget: cover_el;
           };
-          visible: false;
-          change-value => $progress_bar_changed();
+        }
+
+        Gtk.Box detail_container {
+          orientation: vertical;
+          spacing: 5;
+          valign: center;
+          hexpand: true;
+
+          Gtk.Label title_el {
+            styles [
+              "title-4"
+            ]
+            xalign: 0;
+            halign: start;
+            ellipsize: end;
+          }
+
+          Gtk.Label artist_el {
+            styles [
+              "dimmed"
+            ]
+            xalign: 0;
+            halign: start;
+            ellipsize: end;
+          }
+
+          Gtk.Scale progress_el {
+            styles [
+              "p0"
+            ]
+            adjustment: Gtk.Adjustment {
+              lower: 0;
+              upper: 1;
+              value: 0;
+            };
+            visible: false;
+            change-value => $progress_bar_changed();
+          }
         }
       }
-    }
 
-    Gtk.Button previous_el {
-      icon-name: "media-skip-backward-symbolic";
-      valign: center;
-      action-name: "app.player_previous";
-      tooltip-text: _("Previous");
-      styles [
-        "circular"
-      ]
-    }
-
-    Gtk.Stack state_stack_el {
-      transition-type: crossfade;
-
-      Gtk.StackPage {
-        name: "play";
-        child: Gtk.Button {
-          icon-name: "media-playback-start-symbolic";
-          valign: center;
-          action-name: "app.player_play";
-          tooltip-text: _("Play");
-          styles [
-            "circular",
-            "accent",
-            "color"
-          ]
-        };
+      Gtk.Button previous_el {
+        icon-name: "media-skip-backward-symbolic";
+        valign: center;
+        action-name: "app.player_previous";
+        tooltip-text: _("Previous");
+        styles [
+          "circular"
+        ]
       }
 
-      Gtk.StackPage {
-        name: "pause";
-        child: Gtk.Button {
-          icon-name: "media-playback-pause-symbolic";
-          valign: center;
-          action-name: "app.player_pause";
-          tooltip-text: _("Pause");
-          styles [
-            "circular",
-            "accent",
-            "color"
-          ]
-        };
-      }
-    }
+      Gtk.Stack state_stack_el {
+        transition-type: crossfade;
 
-    Gtk.Button next_el {
-      icon-name: "media-skip-forward-symbolic";
-      valign: center;
-      action-name: "app.player_next";
-      tooltip-text: _("Next");
-      styles [
-        "circular"
-      ]
-    }
+        Gtk.StackPage {
+          name: "play";
+          child: Gtk.Button {
+            icon-name: "media-playback-start-symbolic";
+            valign: center;
+            action-name: "app.player_play";
+            tooltip-text: _("Play");
+            styles [
+              "circular",
+              "accent",
+              "color"
+            ]
+          };
+        }
+
+        Gtk.StackPage {
+          name: "pause";
+          child: Gtk.Button {
+            icon-name: "media-playback-pause-symbolic";
+            valign: center;
+            action-name: "app.player_pause";
+            tooltip-text: _("Pause");
+            styles [
+              "circular",
+              "accent",
+              "color"
+            ]
+          };
+        }
+      }
+
+      Gtk.Button next_el {
+        icon-name: "media-skip-forward-symbolic";
+        valign: center;
+        action-name: "app.player_next";
+        tooltip-text: _("Next");
+        styles [
+          "circular"
+        ]
+      }
+    };
   };
 }

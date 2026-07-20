@@ -81,8 +81,7 @@ class PlayingControlPage(Adw.NavigationPage):
     def setup_sidebar_button_connection(self):
         self.get_root().breakpoint_el.connect('apply', lambda *_: self.breakpoint_toggled(True))
         self.get_root().breakpoint_el.connect('unapply', lambda *_: self.breakpoint_toggled(False))
-        is_small = self.get_root().get_width() < 480
-        self.breakpoint_toggled(is_small and self.get_root().get_width() > 0)
+        self.breakpoint_toggled(self.get_root().get_width() <= 620 and self.get_root().get_width() > 0)
 
     @Gtk.Template.Callback()
     def progress_bar_changed(self, scale_el, scroll_type, value):
