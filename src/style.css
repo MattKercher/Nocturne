@@ -177,7 +177,7 @@ switch:checked {
   background: var(--accent-color);
 }
 
-toast {
+window:not(.popout-window) toast {
   margin-bottom: 84px;
 }
 
