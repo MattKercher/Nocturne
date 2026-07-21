@@ -116,6 +116,7 @@ template $NocturneSongQueue: Gtk.Box {
   Gtk.Stack main_stack {
     transition-type: crossfade;
     vhomogeneous: false;
+    overflow: visible;
     Gtk.StackPage {
       name: "loading";
       child: Adw.Spinner {};
