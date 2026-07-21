@@ -187,9 +187,6 @@ class Navidrome(Base):
                 if new_id := str(album_dict.get('id', '')):
                     album_dict['id'] = new_id
                     album_ids.append(new_id)
-                    if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                        # TODO remove once Bandcamp implements rating
-                        album_dict['userRating'] = self.get_rating(new_id)
                     if new_id in self.loaded_models:
                         self.loaded_models.get(new_id).update_data(**album_dict)
                     else:
@@ -217,9 +214,6 @@ class Navidrome(Base):
             if new_id := str(artist_dict.get('id', '')):
                 artist_dict['id'] = new_id
                 artist_ids.append(new_id)
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    artist_dict['userRating'] = self.get_rating(new_id)
                 if new_id in self.loaded_models:
                     self.loaded_models.get(new_id).update_data(**artist_dict)
                 else:
@@ -254,9 +248,6 @@ class Navidrome(Base):
             if not isinstance(detail_artist, dict):
                 detail_artist = {}
             artist_dict = {**base_artist, **detail_artist}
-            if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                # TODO remove once Bandcamp implements rating
-                artist_dict['userRating'] = self.get_rating(model_id)
             if artist_dict.get('id'):
                 self.loaded_models.get(model_id).update_data(**artist_dict)
             elif model_id in self.loaded_models:
@@ -278,9 +269,6 @@ class Navidrome(Base):
         def update():
             response = self.make_request('getAlbum', {'id': model_id})
             album_dict = response.get('album', {})
-            if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                # TODO remove once Bandcamp implements rating
-                album_dict['userRating'] = self.get_rating(model_id)
             if album_dict.get('id'):
                 self.loaded_models.get(model_id).update_data(**album_dict)
             elif model_id in self.loaded_models:
@@ -331,10 +319,6 @@ class Navidrome(Base):
                     }]
                 gains = song_dict.get('replayGain') or {}
 
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    song_dict['userRating'] = self.get_rating(model_id)
-
                 self.loaded_models.get(model_id).update_data(**song_dict, albumGain=gains.get('albumGain', 0.0), trackGain=gains.get('trackGain', 0.0))
             elif model_id in self.loaded_models:
                 self.loaded_models.get(model_id).set_property('deleted', True)
@@ -384,9 +368,6 @@ class Navidrome(Base):
             new_id = str(song_dict.get('id', ''))
             if new_id not in self.loaded_models:
                 song_dict['id'] = new_id
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    song_dict['userRating'] = self.get_rating(new_id)
                 self.loaded_models[new_id] = models.Song(**song_dict)
             else:
                 self.verifySong(song_dict.get('id'), force_update=True)
@@ -456,24 +437,15 @@ class Navidrome(Base):
         search_results = response.get('searchResult3')
         for model in search_results.get('artist') or []:
             model['id'] = str(model.get('id', ''))
-            if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                # TODO remove once Bandcamp implements rating
-                model['userRating'] = self.get_rating(model['id'])
             if model.get('id') not in self.loaded_models:
                 self.loaded_models[model.get('id')] = models.Artist(**model)
         for model in search_results.get('album') or []:
             model['id'] = str(model.get('id', ''))
             if model.get('id') not in self.loaded_models:
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    model['userRating'] = self.get_rating(model['id'])
                 self.loaded_models[model.get('id')] = models.Album(**model)
         for model in search_results.get('song') or []:
             model['id'] = str(model.get('id', ''))
             if model.get('id') not in self.loaded_models:
-                if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-                    # TODO remove once Bandcamp implements rating
-                    model['userRating'] = self.get_rating(model.get('id'))
                 self.loaded_models[model.get('id')] = models.Song(**model)
 
         # Playlists
@@ -693,9 +665,6 @@ class Navidrome(Base):
         }).get('song', {})
         song_dict['trackGain'] = song_dict.get('replayGain', {}).get('trackGain') or 0.0
         song_dict['albumGain'] = song_dict.get('replayGain', {}).get('albumGain') or 0.0
-        if self.__gtype_name__ == 'NocturneIntegrationBandcamp':
-            # TODO remove once Bandcamp implements rating
-            song_dict['userRating'] = self.get_rating(model_id)
         return models.SongDetails(**song_dict)
 
     def getServerInformation(self) -> dict:
@@ -910,4 +879,38 @@ class Bandcamp(Navidrome):
         for song_id in song_ids:
             self.verifySong(song_id)
         return song_ids
+
+    # Implementation of Ratings ---------
+
+    def verifyArtist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+        def update():
+            super().verifyArtist(model_id, force_update, False)
+            if model := self.loaded_models.get(model_id):
+                model.set_property('userRating', self.get_rating(model_id))
+        if use_threading:
+            threading.Thread(target=update).start()
+        else:
+            update()
+
+    def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+        def update():
+            super().verifyAlbum(model_id, force_update, False)
+            if model := self.loaded_models.get(model_id):
+                model.set_property('userRating', self.get_rating(model_id))
+        if use_threading:
+            threading.Thread(target=update).start()
+        else:
+            update()
+
+    def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+        def update():
+            super().verifySong(model_id, force_update, False)
+            if model := self.loaded_models.get(model_id):
+                model.set_property('userRating', self.get_rating(model_id))
+        if use_threading:
+            threading.Thread(target=update).start()
+        else:
+            update()
+
+    # -----------------------------------
 
