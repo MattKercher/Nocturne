@@ -53,7 +53,7 @@ class Navidrome(Base):
             )
             return result.status_code in (200, 201), result
         action_url = self.get_url(action)
-        request_id = '{}?{}'.format(action_url, urlencode(params))
+        request_id = '{}?{}&apikey={}'.format(action_url, urlencode(params), self._use_apikey_auth)
         return self.cache_manager.get_result(request_id, request_job, action_url, params)
 
     def make_request(self, action:str, params:dict={}) -> dict:
@@ -97,7 +97,7 @@ class Navidrome(Base):
         params['id'] = song_id
         if max_bitrate != 0:
             params['maxBitRate'] = max_bitrate
-        query_string = "&".join([f"{k}={v}" for k, v in params.items()])
+        query_string = urlencode(params)
         return '{}/rest/stream?{}'.format(self.get_property('url').strip('/'), query_string)
 
     def getCoverArtBytes(self, model_id:str, size:int) -> bytes:
