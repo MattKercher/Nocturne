@@ -334,7 +334,8 @@ TRANSLATORS = [
     "Muhammed Emin Akalan (Turkish) https://github.com/muhammedeminakalan",
     "Yuan Chiu (Traditional Chinese) https://yuaner.tw",
     "Milo Ivir (Croatian) https://github.com/milotype",
-    "Aryan Karamtoth (Telugu) https://github.com/spaciouskarter78"
+    "Aryan Karamtoth (Telugu) https://github.com/spaciouskarter78",
+    "Rikelry Souza (Brazilian Portuguese) https://github.com/Rikelry"
 ]
 
 PLAYBACK_MODES = {
