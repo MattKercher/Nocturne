@@ -42,7 +42,6 @@ class AlbumPage(Adw.NavigationPage):
         integration = get_current_integration()
         integration.verifyAlbum(self.id, True)
         super().__init__()
-        self.song_list_el.set_header(_("Songs"), "music-note-symbolic")
 
         self.star_el.set_action_target_value(GLib.Variant.new_string(self.id))
         context = CONTEXT_ALBUM.copy()
@@ -201,3 +200,4 @@ class AlbumPage(Adw.NavigationPage):
             'rating': GLib.Variant('i', int(button.get_name()))
         })
         self.get_root().activate_action("app.set_rating", target_value)
+

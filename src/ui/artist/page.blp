@@ -156,11 +156,19 @@ template $NocturneArtistPage: Adw.NavigationPage {
 
           $NocturneWrapbox top_songs_wrapbox {
             visible: false;
+            header-label: _("Top Songs");
+            header-icon-name: "music-note-symbolic";
           }
 
-          $NocturneWrapbox album_wrapbox {}
+          $NocturneWrapbox album_wrapbox {
+            header-label: _("Albums");
+            header-icon-name: "music-queue-symbolic";
+          }
 
-          $NocturneCarousel artist_carousel {}
+          $NocturneCarousel artist_carousel {
+            header-label: _("Related Artists");
+            header-icon-name: "music-artist-symbolic";
+          }
         };
       };
     };

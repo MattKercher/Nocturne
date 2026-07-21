@@ -34,32 +34,12 @@ class HomePage(Adw.NavigationPage):
         self.searching = False
 
         list(self.search_bar)[0].set_transition_type(Gtk.RevealerTransitionType.CROSSFADE)
-        self.song_wrapbox.set_header(
-            label=_("Songs"),
-            icon_name="music-note-symbolic",
-            page_tag="songs-all"
-        )
         self.song_wrapbox.list_el.set_margin_start(10)
         self.song_wrapbox.list_el.set_margin_end(10)
         self.song_wrapbox.list_el.set_justify(Adw.JustifyMode.FILL)
         self.song_wrapbox.list_el.set_justify_last_line(True)
         self.song_wrapbox.list_el.set_child_spacing(5)
         self.song_wrapbox.list_el.set_line_spacing(5)
-        self.album_carousel.set_header(
-            label=_("Albums"),
-            icon_name="music-queue-symbolic",
-            page_tag="albums-all"
-        )
-        self.artist_carousel.set_header(
-            label=_("Artists"),
-            icon_name="music-artist-symbolic",
-            page_tag="artists"
-        )
-        self.playlist_carousel.set_header(
-            label=_("Playlists"),
-            icon_name="playlist-symbolic",
-            page_tag="playlists"
-        )
 
     def get_default_results(self) -> dict:
         if integration := get_current_integration():

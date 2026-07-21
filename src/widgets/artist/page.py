@@ -43,22 +43,6 @@ class ArtistPage(Adw.NavigationPage):
         integration.connect_to_model(self.id, 'similarArtist', self.update_artist_list)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
         integration.connect_to_model(self.id, 'userRating', self.update_rating)
-
-        self.top_songs_wrapbox.set_header(
-            label=_("Top Songs"),
-            icon_name="music-note-symbolic"
-        )
-
-        self.album_wrapbox.set_header(
-            label=_("Albums"),
-            icon_name="music-queue-symbolic"
-        )
-
-        self.artist_carousel.set_header(
-            label=_("Related Artists"),
-            icon_name="music-artist-symbolic"
-        )
-
         self.top_songs_wrapbox.list_el.set_justify(Adw.JustifyMode.FILL)
         self.top_songs_wrapbox.list_el.set_justify_last_line(True)
         self.top_songs_wrapbox.list_el.set_child_spacing(5)

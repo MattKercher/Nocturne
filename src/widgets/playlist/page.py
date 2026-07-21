@@ -26,7 +26,6 @@ class PlaylistPage(Adw.NavigationPage):
         integration = get_current_integration()
         integration.verifyPlaylist(self.id, True)
         super().__init__()
-        self.song_list_el.set_header(_("Songs"), "music-note-symbolic")
 
         context = CONTEXT_PLAYLIST.copy()
         del context['edit']

@@ -49,13 +49,29 @@ template $NocturneHomePage: Adw.NavigationPage {
               orientation: vertical;
               spacing: 10;
 
-              $NocturneWrapbox song_wrapbox {}
+              $NocturneWrapbox song_wrapbox {
+                header-label: _("Songs");
+                header-icon-name: "music-note-symbolic";
+                header-page-tag: "songs-all";
+              }
 
-              $NocturneCarousel album_carousel {}
+              $NocturneCarousel album_carousel {
+                header-label: _("Albums");
+                header-icon-name: "music-queue-symbolic";
+                header-page-tag: "albums-all";
+              }
 
-              $NocturneCarousel artist_carousel {}
+              $NocturneCarousel artist_carousel {
+                header-label: _("Artists");
+                header-icon-name: "music-artist-symbolic";
+                header-page-tag: "artists";
+              }
 
-              $NocturneCarousel playlist_carousel {}
+              $NocturneCarousel playlist_carousel {
+                header-label: _("Playlists");
+                header-icon-name: "playlist-symbolic";
+                header-page-tag: "playlists";
+              }
             };
           };
         };
