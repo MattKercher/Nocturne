@@ -195,8 +195,9 @@ def generate_auto_play_queue(window, replace_on_finish:bool):
     if queue_model.get_property('n-items') > 0:
         artists = []
         for so in list(queue_model):
-            if model := integration.loaded_models.get(so.get_string()):
-                artists.append(model.artistId)
+            if so:
+                if model := integration.loaded_models.get(so.get_string()):
+                    artists.append(model.artistId)
         if len(artists) > 0:
             main_artist = max(set(artists), key=artists.count)
             song_list = integration.getSimilarSongs(main_artist)
@@ -365,10 +366,10 @@ def player_pause(window):
     window.get_application().player.gst.set_state(Gst.State.PAUSED)
 
 def player_next(window):
-    GLib.idle_add(window.get_application().player.handle_song_change_request, "next")
+    window.get_application().player.handle_song_change_request("next")
 
 def player_previous(window):
-    GLib.idle_add(window.get_application().player.handle_song_change_request, "previous")
+    window.get_application().player.handle_song_change_request("previous")
 
 def player_raise_volume(window):
     settings = Gio.Settings(schema_id="com.jeffser.Nocturne")

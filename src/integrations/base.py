@@ -135,13 +135,13 @@ class Base(GObject.Object):
     def current_song_property_changed(self, param:str, value:object):
         # do not change
         for callback in self.song_connections.get('callbacks', {}).get(param, []):
-            GLib.idle_add(callback, value)
+            callback(value)
 
     def song_changed(self):
         # do not change
         if previousSong := self.loaded_models.get(self.song_connections.get('songId', '')):
             try:
-                GLib.idle_add(previousSong.disconnect, self.song_connections.get('connectionId', ''))
+                previousSong.disconnect(self.song_connections.get('connectionId', ''))
             except:
                 pass
 
@@ -204,7 +204,7 @@ class Base(GObject.Object):
 
         if current_song_id := self.loaded_models.get('currentSong').get_property('songId'):
             if current_song_model := self.loaded_models.get(current_song_id):
-                GLib.idle_add(callback, current_song_model.get_property(parameter))
+                callback(current_song_model.get_property(parameter))
 
     def connect_to_model(self, model_id:str, parameter:str, callback:callable) -> str:
         # do not modify this function, it works as is in any instance
@@ -212,9 +212,9 @@ class Base(GObject.Object):
         if model_id in self.loaded_models:
             connection_id = self.loaded_models.get(model_id).connect(
                 'notify::{}'.format(parameter),
-                lambda *_, parameter=parameter, model_id=model_id: GLib.idle_add(callback, self.loaded_models.get(model_id).get_property(parameter))
+                lambda *_, parameter=parameter, model_id=model_id: callback(self.loaded_models.get(model_id).get_property(parameter))
             )
-            GLib.idle_add(callback, self.loaded_models.get(model_id).get_property(parameter))
+            callback(self.loaded_models.get(model_id).get_property(parameter))
         return connection_id
 
     def start_instance(self) -> bool:

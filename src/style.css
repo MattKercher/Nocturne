@@ -225,3 +225,4 @@ window.fullscreen dialog headerbar {
 toggle-group > toggle.image-button:checked {
   color: var(--accent-color);
 }
+

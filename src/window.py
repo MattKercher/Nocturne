@@ -182,7 +182,7 @@ class NocturneWindow(Adw.ApplicationWindow):
         self.setup_sidebar()
         self.sidebar_playing_page.show_sidebar_el.set_visible(False)
         integration = get_current_integration()
-        integration.connect_to_model('currentSong', 'songId', self.song_changed)
+        integration.connect_to_current_song('id', self.song_changed)
 
     def song_changed(self, songId:str):
         playing = bool(songId)

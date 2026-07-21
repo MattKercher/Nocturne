@@ -55,15 +55,17 @@ class PlayingCoverArt(Gtk.Box, Adw.Swipeable):
     def on_swipe_end(self, tracker, velocity, to):
         progress = self.get_property('swipeProgress')
 
+        progress = self.get_property('swipeProgress')
+        if progress != 0:
+            self.animation.set_value_from(progress)
+            GLib.idle_add(self.animation.play)
+
         # Handle changing the song
         if self.get_property('swipeProgress') > 0.9:
-            self.get_root().activate_action("app.player_next")
+            GLib.timeout_add(200, lambda: self.get_root().activate_action("app.player_next") and False)
         elif self.get_property('swipeProgress') < -0.9:
-            self.get_root().activate_action("app.player_previous")
+            GLib.timeout_add(200, lambda: self.get_root().activate_action("app.player_previous") and False)
 
-        # Return animation
-        self.animation.set_value_from(progress)
-        self.animation.play()
 
     def swipe_progress_changed(self, widget, gparam):
         progress = self.get_property('swipeProgress')

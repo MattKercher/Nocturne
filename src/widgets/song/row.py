@@ -41,7 +41,7 @@ class SongRow(Adw.ActionRow):
         integration.connect_to_model(self.id, 'radioStreamUrl', self.update_radioStreamUrl) # for radios
         integration.connect_to_model(self.id, 'isExternalFile', self.update_is_external)
         integration.connect_to_model(self.id, 'deleted', self.delete_status_changed)
-        integration.connect_to_model('currentSong', 'songId', self.current_song_changed)
+        integration.connect_to_current_song('id', self.current_song_changed)
 
         Gio.Settings(schema_id="com.jeffser.Nocturne").bind(
             "show-context-button",

@@ -32,7 +32,6 @@ class PlayingControlPage(Adw.NavigationPage):
 
     def setup(self):
         integration = get_current_integration()
-        integration.connect_to_model('currentSong', 'songId', lambda model_id: self.star_el.set_action_target_value(GLib.Variant('s', model_id or '')))
         integration.connect_to_model('currentSong', 'positionSeconds', self.update_position)
         integration.connect_to_model('currentSong', 'buttonState', self.state_stack_el.set_visible_child_name)
         integration.connect_to_model('currentSong', 'displaySongTitle', self.display_title_changed)
@@ -48,6 +47,7 @@ class PlayingControlPage(Adw.NavigationPage):
 
         # Connect to Current Song
         connections = {
+            'id': lambda model_id: self.star_el.set_action_target_value(GLib.Variant('s', model_id or '')),
             'radioStreamUrl': self.update_radioStreamUrl,
             'artistId': self.update_artistId,
             'album': self.update_album,

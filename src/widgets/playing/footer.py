@@ -20,7 +20,7 @@ class PlayingFooter(Gtk.Overlay):
     def setup(self):
         # Called after login
         integration = get_current_integration()
-        integration.connect_to_model('currentSong', 'songId', lambda *_: self.update_progress_el_visibility())
+        integration.connect_to_current_song('id', lambda song_id: self.update_progress_el_visibility())
         integration.connect_to_model('currentSong', 'positionSeconds', self.position_changed)
         integration.connect_to_model('currentSong', 'buttonState', self.state_stack_el.set_visible_child_name)
         integration.connect_to_model('currentSong', 'displaySongTitle', self.display_title_changed)

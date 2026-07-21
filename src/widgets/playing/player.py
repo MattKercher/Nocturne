@@ -329,8 +329,8 @@ class Player(EventAdapter):
         }
         for parameter, callback in connections.items():
             integration.connect_to_current_song(parameter, callback)
-        integration.connect_to_model('currentSong', 'songId', self.song_changed)
-        integration.connect_to_model('currentSong', 'songId', lambda *_: self.discord_rpc.update())
+        integration.connect_to_current_song('id', self.song_changed)
+        integration.connect_to_current_song('id', lambda *_: self.discord_rpc.update())
         integration.connect_to_model('currentSong', 'displaySongTitle', lambda *_: self.discord_rpc.update())
         integration.connect_to_model('currentSong', 'displaySongArtist', lambda *_: self.discord_rpc.update())
 
@@ -373,7 +373,6 @@ class Player(EventAdapter):
 
     def handle_song_change_request(self, action:str):
         # action can be next, previous or end (song ended)
-        #TODO make thread safe
         integration = get_current_integration()
         current_song_id = integration.loaded_models.get('currentSong').songId
 

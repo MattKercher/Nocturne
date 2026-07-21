@@ -28,7 +28,7 @@ class SongButton(Gtk.Box):
         integration.connect_to_model(self.id, 'title', self.update_name)
         integration.connect_to_model(self.id, 'artists', self.update_artists)
         integration.connect_to_model(self.id, 'gdkPaintable', self.update_cover)
-        integration.connect_to_model('currentSong', 'songId', self.current_song_changed)
+        integration.connect_to_current_song('id', self.current_song_changed)
 
     def update_size(self):
         isBig = self.settings.get_value('button-size').unpack() == 'big'
