@@ -293,7 +293,7 @@ class Player(EventAdapter):
 
         self.bus = self.gst.get_bus()
         self.bus.add_signal_watch()
-        self.bus.connect("message::eos", lambda bus, msg: self.handle_song_change_request("end") if msg.src == self.gst else None)
+        self.bus.connect("message::eos", lambda bus, msg: threading.Thread(target=self.handle_song_change_request, args=("end",)).start() if msg.src == self.gst else None)
         self.bus.connect("message::error", lambda bus, msg: print("ERROR", msg.parse_error()[0]))
         self.bus.connect("message::state-changed", lambda *_: threading.Thread(target=self.handle_message_state_changed, args=(_), daemon=True).start())
         self.bus.connect("message::tag", self.handle_message_tag)
@@ -373,6 +373,7 @@ class Player(EventAdapter):
 
     def handle_song_change_request(self, action:str):
         # action can be next, previous or end (song ended)
+        #TODO make thread safe
         integration = get_current_integration()
         current_song_id = integration.loaded_models.get('currentSong').songId
 

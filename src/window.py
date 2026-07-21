@@ -99,9 +99,15 @@ class NocturneWindow(Adw.ApplicationWindow):
             self.main_navigationview.replace([page])
 
     def create_action(self, callback:callable, shortcuts:list=[], parameter_type:str="s"):
+        def call_action(cb, va):
+            if va is None:
+                threading.Thread(target=cb, args=(self,), daemon=True).start()
+            else:
+                threading.Thread(target=cb, args=(self, va.unpack()), daemon=True).start()
+
         self.get_application().create_action(
             name=callback.__name__,
-            callback=lambda at, va, cb=callback, win=self: cb(win, va.unpack()) if va is not None else cb(win),
+            callback=lambda at, va, cb=callback: call_action(cb, va),
             shortcuts=shortcuts,
             parameter_type=GLib.VariantType.new(parameter_type) if parameter_type else None
         )
