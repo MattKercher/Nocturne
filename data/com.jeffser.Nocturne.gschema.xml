@@ -67,9 +67,6 @@
 	  <key name="use-sidebar-player" type="b">
 	    <default>false</default>
 	  </key>
-	  <key name="show-carousel-pan-buttons" type="b">
-	    <default>false</default>
-	  </key>
 	  <key name="button-size" type="s">
 	    <default>'big'</default>
 	  </key>

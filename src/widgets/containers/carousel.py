@@ -12,11 +12,6 @@ class Carousel(Gtk.Box):
     pan_start_el = Gtk.Template.Child()
     pan_end_el = Gtk.Template.Child()
 
-    def __init__(self):
-        super().__init__()
-        self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        self.settings.connect("changed::show-carousel-pan-buttons", self.update_pan_button_visibility)
-
     def set_header(self, label:str, icon_name:str, page_tag:str=None):
         self.header_button.set_tooltip_text(label)
         self.header_button.get_child().set_label(label)
@@ -44,12 +39,7 @@ class Carousel(Gtk.Box):
         for i, page in enumerate(widgets):
             GLib.idle_add(self.list_el.append, page)
         GLib.timeout_add(200, scroll_to_middle)
-
-        GLib.idle_add(self.update_pan_button_visibility, self.settings, "show-carousel-pan-buttons")
-
-    def update_pan_button_visibility(self, settings, key):
-        visible = self.list_el.get_n_pages() >= 5 and settings.get_value(key).unpack()
-        self.pan_container_el.set_visible(visible)
+        GLib.idle_add(self.pan_container_el.set_visible, len(widgets) >= 2)
 
     @Gtk.Template.Callback()
     def on_scroll(self, controller, dx, dy):
