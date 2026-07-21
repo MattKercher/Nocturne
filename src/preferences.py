@@ -3,7 +3,7 @@
 from gi.repository import Gtk, Adw, GLib, Gio, Gdk, Pango
 
 from .integrations import get_current_integration, secret
-from .constants import SIDEBAR_MENU, BITRATE_OPTIONS, IN_FLATPAK
+from .constants import SIDEBAR_MENU, BITRATE_OPTIONS, IN_FLATPAK, CACHE_DIR
 import os, threading
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/preferences.ui')
@@ -445,6 +445,14 @@ class NocturnePreferences(Adw.PreferencesDialog):
             schema_type="listenbrainz",
             callback=lambda: self.listenbrainz_stack_el.set_visible_child_name("link")
         )
+
+    @Gtk.Template.Callback()
+    def delete_image_cache_requested(self, button):
+        db_path = os.path.join(CACHE_DIR, 'cache_database.db')
+        if os.path.isfile(db_path):
+            os.remove(db_path)
+        button.set_end_icon_name('check-plain-symbolic')
+        button.set_sensitive(False)
 
     def sidebar_item_toggled(self, row, gp):
         settings = Gio.Settings(schema_id="com.jeffser.Nocturne")

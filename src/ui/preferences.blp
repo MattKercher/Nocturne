@@ -119,6 +119,13 @@ template $NocturnePreferencesDialog: Adw.PreferencesDialog {
         }
       }
       Adw.ButtonRow {
+        title: _("Delete Image Cache");
+        styles [
+          "destructive-action"
+        ]
+        activated => $delete_image_cache_requested();
+      }
+      Adw.ButtonRow {
         title: _("Logout");
         styles [
           "destructive-action"
