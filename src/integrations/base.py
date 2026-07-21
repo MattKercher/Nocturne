@@ -217,6 +217,32 @@ class Base(GObject.Object):
             callback(self.loaded_models.get(model_id).get_property(parameter))
         return connection_id
 
+    def save_cache_image(self, model_id:str, size:int, image_data:bytes):
+        # do not modify this function, it works as is in any instance
+        # should be called in updateCoverArt
+        conn, cursor = sql_instance.get_cache_connection()
+        cursor.execute(
+            "INSERT OR IGNORE INTO images (integration, model, size, image) values (?, ?, ?, ?)",
+            (self.__gtype_name__, model_id, size, image_data)
+        )
+        conn.commit()
+        conn.close()
+
+    def get_cache_image(self, model_id:str, size:int) -> bytes:
+        # do not modify this function, it works as is in any instance
+        # should be called in updateCoverArt
+        conn, cursor = sql_instance.get_cache_connection()
+        cursor.execute(
+            "SELECT image from images WHERE integration=? AND model=? AND size=?",
+            (self.__gtype_name__, model_id, size)
+        )
+        result = b''
+        if row := cursor.fetchone():
+            result = row[0] or b''
+        conn.commit()
+        conn.close()
+        return result
+
     def start_instance(self) -> bool:
         # always called in different thread, because it might take a couple of seconds to get started
         print('WARNING', 'start_instance', 'not implemented')
@@ -262,6 +288,7 @@ class Base(GObject.Object):
         # when implementing also do super().ping() to prepare SQL
         try:
             sql_instance.ensure_schema(self)
+            sql_instance.ensure_cache_schema()
             return {'status': 'ok'}
         except:
             return {

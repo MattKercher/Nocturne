@@ -1,6 +1,38 @@
 # sql_instance.py
 
 import sqlite3, os
+from ..constants import CACHE_DIR
+
+def get_cache_connection() -> tuple:
+    conn = sqlite3.connect(os.path.join(CACHE_DIR, 'cache_database.db'))
+    cursor = conn.cursor()
+    return conn, cursor
+
+def ensure_cache_schema():
+    conn, cursor = get_cache_connection()
+    schema_dict = {
+        'images': {
+            'integration': 'TEXT NOT NULL',
+            'model': 'TEXT NOT NULL',
+            'size': 'INTEGER DEFAULT 1',
+            'image': 'BLOB',
+            'UNIQUE': '(integration, model, size)'
+        }
+    }
+    try:
+        for table_name, columns in schema_dict.items():
+            cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
+                (table_name,)
+            )
+            if not cursor.fetchone():
+                column_defs = ", ".join([f"{name} {props}" for name, props in columns.items()])
+                query = f"CREATE TABLE {table_name} ({column_defs});"
+                cursor.execute(query)
+        conn.commit()
+    except sqlite3.Error as e:
+        print("Error", e)
+        return
 
 def get_connection(integration) -> tuple:
     conn = sqlite3.connect(os.path.join(integration.getIntegrationDir(), 'database.db'))

@@ -195,17 +195,21 @@ class Jellyfin(Base):
             }
             for property_name, size in sizes.items():
                 if not model.get_property(property_name):
-                    response_bytes = self.getCoverArtBytes(model_id, size)
-                    if not response_bytes and isinstance(model, models.Song):
-                        response_bytes = self.getCoverArtBytes(model.get_property('albumId'), size)
-                        if response_bytes:
-                            model.set_property('coverArt', model.get_property('albumId')) # For getCoverArtUrl
-
-                    if response_bytes:
+                    raw_bytes = self.get_cache_image(model_id, size)
+                    save_cache = not raw_bytes
+                    if not raw_bytes:
+                        raw_bytes = self.getCoverArtBytes(model_id, size)
+                        if not raw_bytes and isinstance(model, models.Song):
+                            raw_bytes = self.getCoverArtBytes(model.get_property('albumId'), size)
+                            if raw_bytes:
+                                model.set_property('coverArt', model.get_property('albumId')) # For getCoverArtUrl
+                    if raw_bytes:
                         try:
-                            gbytes = GLib.Bytes.new(response_bytes)
+                            gbytes = GLib.Bytes.new(raw_bytes)
                             texture = Gdk.Texture.new_from_bytes(gbytes)
-                            model.set_property(property_name, texture)
+                            GLib.idle_add(model.set_property, property_name, texture)
+                            if save_cache:
+                                GLib.idle_add(self.save_cache_image, model_id, raw_bytes)
                         except Exception as e:
                             logger.error(f"can't convert image from {model_id} (size {size}): {e}")
 
