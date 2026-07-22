@@ -238,7 +238,7 @@ def main(version):
                     group.add_argument(argument_name, action='store_true', help=argument_data.get('message'), dest=action_name)
     exit = False
     try:
-        args = parser.parse_args()
+        args, unknown = parser.parse_known_args()
         actions_to_call = {} # action-name : value
         for action, value in vars(args).items():
             if action == 'search' and value and isinstance(value, str):
