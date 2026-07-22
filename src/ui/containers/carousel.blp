@@ -81,6 +81,7 @@ template $NocturneCarousel: Gtk.Box {
       allow-mouse-drag: true;
       allow-scroll-wheel: false;
       page-changed => $page_changed();
+      overflow: visible;
 
       Gtk.EventControllerScroll {
         scroll => $on_scroll();
