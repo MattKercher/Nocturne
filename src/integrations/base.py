@@ -6,6 +6,7 @@ from ..constants import get_nocturne_version, INTEGRATIONS_DIR
 import requests, urllib3, time, os, json, threading, logging
 from datetime import datetime
 from requests.adapters import HTTPAdapter, Retry
+from concurrent.futures import ThreadPoolExecutor
 
 logger = logging.getLogger(__name__)
 
@@ -100,22 +101,26 @@ class Base(GObject.Object):
     # See example in get_sql_schema
     sqlSchema = {}
 
-    # Set up retry rules
-    retries = Retry(
-        total=3,
-        backoff_factor=1,
-        status_forcelist=[429, 500, 502, 503, 504]
+    # Set up thread executor
+    threads = ThreadPoolExecutor(max_workers=30)
+
+    # Re-usable session_adapter for shared connection pool
+    _session_adapter = HTTPAdapter(
+        pool_connections=5,
+        pool_maxsize=30,
+        max_retries=Retry(
+            total=3,
+            backoff_factor=1,
+            status_forcelist=[429, 500, 502, 503, 504]
+        )
     )
 
-    # Use session instead of calling requests
-    session_adapter = HTTPAdapter(
-        pool_connections=5,
-        pool_maxsize=100,
-        max_retries=retries
-    )
-    session = requests.Session()
-    session.mount("http://", session_adapter)
-    session.mount("https://", session_adapter)
+    @property
+    def session(self):
+        session = requests.Session()
+        session.mount("http://", self._session_adapter)
+        session.mount("https://", self._session_adapter)
+        return session
 
     # Epic custom lightweight cache manager
     cache_manager = CacheManager()

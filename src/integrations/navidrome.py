@@ -46,12 +46,13 @@ class Navidrome(Base):
 
     def send_request(self, action:str, params:dict={}):
         def request_job(url, parameters) -> tuple:
-            result = self.session.get(
-                url,
-                params={**self.get_base_params(), **parameters},
-                verify=not self.get_property('trustServer')
-            )
-            return result.status_code in (200, 201), result
+            with self.session as current_session:
+                result = current_session.get(
+                    url,
+                    params={**self.get_base_params(), **parameters},
+                    verify=not self.get_property('trustServer')
+                )
+                return result.status_code in (200, 201), result
         action_url = self.get_url(action)
         request_id = '{}?{}&apikey={}'.format(action_url, urlencode(params), self._use_apikey_auth)
         return self.cache_manager.get_result(request_id, request_job, action_url, params)
@@ -259,11 +260,11 @@ class Navidrome(Base):
 
         if force_update:
             if use_threading:
-                threading.Thread(target=update, daemon=True).start()
+                self.threads.submit(update)
             else:
                 update()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
+        self.threads.submit(self.updateCoverArt, model_id)
 
     def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True):
         def update():
@@ -280,11 +281,11 @@ class Navidrome(Base):
 
         if force_update:
             if use_threading:
-                threading.Thread(target=update, daemon=True).start()
+                self.threads.submit(update)
             else:
                 update()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
+        self.threads.submit(self.updateCoverArt, model_id)
 
     def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
         def update():
@@ -301,11 +302,11 @@ class Navidrome(Base):
 
         if force_update:
             if use_threading:
-                threading.Thread(target=update, daemon=True).start()
+                self.threads.submit(update)
             else:
                 update()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
+        self.threads.submit(self.updateCoverArt, model_id)
 
     def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True):
         def update():
@@ -330,11 +331,11 @@ class Navidrome(Base):
 
         if force_update:
             if use_threading:
-                threading.Thread(target=update, daemon=True).start()
+                self.threads.submit(self.updateCoverArt, model_id)
             else:
                 update()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
+        self.threads.submit(self.updateCoverArt, model_id)
 
     def star(self, model_id:str) -> bool:
         response = None

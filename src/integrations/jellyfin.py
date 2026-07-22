@@ -4,7 +4,7 @@ from gi.repository import GLib, GObject, Gdk, Gio
 from . import secret, models, local, sql_instance
 from .base import Base
 from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP
-import threading, os, platform, logging
+import os, platform, logging
 from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
@@ -41,6 +41,7 @@ class Jellyfin(Base):
     # Loaded by API
     accessToken = GObject.Property(type=str)
     userId = GObject.Property(type=str)
+    libraryId = GObject.Property(type=str)
 
     def get_base_header(self) -> dict:
         headers = {
@@ -58,40 +59,45 @@ class Jellyfin(Base):
     def make_request(self, action:str, json:dict={}, params:dict={}, mode:str="GET", action_keys:dict={}) -> dict:
         def request_job(url):
             try:
-                if mode == 'GET':
-                    response = self.session.get(
-                        url,
-                        params=params,
-                        json=json,
-                        headers=self.get_base_header(),
-                        verify=not self.get_property('trustServer')
-                    )
-                elif mode == 'POST':
-                    response = self.session.post(
-                        url,
-                        params=params,
-                        json=json,
-                        headers=self.get_base_header(),
-                        verify=not self.get_property('trustServer')
-                    )
-                elif mode == 'DELETE':
-                    response = self.session.delete(
-                        url,
-                        params=params,
-                        json=json,
-                        headers=self.get_base_header(),
-                        verify=not self.get_property('trustServer')
-                    )
-                elif mode == 'RAWGET':
-                    # Get without calling json()
-                    response = self.session.get(
-                        self.get_url(action, **action_keys),
-                        params=params,
-                        json=json,
-                        headers=self.get_base_header(),
-                        verify=not self.get_property('trustServer')
-                    )
-                    return response.status_code in (200, 201), response
+                with self.session as current_session:
+                    if mode == 'GET':
+                        response = current_session.get(
+                            url,
+                            params=params,
+                            json=json,
+                            headers=self.get_base_header(),
+                            verify=not self.get_property('trustServer'),
+                            timeout=(3.05, 10)
+                        )
+                    elif mode == 'POST':
+                        response = current_session.post(
+                            url,
+                            params=params,
+                            json=json,
+                            headers=self.get_base_header(),
+                            verify=not self.get_property('trustServer'),
+                            timeout=(3.05, 10)
+                        )
+                    elif mode == 'DELETE':
+                        response = current_session.delete(
+                            url,
+                            params=params,
+                            json=json,
+                            headers=self.get_base_header(),
+                            verify=not self.get_property('trustServer'),
+                            timeout=(3.05, 10)
+                        )
+                    elif mode == 'RAWGET':
+                        # Get without calling json()
+                        response = current_session.get(
+                            self.get_url(action, **action_keys),
+                            params=params,
+                            json=json,
+                            headers=self.get_base_header(),
+                            verify=not self.get_property('trustServer'),
+                            timeout=(3.05, 10)
+                        )
+                        return response.status_code in (200, 201), response
                 if response.status_code in (200, 201):
                     return True, response.json()
                 elif response.status_code == 204:
@@ -102,8 +108,6 @@ class Jellyfin(Base):
         action_url = self.get_url(action, **action_keys)
         request_id = '({}) {}?{}'.format(mode, action_url, urlencode(params))
         return self.cache_manager.get_result(request_id, request_job, action_url)
-
-    # ----------- #
 
     def get_rating(self, model_id) -> int:
         conn, cursor = sql_instance.get_connection(self)
@@ -168,8 +172,18 @@ class Jellyfin(Base):
 
     def getCoverArtBytes(self, model_id:str, size:int) -> bytes:
         try:
+            if not model_id:
+                return b''
+            url = 'Items/{id}/Images/Primary'
+            if model := self.loaded_models.get(model_id):
+                if image_url := self.loaded_models.get(model_id).get_property('coverArt'):
+                    if image_url != "None":
+                        url = image_url
+                    else:
+                        return b'' #will otherwise return a 404 error
+
             response = self.make_request(
-                action='Items/{id}/Images/Primary',
+                action=url,
                 action_keys={'id': model_id},
                 params={
                     'maxWidth': size,
@@ -183,11 +197,13 @@ class Jellyfin(Base):
             logger.error(f"can't get image from {model_id}: {e}")
         return b''
 
-    def updateCoverArt(self, model_id:str):
+    def updateCoverArt(self, model_id:str=''):
         if model := self.loaded_models.get(model_id):
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
                 local.Local.updateCoverArt(self, model_id)
                 return
+            if model.get_property('coverArt') == "None":
+                return None #will otherwise return a 404 error
 
             sizes = {
                 'gdkPaintableBig': 720,
@@ -223,7 +239,13 @@ class Jellyfin(Base):
             }
             if token := self.get_property('accessToken'):
                 params['api_key'] = token
-            return '{}?{}'.format(self.get_url('Items/{id}/Images/Primary', id=model.get_property('coverArt') or model_id), urlencode(params))
+
+            if model.get_property('coverArt') and model.get_property('coverArt') != "None":
+                url = self.get_url(model.get_property('coverArt'))
+            else:
+                url = self.get_url('Items/{id}/Images/Primary', id=model_id)
+
+            return '{}?{}'.format(url, urlencode(params))
         return ""
 
     def ping(self) -> dict:
@@ -252,6 +274,21 @@ class Jellyfin(Base):
             self.set_property('accessToken', response.get('AccessToken'))
             self.set_property('userId', response.get('User', {}).get('Id'))
         if self.get_property('accessToken') and self.get_property('userId'):
+            libraries = self.make_request(
+                action='Users/{userId}/Views',
+                mode='GET'
+            ).get("Items", [])
+            for library in libraries:
+                library_found = False
+                if library.get("CollectionType") == "music":
+                    if not library_found:
+                        library_found = True
+                        self.set_property('libraryId', library.get("Id"))
+                    else: #TODO implement method for selecting a library
+                        self.set_property('libraryId', '')
+                        logger.warning("Multiple music libraries found, reverting to include all Jellyfin libraries.")
+                        break
+
             return super().ping()
         return {
             'status': 'error',
@@ -265,6 +302,7 @@ class Jellyfin(Base):
             "Limit": size,
             "StartIndex": offset,
             "Fields": "ArtistItems,IsFavorite",
+            "ParentId": self.get_property("libraryId")
         }
         if list_type == "random":
             params["SortBy"] = "Random"
@@ -285,111 +323,38 @@ class Jellyfin(Base):
             mode='GET',
             params=params
         ).get('Items', [])
-        id_list = []
-        for album in albums:
-            artists = album.get("ArtistItems", [])
-            songs = self.make_request(
-                action='Users/{userId}/Items',
-                mode="GET",
-                params={
-                    "ParentId": album.get("Id"),
-                    "IncludeItemTypes": "Audio",
-                    "Fields": "RunTimeTicks"
-                }
-            ).get("Items", [])
-
-            duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
-
-            album_model = models.Album(
-                id=album.get("Id"),
-                name=album.get("Name"),
-                artist=artists[0].get("Name") if artists else "Unknown",
-                artistId=artists[0].get("Id") if artists else "",
-                songCount=len(songs),
-                duration=duration,
-                artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artists],
-                song=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs],
-                starred=album.get("UserData", {}).get("IsFavorite", False),
-                userRating=self.get_rating(album.get("Id"))
-            )
-            self.loaded_models[album.get("Id")] = album_model
-            id_list.append(album.get("Id"))
-        return id_list
+        self.__bulk_verify("MusicAlbum", albums)
+        return [album.get("Id") for album in albums]
 
     def getArtists(self, size:int=10) -> list:
-        params = {
-            "Limit": size,
-            "Recursive": "true",
-            "Fields": "Overview,SimilarItems,UserData",
-            "SortBy": "Random",
-            "SortOrder": "Ascending"
-        }
-        response = self.make_request(
-            action='Artists',
+        artists = self.make_request(
+            action='Artists/AlbumArtists',
             mode='GET',
-            params=params
-        )
-        id_list = []
-        for artist in response.get('Items', []):
-            albums = self.make_request(
-                action="Users/{userId}/Items",
-                mode="GET",
-                params={
-                    "ArtistIds": artist.get("Id"),
-                    "IncludeItemTypes": "MusicAlbum",
-                    "Recursive": "true"
-                }
-            ).get("Items", [])
-
-            artist_model = models.Artist(
-                id=artist.get('Id'),
-                name=artist.get('Name'),
-                albumCount=len(albums),
-                album=[{'id': alb.get("Id"), 'name': alb.get("Name")} for alb in albums],
-                starred=artist.get("UserData", {}).get("IsFavorite", False),
-                biography=artist.get("Overview", ""),
-                similarArtist=[{'id': art.get("Id"), 'name': art.get("Name")} for art in artist.get("SimilarItems", [])],
-                userRating=self.get_rating(artist.get("Id"))
-            )
-            self.loaded_models[artist.get("Id")] = artist_model
-            id_list.append(artist.get("Id"))
-        return id_list
+            params={
+                "Limit": size,
+                "Recursive": "true",
+                "Fields": "Overview,SimilarItems,UserData",
+                "SortBy": "Random",
+                "SortOrder": "Ascending",
+                "ParentId": self.get_property("libraryId")
+            }
+        ).get('Items', [])
+        self.__bulk_verify("MusicArtist", artists)
+        return [artist.get("Id") for artist in artists]
 
     def getPlaylists(self) -> list:
-        params = {
-            "IncludeItemTypes": "Playlist",
-            "Recursive": "true",
-            "Fields": "None"
-        }
-        response = self.make_request(
+        playlists = self.make_request(
             action='Users/{userId}/Items',
             mode='GET',
-            params=params
-        )
+            params={
+                "IncludeItemTypes": "Playlist",
+                "Recursive": "true",
+                "Fields": "None"
+            }
+        ).get('Items', [])
         id_list = []
-        for playlist in response.get('Items', []):
-            songs = self.make_request(
-                action='Playlists/{id}/Items',
-                action_keys={"id": playlist.get("Id")},
-                mode="GET",
-                params={
-                    "Fields": "RunTimeTicks",
-                    "UserId": self.get_property("userId")
-                }
-            ).get("Items", [])
-
-            duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
-
-            playlist_model = models.Playlist(
-                id=playlist.get("Id"),
-                name=playlist.get("Name"),
-                songCount=len(songs),
-                duration=duration,
-                entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
-            )
-            self.loaded_models[playlist.get("Id")] = playlist_model
-            id_list.append(playlist.get("Id"))
-        return id_list
+        self.__bulk_verify("Playlist", playlists)
+        return [playlist.get("Id") for playlist in playlists]
 
     def getStarredSongs(self) -> list:
         song_list = []
@@ -400,77 +365,127 @@ class Jellyfin(Base):
                 "IncludeItemTypes": "Audio",
                 "Recursive": "true",
                 "Fields": "Id",
-                "Filters": "IsFavorite"
+                "Filters": "IsFavorite",
+                "ParentId": self.get_property("libraryId")
             }
         ).get("Items", [])
 
+        self.__bulk_verify("Audio", songs)
         return [song.get("Id") for song in songs]
 
-    def verifyArtist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyArtist(self, model_id:str, force_update:bool=False, use_threading:bool=True, artist_object:models.Artist=None, lite:bool=False):
         def run():
-            artist = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
+            artist = artist_object
+            if artist is None:
+                artist = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
 
             if artist.get("Id"):
-                albums = self.make_request(
-                    action='Users/{userId}/Items',
-                    mode="GET",
-                    params={
-                        "ParentId": model_id,
-                        "IncludeItemTypes": "MusicAlbum",
-                        "Recursive": "true",
-                        "Fields": "ItemCounts",
-                        "SortBy": "PremiereDate"
-                    }
-                ).get("Items", [])
+                primary_tag = artist.get('ImageTags', {}).get('Primary', '')
+                cover_art = f"Items/{model_id}/Images/Primary?={primary_tag}" if primary_tag else "None"
 
                 self.loaded_models.get(model_id).update_data(
                     id=artist.get("Id"),
                     name=artist.get("Name"),
-                    albumCount=len(albums),
-                    album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
+                    coverArt=cover_art,
                     starred=artist.get("UserData", {}).get("IsFavorite", False),
                     biography=artist.get("Overview", ""),
-                    similarArtists=[{"id": art.get("Id"), "name": art.get("Name")} for art in artist.get("SimilarItems", [])],
                     userRating=self.get_rating(artist.get("Id"))
                 )
+
+                #Queue background session requests in order of importance: albums -> coverArt -> similar artists
+                self.threads.submit(get_albums)
+                self.threads.submit(self.updateCoverArt, artist.get("Id"))
+                if not lite:
+                    self.threads.submit(get_similar)
+
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
+
+        def get_albums():
+            params={
+                "AlbumArtistIds": [model_id],
+                "IncludeItemTypes": "MusicAlbum",
+                "Recursive": "true",
+                "SortBy": "PremiereDate"
+            }
+            if lite:
+                params["Limit"]=0 #Prevents complex db query
+                params["Fields"]=None
+                params["EnableImages"]="false"
+                params["EnableUserData"]="false"
+                del params["SortBy"]
+
+            albums_request = self.make_request(
+                action='Users/{userId}/Items',
+                mode="GET",
+                params=params
+            )
+            albums = albums_request.get("Items", [])
+            if not lite:
+                self.__bulk_verify("MusicAlbum", albums)
+
+            self.loaded_models.get(model_id).update_data(
+                albumCount=albums_request.get("TotalRecordCount"),
+                album=[{"id": alb.get("Id"), "name": alb.get("Name")} for alb in albums],
+            )
+
+        def get_similar():
+            similar = self.make_request(
+                action='/Items/{id}/Similar?userId={userId}',
+                action_keys={"id": model_id},
+                params={"limit": 12},
+                mode="GET"
+            ).get("Items", [])
+
+            self.__bulk_verify("MusicArtist", similar)
+            self.loaded_models.get(model_id).update_data(
+                similarArtist=[{"id": sim.get("Id"), "name": sim.get("Name")} for sim in similar]
+            )
+
+        if not model_id or not model_id.strip():
+            logger.debug("Empty Artist model_id, aborting.")
+            return
 
         if model_id not in self.loaded_models or force_update:
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Artist(id=model_id)
             if use_threading:
-                threading.Thread(target=run, daemon=True).start()
+                self.threads.submit(run)
             else:
                 run()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyAlbum(self, model_id:str, force_update:bool=False, use_threading:bool=True, album_object:models.Album=None, lite:bool=False):
         def run():
-            album = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
+            album = album_object
+            if album is None:
+                album = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
 
             if album.get("Id"):
-                songs = self.make_request(
-                    action='Users/{userId}/Items',
-                    mode="GET",
-                    params={
-                        "ParentId": model_id,
-                        "IncludeItemTypes": "Audio",
-                        "Recursive": "true",
-                        "Fields": "RunTimeTicks,IndexNumber,ParentIndexNumber,ProductionYear",
-                        "SortBy": "ParentIndexNumber,IndexNumber",
-                        "SortOrder": "Ascending"
-                    }
-                ).get("Items", [])
+                songs=[]
+                if not lite:
+                    songs = self.make_request(
+                        action='Users/{userId}/Items',
+                        mode="GET",
+                        params={
+                            "ParentId": model_id,
+                            "IncludeItemTypes": "Audio",
+                            "Recursive": "true",
+                            "Fields": "RunTimeTicks,IndexNumber,ParentIndexNumber,ProductionYear",
+                            "SortBy": "ParentIndexNumber,IndexNumber",
+                            "SortOrder": "Ascending"
+                        }
+                    ).get("Items", [])
+
+                primary_tag = album.get('ImageTags', {}).get('Primary', '')
+                cover_art = f"Items/{model_id}/Images/Primary?={primary_tag}" if primary_tag else "None"
 
                 duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
 
@@ -483,6 +498,7 @@ class Jellyfin(Base):
                     name=album.get("Name"),
                     artist=album.get("AlbumArtist"),
                     artistId=album.get("ArtistItems", [{}])[0].get("Id") if album.get("ArtistItems") else None,
+                    coverArt=cover_art,
                     songCount=len(songs),
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in album.get("ArtistItems", [])],
@@ -491,74 +507,116 @@ class Jellyfin(Base):
                     userRating=self.get_rating(album.get("Id")),
                     year=album.get("ProductionYear", 0)
                 )
+                self.threads.submit(self.updateCoverArt, album.get("Id"))
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
+
+        if not model_id or not model_id.strip():
+            logger.debug("Empty Album model_id, aborting.")
+            return
 
         if model_id not in self.loaded_models or force_update:
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Album(id=model_id)
             if use_threading:
-                threading.Thread(target=run, daemon=True).start()
+                self.threads.submit(run)
             else:
                 run()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifyPlaylist(self, model_id:str, force_update:bool=False, use_threading:bool=True, playlist_object:models.Playlist=None, lite:bool=False):
         def run():
-            playlist = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode="GET"
-            )
-
+            playlist = playlist_object
+            if playlist is None:
+                playlist = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode="GET"
+                )
             if playlist.get("Id"):
-                songs = self.make_request(
-                    action='Users/{userId}/Items',
-                    mode="GET",
-                    params={
-                        "ParentId": model_id,
-                        "IncludeItemTypes": "Audio",
-                        "Recursive": "true",
-                        "Fields": "RunTimeTicks"
-                    }
-                ).get("Items", [])
-
-                duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
+                primary_tag = playlist.get('ImageTags', {}).get('Primary', '')
+                cover_art = f"Items/{model_id}/Images/Primary?={primary_tag}" if primary_tag else "None"
 
                 self.loaded_models.get(model_id).update_data(
                     id=playlist.get("Id"),
                     name=playlist.get("Name"),
-                    songCount=len(songs),
-                    duration=duration,
-                    entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
+                    coverArt=cover_art
                 )
+                if use_threading:
+                    self.threads.submit(get_songs)
+                else:
+                    get_songs()
+                self.threads.submit(self.updateCoverArt, playlist.get("Id"))
             elif model_id in self.loaded_models:
                 del self.loaded_models[model_id]
+
+        def get_songs():
+            params = {
+                "UserId": self.get_property("userId"),
+                "Fields": "RunTimeTicks"
+            }
+            if(lite):
+                params["Limit"]=0
+                params["Fields"]=None
+                params["EnableImages"]="false"
+                params["EnableUserData"]="false"
+
+            songs_response = self.make_request(
+                action='Playlists/{id}/Items',
+                action_keys={"id": model_id},
+                mode="GET",
+                params=params
+            )
+
+            songs = songs_response.get("Items", [])
+            duration = int(sum(song.get("RunTimeTicks", 0) for song in songs) / 10000000)
+
+            self.loaded_models.get(model_id).update_data(
+                songCount=songs_response.get("TotalRecordCount"),
+                duration=duration,
+                entry=[{"id": song.get("Id"), "name": song.get("Name")} for song in songs]
+            )
+
+        if not model_id or not model_id.strip():
+            logger.debug("Empty Playlist model_id, aborting.")
+            return
 
         if model_id not in self.loaded_models or force_update:
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Playlist(id=model_id)
             if use_threading:
-                threading.Thread(target=run, daemon=True).start()
+                self.threads.submit(run)
             else:
                 run()
 
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
-
-    def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True):
+    def verifySong(self, model_id:str, force_update:bool=False, use_threading:bool=True, song_object:models.Song=None):
         def run():
-            params = {
-                "Fields": "ArtistItems,AlbumId,RunTimeTicks,UserData,IndexNumber,ParentIndexNumber"
-            }
-            song = self.make_request(
-                action='Users/{userId}/Items/{id}',
-                action_keys={"id": model_id},
-                mode='GET',
-                params=params
-            )
+            song = song_object
+            if song is None:
+                params = {
+                    "Fields": "ArtistItems,AlbumId,RunTimeTicks,UserData,IndexNumber,ParentIndexNumber"
+                }
+                song = self.make_request(
+                    action='Users/{userId}/Items/{id}',
+                    action_keys={"id": model_id},
+                    mode='GET',
+                    params=params
+                )
 
             if song.get("Id"):
+                cover_art = "None"
+
+                #Check for cover art on Song object and query Album object if it's missing
+                if primary_tag := song.get('ImageTags', {}).get('Primary', ''):
+                    cover_art = f"Items/{model_id}/Images/Primary?={primary_tag}"
+                else:
+                    album = self.make_request(
+                        action='Users/{userId}/Items/{id}',
+                        action_keys={"id": song.get("AlbumId")},
+                        mode="GET"
+                    )
+                    if album_id := album.get("Id"):
+                        if primary_tag := album.get('ImageTags', {}).get('Primary', ''):
+                            cover_art = f"Items/{album_id}/Images/Primary?={primary_tag}"
                 duration = int(song.get("RunTimeTicks", 0) / 10000000)
                 self.loaded_models.get(model_id).update_data(
                     id=song.get("Id"),
@@ -567,6 +625,7 @@ class Jellyfin(Base):
                     albumId=song.get("AlbumId"),
                     artist=song.get("AlbumArtist"),
                     artistId=(song.get("ArtistItems") or [{}])[0].get("Id"),
+                    coverArt=cover_art,
                     duration=duration,
                     artists=[{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
                     starred=song.get("UserData", {}).get("IsFavorite", False),
@@ -576,19 +635,22 @@ class Jellyfin(Base):
                     trackGain=song.get("NormalizationGain") or 0.0,
                     userRating=self.get_rating(model_id)
                 )
+                self.threads.submit(self.updateCoverArt, song.get("Id"))
             elif model_id in self.loaded_models:
                 self.loaded_models.get(model_id).set_property('deleted', True)
                 del self.loaded_models[model_id]
+
+        if not model_id or not model_id.strip():
+            logger.debug("Empty Song model_id, aborting.")
+            return
 
         if model_id not in self.loaded_models or force_update:
             if model_id not in self.loaded_models:
                 self.loaded_models[model_id] = models.Song(id=model_id)
             if use_threading:
-                threading.Thread(target=run, daemon=True).start()
+                self.threads.submit(run)
             else:
                 run()
-
-        threading.Thread(target=self.updateCoverArt, args=(model_id,), daemon=True).start()
 
     def star(self, model_id:str) -> bool:
         response = self.make_request(
@@ -666,28 +728,8 @@ class Jellyfin(Base):
             }
         ).get("Items", [])
 
-        id_list = []
-        for song in songs:
-            if song.get("Id"):
-                duration = int(song.get("RunTimeTicks", 0) / 10000000)
-                properties = {
-                    "id": song.get("Id"),
-                    "title": song.get("Name"),
-                    "album": song.get("Album"),
-                    "albumId": song.get("AlbumId"),
-                    "artist": song.get("AlbumArtist"),
-                    "artistId": (song.get("ArtistItems") or [{}])[0].get("Id"),
-                    "duration": duration,
-                    "artists": [{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
-                    "starred": song.get("UserData", {}).get("IsFavorite", False),
-                    "userRating": self.get_rating(song.get("Id"))
-                }
-                if song.get("Id") in self.loaded_models:
-                    self.loaded_models.get(song.get("Id")).update_data(**properties)
-                else:
-                    self.loaded_models[song.get("Id")] = models.Song(**properties)
-                id_list.append(song.get("Id"))
-        return id_list
+        self.__bulk_verify("Audio", songs)
+        return [song.get("Id") for song in songs]
 
     def getRandomSongs(self, size:int=20) -> list:
         songs = self.make_request(
@@ -699,32 +741,13 @@ class Jellyfin(Base):
                 "Fields": "RunTimeTicks,UserData,ArtistItems",
                 "Limit": size,
                 "SortBy": "Random",
-                "MediaTypes": "Audio"
+                "MediaTypes": "Audio",
+                "ParentId":self.get_property("libraryId")
             }
         ).get('Items', [])
 
-        id_list = []
-        for song in songs:
-            if song.get("Id"):
-                duration = int(song.get("RunTimeTicks", 0) / 10000000)
-                properties = {
-                    "id": song.get("Id"),
-                    "title": song.get("Name"),
-                    "album": song.get("Album"),
-                    "albumId": song.get("AlbumId"),
-                    "artist": song.get("AlbumArtist"),
-                    "artistId": (song.get("ArtistItems") or [{}])[0].get("Id"),
-                    "duration": duration,
-                    "artists": [{"id": art.get("Id"), "name": art.get("Name")} for art in song.get("ArtistItems", [])],
-                    "starred": song.get("UserData", {}).get("IsFavorite", False),
-                    "userRating": self.get_rating(song.get("Id"))
-                }
-                if song.get("Id") in self.loaded_models:
-                    self.loaded_models.get(song.get("Id")).update_data(**properties)
-                else:
-                    self.loaded_models[song.get("Id")] = models.Song(**properties)
-            id_list.append(song.get("Id"))
-        return id_list
+        self.__bulk_verify("Audio", songs)
+        return [song.get("Id") for song in songs]
 
     def getLyrics(self, songId:str) -> dict:
         result = self.make_request(
@@ -753,12 +776,27 @@ class Jellyfin(Base):
                 }
         return {'type': 'not-found'}
 
-    def __fetch_type(self, item_type:str, query:str, limit:int=5, offset:int=0, fields:str=""):
+    def __fetch_type(self, item_type:str, query:str, limit:int=5, offset:int=0, fields:str="", verify:bool=False):
+        if limit == 0:
+            return []
         # Method exclusive to Jellyfin, helper for searches
-        return self.make_request(
-            action='Users/{userId}/Items',
-            mode="GET",
-            params={
+        items = []
+        if item_type == "MusicArtist":
+            items = self.make_request(
+                action='Artists/AlbumArtists',
+                mode="GET",
+                params={
+                    "userId": self.get_property("userId"),
+                    "parentId": self.get_property("libraryId"),
+                    "SearchTerm": query,
+                    "Recursive": "true",
+                    "Limit": limit,
+                    "StartIndex": offset,
+                    "Fields": fields
+                }
+            ).get('Items', [])
+        else:
+            params = {
                 "SearchTerm": query,
                 "IncludeItemTypes": item_type,
                 "Recursive": "true",
@@ -766,14 +804,36 @@ class Jellyfin(Base):
                 "StartIndex": offset,
                 "Fields": fields
             }
-        ).get('Items', [])
+            if item_type != "Playlist":
+                params["ParentId"] = self.get_property("libraryId")
+            items = self.make_request(
+                action='Users/{userId}/Items',
+                mode="GET",
+                params=params
+            ).get('Items', [])
+
+        if verify:
+            self.__bulk_verify(item_type, items)
+        return items
+
+    def __bulk_verify(self, item_type:str, items:list):
+        #Method exclusive to Jellyfin, pre-verifies response objects so the UI loads faster
+        for item in items:
+            if item_type == "MusicArtist":
+                self.verifyArtist(item.get("Id"), artist_object=item, use_threading=False, lite=True)
+            elif item_type == "MusicAlbum":
+                self.verifyAlbum(item.get("Id"), album_object=item, use_threading=False, lite=True)
+            elif item_type == "Audio":
+                self.verifySong(item.get("Id"), use_threading=False, song_object=item)
+            elif item_type == "Playlist":
+                self.verifyPlaylist(item.get("Id"), use_threading=False, playlist_object=item, lite=True)
 
     def search(self, query:str, artistCount:int=0, artistOffset:int=0, albumCount:int=0, albumOffset:int=0, songCount:int=0, songOffset:int=0, playlistCount:int=0, playlistOffset:int=0) -> dict:
         return {
-            'artist': [item.get("Id") for item in self.__fetch_type("MusicArtist", query, artistCount, artistOffset)],
-            'album': [item.get("Id") for item in self.__fetch_type("MusicAlbum", query, albumCount, albumOffset)],
-            'song': [item.get("Id") for item in self.__fetch_type("Audio", query, songCount, songOffset)],
-            'playlist': [item.get("Id") for item in self.__fetch_type("Playlist", query, playlistCount, playlistOffset)]
+            'artist': [item.get("Id") for item in self.__fetch_type("MusicArtist", query, artistCount, artistOffset, verify=True)],
+            'album': [item.get("Id") for item in self.__fetch_type("MusicAlbum", query, albumCount, albumOffset, verify=True)],
+            'song': [item.get("Id") for item in self.__fetch_type("Audio", query, songCount, songOffset, verify=True)],
+            'playlist': [item.get("Id") for item in self.__fetch_type("Playlist", query, playlistCount, playlistOffset, verify=True)]
         }
 
     def systemSearch(self, query:str) -> dict:
@@ -838,10 +898,14 @@ class Jellyfin(Base):
         id_list = []
         for radio in radios:
             if radio.get("Id") not in self.cache_actions.get('deleted-radios'):
+                primary_tag = radio.get('ImageTags', {}).get('Primary', '')
+                cover_art = f"Items/{radio.get('Id')}/Images/Primary?={primary_tag}" if primary_tag else "None"
+
                 radio_model = models.Song(
                     id=radio.get("Id"),
                     title=radio.get("Name"),
-                    duration=-1
+                    duration=-1,
+                    coverArt=cover_art
                 )
                 self.loaded_models[radio.get("Id")] = radio_model
 
@@ -991,7 +1055,8 @@ class Jellyfin(Base):
                 'SortBy': 'PlayCount',
                 'SortOrder': 'Descending',
                 'Limit': count,
-                'Recursive': 'true'
+                'Recursive': 'true',
+                'ParentId': self.get_property("libraryId")
             }
         ).get('Items', [])
         return [song.get('Id') for song in songs if song.get('Id')]
@@ -1084,9 +1149,3 @@ class Jellyfin(Base):
             logger.error(f"can't get server information: {e}")
 
         return server_information
-
-
-
-
-
-
