@@ -395,7 +395,6 @@ class Base(GObject.Object):
         # Do not modify, works as is
 
     def getLyrics(self, songId:str, requestOnline:bool=False) -> tuple:
-        # Do not modify, works as is
         # call this function first super().getLyrics(args)
         # it loads lyrics from db, as a last resource
 

@@ -364,3 +364,7 @@ class NocturneWindow(Adw.ApplicationWindow):
         if not song_playing:
             self.main_bottom_sheet.set_open(False)
 
+        if self.main_bottom_sheet.get_reveal_bottom_bar():
+            self.add_css_class('showing-footer')
+        else:
+            self.remove_css_class('showing-footer')
