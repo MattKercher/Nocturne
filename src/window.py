@@ -178,9 +178,9 @@ class NocturneWindow(Adw.ApplicationWindow):
         self.sidebar_lyrics_page.setup()
         self.sidebar_queue_page.setup()
         self.downloads_button_el.setup()
-        self.notify_playback()
         self.setup_sidebar()
         self.sidebar_playing_page.show_sidebar_el.set_visible(False)
+        threading.Thread(target=self.notify_playback).start()
         integration = get_current_integration()
         integration.connect_to_model('currentSong', 'songId', self.song_changed)
 
@@ -217,7 +217,7 @@ class NocturneWindow(Adw.ApplicationWindow):
                 dialog.add_response("later", _("Later"))
                 dialog.set_response_appearance("show", Adw.ResponseAppearance.SUGGESTED)
                 dialog.set_default_response("show")
-                dialog.choose(self, None, response)
+                GLib.idle_add(dialog.choose, self, None, response)
             self.settings.set_string('last-playback-checked', prev_month.strftime("%m-%Y"))
 
     def __init__(self, **kwargs):
