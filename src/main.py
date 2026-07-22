@@ -148,7 +148,7 @@ class NocturneApplication(Adw.Application):
             if dialog := self.main_window.get_visible_dialog():
                 dialog.close()
         else:
-            self.main_window.main_stack.set_visible_child_name('welcome')
+            GLib.idle_add(self.main_window.main_stack.set_visible_child_name, 'welcome')
             toast = Adw.Toast(
                 title=_("Login Failed"),
                 action_name='app.show_error',

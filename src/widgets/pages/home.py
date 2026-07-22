@@ -60,7 +60,7 @@ class HomePage(Adw.NavigationPage):
         self.max_albums = self.settings.get_value('n-albums-home').unpack()
         self.max_artists = self.settings.get_value('n-artists-home').unpack()
         self.max_playlists = self.settings.get_value('n-playlists-home').unpack()
-        threading.Thread(target=self.search).start()
+        threading.Thread(target=self.search, daemon=True).start()
         GLib.idle_add(self.search_mode_toggled, self.search_toggle)
 
     def reset(self):
@@ -117,4 +117,4 @@ class HomePage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def on_search(self, entry):
-        threading.Thread(target=self.search).start()
+        threading.Thread(target=self.search, daemon=True).start()

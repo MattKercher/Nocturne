@@ -82,11 +82,11 @@ class PlayingFooter(Gtk.Overlay):
 
     def update_coverArt(self, paintable):
         if paintable:
-            GLib.idle_add(self.cover_el.set_from_paintable, paintable)
-            GLib.idle_add(self.cover_el.set_pixel_size, self.cover_el.get_size_request()[0])
+            self.cover_el.set_from_paintable(paintable)
+            self.cover_el.set_pixel_size(self.cover_el.get_size_request()[0])
         else:
-            GLib.idle_add(self.cover_el.set_from_icon_name, 'music-note-symbolic')
-            GLib.idle_add(self.cover_el.set_pixel_size, -1)
+            self.cover_el.set_from_icon_name('music-note-symbolic')
+            self.cover_el.set_pixel_size(-1)
 
     @Gtk.Template.Callback()
     def progress_bar_changed(self, scale_el, scroll_type, value):

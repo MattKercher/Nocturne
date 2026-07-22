@@ -39,9 +39,9 @@ class PlayingControlPage(Adw.NavigationPage):
         self.cover_art_el.setup()
         self.setup_sidebar_button_connection()
         if stack := self.get_ancestor(Gtk.Stack):
-            GLib.idle_add(stack.get_parent().set_overflow, Gtk.Overflow.HIDDEN)
+            stack.get_parent().set_overflow(Gtk.Overflow.HIDDEN)
             if stack2 := stack.get_parent().get_parent():
-                GLib.idle_add(stack2.get_parent().set_overflow, Gtk.Overflow.HIDDEN)
+                stack2.get_parent().set_overflow(Gtk.Overflow.HIDDEN)
         if extra_widget := self.get_property('extra-widget'):
             self.main_container.prepend(extra_widget)
 
@@ -79,9 +79,11 @@ class PlayingControlPage(Adw.NavigationPage):
             self.get_parent().set_vhomogeneous(True)
 
     def setup_sidebar_button_connection(self):
-        self.get_root().breakpoint_el.connect('apply', lambda *_: self.breakpoint_toggled(True))
-        self.get_root().breakpoint_el.connect('unapply', lambda *_: self.breakpoint_toggled(False))
-        self.breakpoint_toggled(self.get_root().get_width() <= 620 and self.get_root().get_width() > 0)
+        if root := self.get_root():
+            root.breakpoint_el.connect('apply', lambda *_: self.breakpoint_toggled(True))
+            root.breakpoint_el.connect('unapply', lambda *_: self.breakpoint_toggled(False))
+            if width := root.get_width():
+                self.breakpoint_toggled(width <= 620)
 
     @Gtk.Template.Callback()
     def progress_bar_changed(self, scale_el, scroll_type, value):

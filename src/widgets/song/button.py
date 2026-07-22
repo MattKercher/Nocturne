@@ -23,7 +23,7 @@ class SongButton(Gtk.Box):
 
         self.cover_button_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+        self.settings.connect("changed::button-size", lambda *_: self.update_size())
 
         integration.connect_to_model(self.id, 'title', self.update_name)
         integration.connect_to_model(self.id, 'artists', self.update_artists)

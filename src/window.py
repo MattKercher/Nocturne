@@ -101,13 +101,13 @@ class NocturneWindow(Adw.ApplicationWindow):
     def create_action(self, callback:callable, shortcuts:list=[], parameter_type:str="s"):
         def call_action(cb, va):
             if va is None:
-                threading.Thread(target=cb, args=(self,), daemon=True).start()
+                cb(self)
             else:
-                threading.Thread(target=cb, args=(self, va.unpack()), daemon=True).start()
+                cb(self, va.unpack())
 
         self.get_application().create_action(
             name=callback.__name__,
-            callback=lambda at, va, cb=callback: call_action(cb, va),
+            callback=lambda at, va, cb=callback: threading.Thread(target=call_action, args=(cb, va), daemon=True).start(),
             shortcuts=shortcuts,
             parameter_type=GLib.VariantType.new(parameter_type) if parameter_type else None
         )
@@ -352,17 +352,16 @@ class NocturneWindow(Adw.ApplicationWindow):
 
         is_small = self.get_width() <= 840
         if is_small:
-            GLib.idle_add(self.player_sidebar_splitview.set_show_sidebar, False)
-            GLib.idle_add(self.main_bottom_sheet.set_reveal_bottom_bar, song_playing)
-            GLib.idle_add(self.main_bottom_sheet.set_can_open, song_playing)
+            self.player_sidebar_splitview.set_show_sidebar(False)
+            self.main_bottom_sheet.set_reveal_bottom_bar(song_playing)
+            self.main_bottom_sheet.set_can_open(song_playing)
         else:
             show_sidebar = self.settings.get_value('use-sidebar-player').unpack()
-            GLib.idle_add(self.player_sidebar_splitview.set_show_sidebar, show_sidebar and song_playing)
-            GLib.idle_add(self.main_bottom_sheet.set_reveal_bottom_bar, not show_sidebar and song_playing)
-            GLib.idle_add(self.main_bottom_sheet.set_can_open, not show_sidebar and song_playing)
+            self.player_sidebar_splitview.set_show_sidebar(show_sidebar and song_playing)
+            self.main_bottom_sheet.set_reveal_bottom_bar(not show_sidebar and song_playing)
+            self.main_bottom_sheet.set_can_open(not show_sidebar and song_playing)
             if show_sidebar:
-                GLib.idle_add(self.main_bottom_sheet.set_open, False)
+                self.main_bottom_sheet.set_open(False)
         if not song_playing:
-            GLib.idle_add(self.main_bottom_sheet.set_open, False)
-
+            self.main_bottom_sheet.set_open(False)
 

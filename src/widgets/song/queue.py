@@ -129,8 +129,8 @@ class SongQueue(Gtk.Box):
             })
             self.get_root().activate_action("app.remove_songs_from_playlist", target_value)
             for index in indexes:
-                GLib.idle_add(self.list_el.remove, list(self.list_el)[index])
-            GLib.idle_add(self.main_stack.set_visible_child_name, 'content' if len(list(self.list_el)) > 0 else 'no-content')
+                self.list_el.remove(list(self.list_el)[index])
+            self.main_stack.set_visible_child_name('content' if len(list(self.list_el)) > 0 else 'no-content')
         else:
             integration = get_current_integration()
             queue_model = integration.loaded_models.get('currentSong').get_property('queueModel')

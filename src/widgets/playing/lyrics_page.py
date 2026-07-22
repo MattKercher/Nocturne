@@ -190,19 +190,16 @@ class PlayingLyricsPage(Gtk.Stack):
                     Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
                     int(row.ms/1000 * Gst.SECOND)
                 )
-            def do_scroll():
-                vadj = self.scrolledwindow.get_vadjustment()
-                row_alloc = row.get_allocation()
-                viewport_height = self.scrolledwindow.get_height()
-                row_y = row_alloc.y
-                row_height = row_alloc.height
-                target = row_y - (viewport_height / 2) + (row_height / 2)
-                lower = vadj.get_lower()
-                upper = vadj.get_upper() - vadj.get_page_size()
-                target = max(lower, min(target, upper))
-                vadj.set_value(target)
-
-            GLib.idle_add(do_scroll)
+            vadj = self.scrolledwindow.get_vadjustment()
+            row_alloc = row.get_allocation()
+            viewport_height = self.scrolledwindow.get_height()
+            row_y = row_alloc.y
+            row_height = row_alloc.height
+            target = row_y - (viewport_height / 2) + (row_height / 2)
+            lower = vadj.get_lower()
+            upper = vadj.get_upper() - vadj.get_page_size()
+            target = max(lower, min(target, upper))
+            vadj.set_value(target)
 
     @Gtk.Template.Callback()
     def lyric_download_requested(self, button):

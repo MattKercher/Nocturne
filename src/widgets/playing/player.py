@@ -10,9 +10,11 @@ from mpris_server import Metadata, ValidMetadata, Track, Position, Volume, Rate,
 from ...integrations import get_current_integration
 from ...integrations.discord_rpc import DiscordRPC
 from urllib.parse import urlparse
-import threading, io, base64
+import threading, io, base64, logging
 from PIL import Image, ImageFilter
 from colorthief import ColorThief
+
+logger = logging.getLogger(__name__)
 
 Gst.init(None)
 
@@ -293,9 +295,9 @@ class Player(EventAdapter):
 
         self.bus = self.gst.get_bus()
         self.bus.add_signal_watch()
-        self.bus.connect("message::eos", lambda bus, msg: threading.Thread(target=self.handle_song_change_request, args=("end",)).start() if msg.src == self.gst else None)
-        self.bus.connect("message::error", lambda bus, msg: print("ERROR", msg.parse_error()[0]))
-        self.bus.connect("message::state-changed", lambda *_: threading.Thread(target=self.handle_message_state_changed, args=(_), daemon=True).start())
+        self.bus.connect("message::eos", lambda bus, msg: self.handle_song_change_request("end") if msg.src == self.gst else None)
+        self.bus.connect("message::error", lambda bus, msg: logger.error(msg.parse_error()[0]))
+        self.bus.connect("message::state-changed", self.handle_message_state_changed)
         self.bus.connect("message::tag", self.handle_message_tag)
         self.bus.connect("message::element", self.handle_message_element)
 
@@ -416,7 +418,7 @@ class Player(EventAdapter):
                     elif next_index < len(id_list):
                         integration.loaded_models.get('currentSong').set_property('songId', id_list[next_index])
                     elif self.settings.get_value('auto-play').unpack():
-                        threading.Thread(target=self.auto_play, daemon=True).start()
+                        self.auto_play()
                 elif mode == 'repeat-all':
                     if next_index < len(id_list) and next_index >= 0:
                         integration.loaded_models.get('currentSong').set_property('songId', id_list[next_index])
@@ -451,25 +453,22 @@ class Player(EventAdapter):
                     GLib.Variant("as", [so.get_string() for so in list(generated_queue)])
                 )
 
-    def handle_message_spectrum(self, struct):
-        serialized = struct.serialize_full(Gst.SerializeFlags.NONE)
-        channels_str = serialized.split('< < ')[1].split(' > >;')[0].replace('(float)', '').split(' >, < ')
-        channels = []
-        for c in channels_str:
-            channels.append([float(m.strip()) for m in c.split(', ')[:int(self.spectrum.get_property('bands')/2)]])
-        integration = get_current_integration()
-        timestamp = struct.get_uint64('stream-time')[1] / 1000000000
-        magnitudes = [(60-abs(m)) / 60 * self.settings.get_value("volume").unpack() for m in channels[0] + list(reversed(channels[1]))]
-        if timestamp and magnitudes:
-            if not integration.loaded_models.get('currentSong').get_property('magnitudes'):
-                integration.loaded_models.get('currentSong').set_property('magnitudes', {})
-            integration.loaded_models.get('currentSong').magnitudes[timestamp] = magnitudes
-
     def handle_message_element(self, bus, message):
         if message.src == self.spectrum:
             struct = message.get_structure()
             if struct and struct.get_name() == "spectrum" and self.settings.get_value('show-visualizer').unpack():
-                threading.Thread(target=self.handle_message_spectrum, args=(struct,), daemon=True).start()
+                serialized = struct.serialize_full(Gst.SerializeFlags.NONE)
+                channels_str = serialized.split('< < ')[1].split(' > >;')[0].replace('(float)', '').split(' >, < ')
+                channels = []
+                for c in channels_str:
+                    channels.append([float(m.strip()) for m in c.split(', ')[:int(self.spectrum.get_property('bands')/2)]])
+                integration = get_current_integration()
+                timestamp = struct.get_uint64('stream-time')[1] / 1000000000
+                magnitudes = [(60-abs(m)) / 60 * self.settings.get_value("volume").unpack() for m in channels[0] + list(reversed(channels[1]))]
+                if timestamp and magnitudes:
+                    if not integration.loaded_models.get('currentSong').get_property('magnitudes'):
+                        integration.loaded_models.get('currentSong').set_property('magnitudes', {})
+                    integration.loaded_models.get('currentSong').magnitudes[timestamp] = magnitudes
 
     def handle_message_state_changed(self, bus, message):
         if message.src == self.gst:
@@ -533,8 +532,11 @@ class Player(EventAdapter):
             )
         self.application.external_songs = []
 
-    def update_palette(self, raw_bytes:bytes):
+    def update_palette(self, paintable):
         # Load Image
+        raw_bytes = paintable.save_to_png_bytes().get_data()
+        if not raw_bytes:
+            return
         img_io = io.BytesIO(raw_bytes)
 
         # Generate Palette
@@ -602,9 +604,7 @@ class Player(EventAdapter):
             self.rg_volume.set_property('album-mode', True)
 
     def update_coverArt(self, paintable):
-        if paintable:
-            if raw_bytes := paintable.save_to_png_bytes().get_data():
-                threading.Thread(target=self.update_palette, args=(raw_bytes,), daemon=True).start()
+        threading.Thread(target=self.update_palette, args=(paintable,), daemon=True).start()
 
     def song_changed(self, song_id:str):
         integration = get_current_integration()

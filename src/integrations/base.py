@@ -135,7 +135,7 @@ class Base(GObject.Object):
     def current_song_property_changed(self, param:str, value:object):
         # do not change
         for callback in self.song_connections.get('callbacks', {}).get(param, []):
-            GLib.idle_add(callback, value)
+            callback(value)
 
     def song_changed(self):
         # do not change
@@ -154,9 +154,9 @@ class Base(GObject.Object):
                     self.updateCoverArt(currentSongId)
 
                 self.song_connections['songId'] = currentSongId
-                self.song_connections['connectionId'] = currentSongModel.connect('notify', lambda item, gparam: GLib.idle_add(self.current_song_property_changed, gparam.get_name(), item.get_property(gparam.get_name())))
+                self.song_connections['connectionId'] = currentSongModel.connect('notify', lambda item, gparam: self.current_song_property_changed(gparam.get_name(), item.get_property(gparam.get_name())))
                 for param in list(self.song_connections.get('callbacks', {})):
-                    GLib.idle_add(self.current_song_property_changed, param, currentSongModel.get_property(param))
+                    self.current_song_property_changed(param, currentSongModel.get_property(param))
 
     def open_json(self, filename:str, fallback={}) -> dict:
         # please use sql when possible
@@ -560,4 +560,5 @@ class Base(GObject.Object):
         # link : str
         print('WARNING', 'getServerInformation', 'not implemented')
         return {}
+
 

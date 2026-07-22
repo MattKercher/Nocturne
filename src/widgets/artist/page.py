@@ -127,7 +127,7 @@ class ArtistPage(Adw.NavigationPage):
 
     def update_artist_list(self, artist_list:list):
         artists = [a.get('id') for a in artist_list]
-        GLib.idle_add(self.artist_carousel.set_widgets, [ArtistButton(id) for id in artists])
+        self.artist_carousel.set_widgets([ArtistButton(id) for id in artists])
 
     # -- Callbacks --
 

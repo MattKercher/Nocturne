@@ -23,7 +23,7 @@ class PlaylistButton(Gtk.Box):
         super().__init__()
 
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
-        self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
+        self.settings.connect("changed::button-size", lambda *_: self.update_size())
 
         self.play_el.set_action_target_value(GLib.Variant.new_string(self.id))
         self.cover_button_el.set_action_target_value(GLib.Variant.new_string(self.id))

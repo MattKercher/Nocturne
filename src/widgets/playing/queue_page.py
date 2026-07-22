@@ -30,7 +30,7 @@ class PlayingQueuePage(Gtk.ScrolledWindow):
         global_queue = integration.loaded_models.get('currentSong').get_property('queueModel')
         if len(list(self.song_list_el.list_el)) == 0:
             self.queue_changed(global_queue, 0, 0, global_queue.get_property('n-items'))
-        global_queue.connect('items-changed', lambda *args: GLib.idle_add(self.queue_changed, *args))
+        global_queue.connect('items-changed', self.queue_changed)
 
     def queue_changed(self, global_queue, position:int, removed:int, added:int):
         for _ in range(removed):
