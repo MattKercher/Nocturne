@@ -795,7 +795,7 @@ class Jellyfin(Base):
 
         if content_dict := self.cache_manager.get_result(f'IntegrationLyrics:{songId}', job_integration):
             if content := content_dict.get('content'):
-                if lyrics_type := content_dict.get('type')
+                if lyrics_type := content_dict.get('type'):
                     if lyrics_type in ('lrc', 'plain'):
                         self.saveLyrics(songId, content, lyrics_type)
                         return lyrics_type, content
