@@ -97,6 +97,15 @@
   </keywords>
 
   <releases>
+    <release version="1.4.2" date="2026-07-21">
+      <url type="details">https://github.com/Jeffser/Nocturne/releases/tag/1.4.1</url>
+      <description translate="no">
+        <p>Fix</p>
+        <ul>
+          <li>Fixed error preventing the app from opening in certain launchers</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.4.1" date="2026-07-21">
       <url type="details">https://github.com/Jeffser/Nocturne/releases/tag/1.4.1</url>
       <description translate="no">
