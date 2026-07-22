@@ -130,7 +130,7 @@ class Base(GObject.Object):
     def __init__(self, *args, **kwargs):
         # do not change
         super().__init__(*args, **kwargs)
-        self.loaded_models.get('currentSong').connect('notify::songId', lambda *_: threading.Thread(target=self.song_changed).start())
+        self.loaded_models.get('currentSong').connect('notify::songId', lambda *_: self.song_changed())
 
     def current_song_property_changed(self, param:str, value:object):
         # do not change
@@ -139,31 +139,30 @@ class Base(GObject.Object):
 
     def song_changed(self):
         # do not change
-        if previousSong := self.loaded_models.get(self.song_connections.get('songId', '')):
-            try:
-                previousSong.disconnect(self.song_connections.get('connectionId', ''))
-            except:
-                pass
+        previousSongId = self.song_connections.get('songId', '')
+        currentSongId = self.loaded_models.get('currentSong').get_property('songId')
+        if previousSongId != currentSongId:
+            if previousSong := self.loaded_models.get(previousSongId):
+                try:
+                    previousSong.disconnect(self.song_connections.get('connectionId', ''))
+                except:
+                    pass
 
-        if currentSongId := self.loaded_models.get('currentSong').get_property('songId'):
-            if currentSongId not in self.loaded_models:
-                self.verifySong(currentSongId, use_threading=False)
-
-            if currentSongModel := self.loaded_models.get(currentSongId):
-                if not currentSongModel.get_property('gdkPaintable') or not currentSongModel.get_property('gdkPaintableBig'):
-                    self.updateCoverArt(currentSongId)
-
-                self.song_connections['songId'] = currentSongId
-                self.song_connections['connectionId'] = currentSongModel.connect('notify', lambda item, gparam: self.current_song_property_changed(gparam.get_name(), item.get_property(gparam.get_name())))
-                for param in list(self.song_connections.get('callbacks', {})):
-                    self.current_song_property_changed(param, currentSongModel.get_property(param))
+            if currentSongId:
+                if currentSongId not in self.loaded_models:
+                    self.verifySong(currentSongId)
+                if currentSongModel := self.loaded_models.get(currentSongId):
+                    self.song_connections['songId'] = currentSongId
+                    self.song_connections['connectionId'] = currentSongModel.connect('notify', lambda item, gparam: GLib.idle_add(self.current_song_property_changed, gparam.get_name(), item.get_property(gparam.get_name())))
+                    for param in list(self.song_connections.get('callbacks', {})):
+                        self.current_song_property_changed(param, currentSongModel.get_property(param))
 
     def open_json(self, filename:str, fallback={}) -> dict:
         # please use sql when possible
         try:
             with open(os.path.join(self.getIntegrationDir(), filename), 'r') as f:
                 return json.load(f)
-        except Exception:
+        except:
             pass
         return fallback
 
@@ -212,7 +211,7 @@ class Base(GObject.Object):
         if model_id in self.loaded_models:
             connection_id = self.loaded_models.get(model_id).connect(
                 'notify::{}'.format(parameter),
-                lambda *_, parameter=parameter, model_id=model_id: callback(self.loaded_models.get(model_id).get_property(parameter))
+                lambda *_, p=parameter, mid=model_id, cb=callback: cb(self.loaded_models.get(mid).get_property(p))
             )
             callback(self.loaded_models.get(model_id).get_property(parameter))
         return connection_id
@@ -560,5 +559,6 @@ class Base(GObject.Object):
         # link : str
         print('WARNING', 'getServerInformation', 'not implemented')
         return {}
+
 
 

@@ -327,7 +327,7 @@ class Player(EventAdapter):
             'artists': self.update_artists,
             'trackGain': self.update_trackGain,
             'albumGain': self.update_albumGain,
-            'gdkPaintable': self.update_coverArt
+            'gdkPaintable': lambda paintable: threading.Thread(target=self.update_palette, args=(paintable,), daemon=True).start()
         }
         for parameter, callback in connections.items():
             integration.connect_to_current_song(parameter, callback)
@@ -534,6 +534,8 @@ class Player(EventAdapter):
 
     def update_palette(self, paintable):
         # Load Image
+        if not paintable:
+            return
         raw_bytes = paintable.save_to_png_bytes().get_data()
         if not raw_bytes:
             return
@@ -578,7 +580,9 @@ class Player(EventAdapter):
         }}
         """
 
-        GLib.idle_add(self.application.css_provider.load_from_string, css)
+        self.application.css_provider.load_from_string(css)
+        integration = get_current_integration()
+        integration.loaded_models.get('currentSong').set_property('accentColor', palette[0])
 
     def update_title(self, title:str):
         integration = get_current_integration()
@@ -602,9 +606,6 @@ class Player(EventAdapter):
         if self.settings.get_value('use-gain').unpack() and self.rg_volume.get_property('fallback-gain') == 0.0:
             self.rg_volume.set_property('fallback-gain', albumGain)
             self.rg_volume.set_property('album-mode', True)
-
-    def update_coverArt(self, paintable):
-        threading.Thread(target=self.update_palette, args=(paintable,), daemon=True).start()
 
     def song_changed(self, song_id:str):
         integration = get_current_integration()

@@ -209,7 +209,7 @@ class Jellyfin(Base):
                             texture = Gdk.Texture.new_from_bytes(gbytes)
                             model.set_property(property_name, texture)
                             if save_cache:
-                                self.save_cache_image(model_id, raw_bytes)
+                                self.save_cache_image(model_id, size, raw_bytes)
                         except Exception as e:
                             logger.error(f"can't convert image from {model_id} (size {size}): {e}")
 

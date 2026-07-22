@@ -202,3 +202,4 @@ class CurrentSong(GObject.Object):
     downloadQueueModel = GObject.Property(type=Gio.ListStore, default=Gio.ListStore.new(item_type=SongDownload))
     displaySongTitle = GObject.Property(type=str)
     displaySongArtist = GObject.Property(type=str)
+    accentColor = GObject.Property(type=GObject.TYPE_PYOBJECT) # list [r,g,b] for use in spectrum, set in player

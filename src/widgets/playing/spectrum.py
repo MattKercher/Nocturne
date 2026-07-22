@@ -24,7 +24,7 @@ class Spectrum(Gtk.DrawingArea):
 
         integration.connect_to_model('currentSong', 'buttonState', self.playback_changed)
         integration.connect_to_model('currentSong', 'positionSeconds', self.on_timestamp_changed)
-        integration.connect_to_current_song('gdkPaintable', self.update_color)
+        integration.connect_to_model('currentSong', 'accentColor', self.update_color)
 
         self.settings.bind(
             "show-visualizer",
@@ -129,12 +129,11 @@ class Spectrum(Gtk.DrawingArea):
                         cr.close_path()
                         cr.fill()
 
-    def update_color(self, paintable):
-        def set_color():
-            if paintable:
-                img_io = io.BytesIO(paintable.save_to_png_bytes().get_data())
-                self.accent_color = [min(c/255, 1) for c in ColorThief(img_io).get_color(quality=10)]
-        threading.Thread(target=set_color, daemon=True).start()
+    def update_color(self, accent_color):
+        if accent_color:
+            self.accent_color = [min(c/255, 1) for c in accent_color]
+        else:
+            self.accent_color = [0.2, 0.6, 0.9]
 
     def playback_changed(self, playbackState:str):
         if playbackState == "play":
