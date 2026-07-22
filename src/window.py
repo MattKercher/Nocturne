@@ -22,7 +22,7 @@ from gi.repository import Gtk, Adw, GLib, Gio, GObject, Pango
 from . import actions
 from .integrations import get_current_integration, models
 from .constants import SIDEBAR_MENU
-import threading, time
+import threading
 from datetime import datetime, timedelta
 
 class SidebarItem(Adw.SidebarItem):
