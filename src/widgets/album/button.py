@@ -83,6 +83,8 @@ class AlbumButton(Gtk.Box):
         if artistId:
             self.artist_el.set_action_name("app.show_artist")
             self.artist_el.set_action_target_value(GLib.Variant.new_string(artistId))
+        else:
+            self.artist_el.set_action_name("")
 
     def update_starred(self, starred:bool):
         if starred:
