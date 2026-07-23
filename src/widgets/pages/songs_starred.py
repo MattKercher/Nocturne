@@ -82,6 +82,7 @@ class SongsStarredPage(Adw.NavigationPage):
         for row in list(self.list_el.list_el):
             if row.get_visible():
                 self.main_stack.set_visible_child_name('content')
+                self.list_el.main_stack.set_visible_child_name('content')
                 return
         self.main_stack.set_visible_child_name('no-content')
-        
+        self.list_el.main_stack.set_visible_child_name('no-content')
