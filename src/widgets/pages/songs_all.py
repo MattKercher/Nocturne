@@ -69,6 +69,7 @@ class SongsAllPage(Adw.NavigationPage):
                 GLib.idle_add(self.wrapbox_el.append, button)
 
         GLib.idle_add(self.end_stack.set_visible_child_name, 'end' if len(search_results.get('song')) < count else 'loading')
+        GLib.idle_add(self.list_el.main_stack.set_visible_child_name, 'content' if len(list(self.list_el.list_el)) else 'no-content')
         self.offset += count
         self.searching = False
         GLib.idle_add(self.update_visibility)
