@@ -254,7 +254,6 @@ class Player(EventAdapter):
             self.gst.set_property("video-sink", Gst.ElementFactory.make("gtk4paintablesink", "video-sink"))
         except:
             logger.warning("Video dependency not found")
-        self.gst.connect("video-changed", self.video_changed)
         self.gst.connect("about-to-finish", self.preload_next_track)
 
         self.bin = Gst.Bin.new("audio-filter-bin")
@@ -319,6 +318,7 @@ class Player(EventAdapter):
         self.bus.connect("message::tag", self.handle_message_tag)
         self.bus.connect("message::element", self.handle_message_element)
         self.bus.connect("message::stream-start", self.handle_stream_start)
+        self.bus.connect("message::stream-collection", self.on_stream_collection)
 
         self.adapter = PlayerAdapter(self)
         self.mpris = Server("com.jeffser.Nocturne", adapter=self.adapter)
@@ -385,12 +385,16 @@ class Player(EventAdapter):
         except:
             pass
 
-    def video_changed(self, playbin):
+    def on_stream_collection(self, bus, message):
+        collection = message.parse_stream_collection()
         integration = get_current_integration()
-        if playbin.get_property('n-video') or 0 > 0:
+        if any(
+            collection.get_stream(i).get_stream_type() == Gst.StreamType.VIDEO
+            for i in range(collection.get_size())
+        ): #check for presence of video stream
             songId = integration.loaded_models.get('currentSong').get_property('songId')
             integration.loaded_models.get('currentSong').set_property('videoId', songId)
-        else:
+        elif integration.loaded_models.get('currentSong').get_property('videoId'):
             integration.loaded_models.get('currentSong').set_property('videoId', "")
 
     # ---
@@ -686,6 +690,7 @@ class Player(EventAdapter):
         integration = get_current_integration()
 
         if song_id:
+            integration.loaded_models.get('currentSong').set_property('positionSeconds', 0.0)
             if song_id != self.last_song:
                 self.last_song = song_id
                 threading.Thread(target=integration.scrobble, args=(song_id,), kwargs={'submission': False}, daemon=True).start()
