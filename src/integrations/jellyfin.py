@@ -4,10 +4,139 @@ from gi.repository import GLib, GObject, Gdk, Gio
 from . import secret, models, local, sql_instance
 from .base import Base
 from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP, get_nocturne_version, get_device_id
-import os, platform, logging
+import os, platform, logging, time, threading, uuid
 from urllib.parse import urlencode
 
 logger = logging.getLogger(__name__)
+
+class JellyfinPlaySession():
+    item_id:str = ""
+    play_session_id:str = ""
+    last_ping = 0.0
+    timer_id = 0
+
+    @property
+    def position_ticks(self) -> int:
+        return int(self.integration.get_property('current-state').get_property("positionSeconds") * 10_000_000) #convert to Jellyfin ticks
+
+    def __init__(self, integration):
+        self.integration = integration
+        self.integration.connect_to_model('currentSong', 'songId', self.song_changed)
+
+    def create_session(self, item_id:str, start_paused:bool=False):
+        self.item_id = item_id
+        self.play_session_id = str(uuid.uuid4())
+
+        url = "/Sessions/Playing"
+        params = {
+            'ItemId': self.item_id,
+            'PositionTicks': self.position_ticks,
+            'PlaySessionId': self.play_session_id,
+            'IsPaused': start_paused
+        }
+        if not self.make_request(action=url, json=params):
+            self.item_id = ""
+            self.play_session_id = ""
+            self.last_ping = 0.0
+            logger.error("No play session provided by server, aborting report.")
+
+    def play(self):
+        if not self.play_session_id: return
+
+        if time.time() - self.last_ping > 600: #make a new session after 10 minutes of inactivity
+            self.create_session(self.item_id)
+
+        if not self.timer_id:
+            self.timer_id = GLib.timeout_add_seconds(10, self.progress)
+
+        url = "/Sessions/Playing/Progress"
+        params = {
+            'ItemId': self.item_id,
+            'PositionTicks': self.position_ticks,
+            'PlaySessionId': self.play_session_id,
+            'IsPaused': False
+        }
+        self.make_request(action=url, json=params)
+
+    def pause(self):
+        if not self.play_session_id: return
+
+        if self.timer_id:
+            GLib.source_remove(self.timer_id)
+            self.timer_id = 0
+
+        url = "/Sessions/Playing/Progress"
+        params = {
+            'ItemId': self.item_id,
+            'PositionTicks': self.position_ticks,
+            'PlaySessionId': self.play_session_id,
+            'IsPaused': True
+        }
+        self.make_request(action=url, json=params)
+
+    def stop(self):
+        if not self.play_session_id: return
+
+        if self.timer_id:
+            GLib.source_remove(self.timer_id)
+            self.timer_id = 0
+
+        url = "/Sessions/Playing/Stopped"
+        params = {
+            'ItemId': self.item_id,
+            'PlaySessionId':self.play_session_id
+        }
+        if self.make_request(action=url, json=params):
+            self.item_id = ""
+            self.play_session_id = ""
+            self.last_ping = 0.0
+        else:
+            logger.error("Failed to report stop, preserving play session.")
+
+    def progress(self, is_paused:bool=False):
+        #Report progress without reporting play/pause state
+        #Useful for Jellyfin's required periodic playback updates
+        if not self.play_session_id: return
+
+        url = "/Sessions/Playing/Progress"
+        params = {
+            'ItemId': self.item_id,
+            'PositionTicks': self.position_ticks,
+            'PlaySessionId': self.play_session_id
+        }
+
+        self.make_request(action=url, json=params)
+        return True
+
+    def song_changed(self, item_id:str):
+        if not item_id: return
+
+        def run():
+            self.stop()
+            self.create_session(item_id)
+        threading.Thread(target=run, daemon=True).start()
+
+    def make_request(self, action:str, json:dict={}, params:dict={}, action_keys:dict={}) -> dict:
+        #Make requests using headers and session from the Jellyfin integration object
+        #Bypasses integration caching system
+        url = self.integration.get_url(action, **action_keys)
+        try:
+            with self.integration.session as current_session:
+                response = current_session.post(
+                    url,
+                    params=params,
+                    json=json,
+                    headers=self.integration.get_base_header(),
+                    verify=not self.integration.get_property('trustServer'),
+                    timeout=(3.05, 10)
+                )
+                if response.status_code in (200, 201, 204):
+                    self.last_ping = time.time()
+                    return True
+        except Exception as e:
+            logger.error(f"action error {action}: {e}")
+        return False
+
 
 class Jellyfin(Base):
     __gtype_name__ = 'NocturneIntegrationJellyfin'
@@ -53,6 +182,10 @@ class Jellyfin(Base):
         if token := self.get_property('accessToken'):
             auth_header += ', Token="{}"'.format(token)
         return auth_header
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.play_session = JellyfinPlaySession(self)
 
     def get_base_header(self) -> dict:
         headers = {
@@ -1174,6 +1307,18 @@ class Jellyfin(Base):
         except Exception as e:
             logger.error(f"can't download song {model_id}: {e}")
 
+    def playbackReport(self, report_type:str):
+        report_type = report_type.lower()
+
+        if report_type == 'play':
+            threading.Thread(target=self.play_session.play, daemon=True).start()
+        elif report_type == 'pause':
+            threading.Thread(target=self.play_session.pause, daemon=True).start()
+        elif report_type == 'stop':
+            threading.Thread(target=self.play_session.stop, daemon=True).start()
+        elif report_type == 'progress':
+            threading.Thread(target=self.play_session.progress, daemon=True).start()
+
     def getSongDetails(self, model_id:str) -> models.SongDetails:
         if model := self.loaded_models.get(model_id):
             if isinstance(model, models.Song) and model.get_property('isExternalFile'):
@@ -1213,7 +1358,6 @@ class Jellyfin(Base):
             trackGain=song.get('NormalizationGain', 0.0),
             albumGain=song.get('NormalizationGain', 0.0)
         )
-
 
     def getServerInformation(self) -> dict:
         server_information = {
