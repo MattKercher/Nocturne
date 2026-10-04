@@ -39,6 +39,8 @@ class ArtistPage(Adw.NavigationPage):
             self.context_wrap_el.append(btn)
         integration.connect_to_model(self.id, 'album', self.update_album_list)
         integration.connect_to_model(self.id, 'similarArtist', self.update_artist_list)
+
+        #Configure top songs
         self.top_songs_wrapbox.list_el.set_justify(Adw.JustifyMode.FILL)
         self.top_songs_wrapbox.list_el.set_justify_last_line(True)
         self.top_songs_wrapbox.list_el.set_child_spacing(5)
@@ -78,13 +80,26 @@ class ArtistPage(Adw.NavigationPage):
         return paintable
 
     def update_top_songs(self):
-        # call in different thread
+        # call update_top_songs on background thread
+
+        def configure():
+            widgets = [SongSmallRow(song_id, show_album_name=True) for song_id in top_songs]
+            for row in widgets:
+                row.set_action_name(None)
+                row.set_action_target_value(GLib.Variant('a{sv}', {
+                    'songId': GLib.Variant('s', row.id),
+                    'songs': GLib.Variant('as', top_songs),
+                    'originId': GLib.Variant('s', self.id)
+                }))
+                row.set_action_name('app.play_song_from_list')
+            self.top_songs_wrapbox.set_widgets(widgets)
+
         integration = get_current_integration()
         top_songs = integration.getTopSongs(self.id)
-        self.top_songs_wrapbox.set_visible(len(top_songs) > 5)
-        if len(top_songs) > 5:
-            song_widgets = [SongSmallRow(song_id, show_album_name=True) for song_id in top_songs]
-            self.top_songs_wrapbox.set_widgets(song_widgets)
+        if top_songs:
+            GLib.idle_add(configure)
+        else:
+            GLib.idle_add(self.top_songs_wrapbox.set_visible(False))
 
     def update_background(self, raw_bytes:bytes):
         def run():
