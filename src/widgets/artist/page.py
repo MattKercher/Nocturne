@@ -21,7 +21,12 @@ class ArtistPage(Adw.NavigationPage):
     name_el = Gtk.Template.Child()
     biography_el = Gtk.Template.Child()
     star_el = Gtk.Template.Child()
+    top_songs_el = Gtk.Template.Child()
+    top_songs_header = Gtk.Template.Child()
+    top_songs_arrow = Gtk.Template.Child()
     top_songs_wrapbox = Gtk.Template.Child()
+    more_songs_revealer = Gtk.Template.Child()
+    more_songs_wrapbox = Gtk.Template.Child()
     album_wrapbox = Gtk.Template.Child()
     artist_carousel = Gtk.Template.Child()
     rating_container = Gtk.Template.Child()
@@ -45,6 +50,10 @@ class ArtistPage(Adw.NavigationPage):
         self.top_songs_wrapbox.list_el.set_justify_last_line(True)
         self.top_songs_wrapbox.list_el.set_child_spacing(5)
         self.top_songs_wrapbox.list_el.set_line_spacing(5)
+        self.more_songs_wrapbox.list_el.set_justify(Adw.JustifyMode.FILL)
+        self.more_songs_wrapbox.list_el.set_justify_last_line(True)
+        self.more_songs_wrapbox.list_el.set_child_spacing(5)
+        self.more_songs_wrapbox.list_el.set_line_spacing(5)
         threading.Thread(target=self.update_top_songs, daemon=True).start()
 
     @Gtk.Template.Callback()
@@ -83,6 +92,9 @@ class ArtistPage(Adw.NavigationPage):
         # call update_top_songs on background thread
 
         def configure():
+            self.top_songs_header.set_sensitive(len(top_songs) > 10)
+            self.top_songs_arrow.set_visible(len(top_songs) > 10)
+
             widgets = [SongSmallRow(song_id, show_album_name=True) for song_id in top_songs]
             for row in widgets:
                 row.set_action_name(None)
@@ -92,14 +104,15 @@ class ArtistPage(Adw.NavigationPage):
                     'originId': GLib.Variant('s', self.id)
                 }))
                 row.set_action_name('app.play_song_from_list')
-            self.top_songs_wrapbox.set_widgets(widgets)
+            self.top_songs_wrapbox.set_widgets(widgets[:10])
+            self.more_songs_wrapbox.set_widgets(widgets[10:])
 
         integration = get_current_integration()
-        top_songs = integration.getTopSongs(self.id)
+        top_songs = integration.getTopSongs(self.id, count=50)
         if top_songs:
             GLib.idle_add(configure)
         else:
-            GLib.idle_add(self.top_songs_wrapbox.set_visible(False))
+            GLib.idle_add(self.top_songs_el.set_visible, False)
 
     def update_background(self, raw_bytes:bytes):
         def run():

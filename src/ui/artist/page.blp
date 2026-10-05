@@ -158,9 +158,54 @@ template $NocturneArtistPage: Adw.NavigationPage {
             }
           }
 
-          $NocturneWrapbox top_songs_wrapbox {
-            header-label: _("Top Songs");
-            header-icon-name: "music-note-symbolic";
+          Gtk.Box top_songs_el {
+            spacing: 5;
+            orientation: vertical;
+
+            Gtk.ToggleButton top_songs_header {
+              styles [
+                "flat",
+                "title-2",
+                "active_appearance_button"
+              ]
+              margin-top: 10;
+              margin-start: 10;
+              margin-end: 10;
+              margin-bottom: 6;
+              halign: start;
+              sensitive: false;
+              child: Gtk.Box{
+                orientation: horizontal;
+                spacing: 6;
+
+                Adw.ButtonContent {
+                  label: _("Top Songs");
+                  icon-name: "music-note-symbolic";
+                }
+
+                Gtk.Image top_songs_arrow{
+                  visible: false;
+                  icon-name: "pan-down-symbolic";
+                  styles ["rotating-arrow"]
+                  accessibility {
+                    label: _("Dropdown arrow");
+                  }
+                }
+              };
+              tooltip-text: _("Top Songs");
+            }
+
+            $NocturneWrapbox top_songs_wrapbox {
+            }
+
+            Gtk.Revealer more_songs_revealer {
+              transition-type: slide_down;
+              transition-duration: 250;
+              reveal-child: bind top_songs_header.active;
+
+              $NocturneWrapbox more_songs_wrapbox {
+              }
+            }
           }
 
           $NocturneWrapbox album_wrapbox {

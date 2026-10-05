@@ -235,4 +235,9 @@ toggle-group > toggle.image-button:checked {
   color: var(--accent-color);
 }
 
-
+button .rotating-arrow {
+  transition: transform 250ms ease-in-out;
+}
+button:checked .rotating-arrow {
+  transform: rotate(-180deg);
+}
