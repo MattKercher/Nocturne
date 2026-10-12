@@ -7,7 +7,7 @@ from ..constants import DOWNLOAD_QUEUE_DIR, DOWNLOADS_DIR, DOWNLOAD_MIME_MAP, CO
 import os, platform, logging, io, threading, time, uuid, requests
 from urllib.parse import urlencode
 from requests.adapters import HTTPAdapter, Retry
-from concurrent.futures import wait
+from concurrent.futures import ThreadPoolExecutor, wait
 from enum import StrEnum
 from PIL import Image
 
@@ -1531,6 +1531,33 @@ class Jellyfin(Base):
         ).get('Items', [])
         self.__bulk_compile(MediaType.SONG, songs)
         return [song.get('Id') for song in songs if song.get('Id')]
+
+    def getArtistSongs(self, artist_id:str) -> list:
+        def fetch_album(album_id):
+            self.verifyAlbum(album_id, use_threading=False)
+            if album_model := self.loaded_models.get(album_id):
+                songs.extend([s.get('id') for s in album_model.get_property('song')])
+
+        def fetch_guest_tracks(album_id):
+            self.verifyAlbum(album_id, use_threading=False)
+            if album_model := self.loaded_models.get(album_id):
+                for song in album_model.get_property('song'):
+                    song_id = song.get('id')
+                    artists = self.loaded_models.get(song_id).get_property("artists")
+                    if any(d.get("id") == artist_id for d in artists):
+                        songs.append(song_id)
+
+        self.verifyArtist(artist_id, use_threading=False)
+        songs = []
+        if model := self.loaded_models.get(artist_id):
+            with ThreadPoolExecutor() as executor:
+                futures = []
+                for album in model.get_property('album'):
+                    futures.append(executor.submit(fetch_album, album.get('id')))
+                for guest_album in model.get_property('guestAlbum'):
+                    futures.append(executor.submit(fetch_guest_tracks, guest_album.get('id')))
+                wait(futures)
+        return songs
 
     def downloadSong(self, model_id:str, file_title:str, progress_callback:callable):
         try:

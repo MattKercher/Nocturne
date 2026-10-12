@@ -6,6 +6,7 @@ from ..constants import get_navidrome_path, get_navidrome_env, CONTEXT_MANAGED_N
 from .base import Base
 import random, threading, subprocess, os, re, logging, time, uuid
 from urllib.parse import urlencode, urlparse
+from concurrent.futures import ThreadPoolExecutor, wait
 
 logger = logging.getLogger(__name__)
 
@@ -657,6 +658,24 @@ class Navidrome(Base):
             'musicFolderId': self.library_ids
         }).get('topSongs', {}).get('song', [])
         return [song.get('id') for song in top_songs if song.get('id')]
+
+    def getArtistSongs(self, artist_id:str) -> list:
+        def fetch_album(album_id):
+            self.verifyAlbum(album_id, force_update=True, use_threading=False)
+            if album_model := self.loaded_models.get(album_id):
+                for song in album_model.get_property('song'):
+                    self.verifySong(song.get('id'), force_update=True, use_threading=False)
+                songs.extend([s.get('id') for s in album_model.get_property('song')])
+
+        self.verifyArtist(artist_id, force_update=True, use_threading=False)
+        songs = []
+        if model := self.loaded_models.get(artist_id):
+            with ThreadPoolExecutor() as executor:
+                futures = []
+                for album in model.get_property('album'):
+                    futures.append(executor.submit(fetch_album, album.get('id')))
+                wait(futures)
+        return songs
 
     def downloadSong(self, model_id:str, file_title:str, progress_callback:callable):
         params = {
