@@ -203,6 +203,13 @@ class Jellyfin(Base):
     accessToken = GObject.Property(type=str)
     userId = GObject.Property(type=str)
 
+    # Thread management for verify threads
+    # Used to ensure models are populated before returning
+    artist_thread = threading.Condition()
+    album_thread = threading.Condition()
+    song_thread = threading.Condition()
+    playlist_thread = threading.Condition()
+
     @property
     def libraryId(self) -> str:
         stored_id = ""
@@ -741,8 +748,9 @@ class Jellyfin(Base):
                 if verified_check:
                     self.__write_to_model(model_id, {"verified":True}, wait=use_threading)
             if model_id in self.ongoing_requests and self.ongoing_requests[model_id] == minimal:
-                del self.ongoing_requests[model_id]
-
+                with self.artist_thread:
+                    del self.ongoing_requests[model_id]
+                    self.artist_thread.notify_all()
 
         #Pre-check for argument validation and current active requests
         if not model_id or not model_id.strip():
@@ -750,6 +758,10 @@ class Jellyfin(Base):
             return
         if model_id in self.ongoing_requests:
             if minimal or (not minimal and self.ongoing_requests[model_id] == False):
+                if not use_threading:
+                    with self.artist_thread:
+                        while model_id in self.ongoing_requests:
+                            self.artist_thread.wait()
                 return #return if ongoing request is present or not minimal
         self.ongoing_requests[model_id] = minimal
 
@@ -818,7 +830,9 @@ class Jellyfin(Base):
                 if verified_check:
                     self.__write_to_model(model_id, {"verified":True}, wait=use_threading)
             if model_id in self.ongoing_requests and self.ongoing_requests[model_id] == minimal:
-                del self.ongoing_requests[model_id]
+                with self.album_thread:
+                    del self.ongoing_requests[model_id]
+                    self.album_thread.notify_all()
 
 
         #Pre-check for argument validation and current active requests
@@ -827,6 +841,10 @@ class Jellyfin(Base):
             return
         if model_id in self.ongoing_requests:
             if minimal or (not minimal and self.ongoing_requests[model_id] == False):
+                if not use_threading:
+                    with self.album_thread:
+                        while model_id in self.ongoing_requests:
+                            self.album_thread.wait()
                 return #return if ongoing request is present or not minimal
         self.ongoing_requests[model_id] = minimal
 
@@ -901,7 +919,9 @@ class Jellyfin(Base):
                 if verified_check:
                     self.__write_to_model(model_id, {"verified":True}, wait=use_threading)
             if model_id in self.ongoing_requests and self.ongoing_requests[model_id] == minimal:
-                del self.ongoing_requests[model_id]
+                with self.playlist_thread:
+                    del self.ongoing_requests[model_id]
+                    self.playlist_thread.notify_all()
 
         #Pre-check for argument validation and current active requests
         if not model_id or not model_id.strip():
@@ -909,6 +929,10 @@ class Jellyfin(Base):
             return
         if model_id in self.ongoing_requests:
             if minimal or (not minimal and self.ongoing_requests[model_id] == False):
+                if not use_threading:
+                    with self.playlist_thread:
+                        while model_id in self.ongoing_requests:
+                            self.playlist_thread.wait()
                 return #return if ongoing request is present or not minimal
         self.ongoing_requests[model_id] = minimal
 
@@ -969,7 +993,9 @@ class Jellyfin(Base):
                 if (not model.get_property("gdkPaintable") or not model.get_property("gdkPaintableBig")) and (model.get_property("coverArt") or not model.get_property("verified")):
                     fetch_cover()
             if model_id in self.ongoing_requests and self.ongoing_requests[model_id] == minimal:
-                del self.ongoing_requests[model_id]
+                with self.song_thread:
+                    del self.ongoing_requests[model_id]
+                    self.song_thread.notify_all()
 
         #Pre-check for argument validation and current active requests
         if not model_id or not model_id.strip():
@@ -977,6 +1003,10 @@ class Jellyfin(Base):
             return
         if model_id in self.ongoing_requests:
             if minimal or (not minimal and self.ongoing_requests[model_id] == False):
+                if not use_threading:
+                    with self.song_thread:
+                        while model_id in self.ongoing_requests:
+                            self.song_thread.wait()
                 return #return if ongoing request is present or not minimal
         self.ongoing_requests[model_id] = minimal
 
