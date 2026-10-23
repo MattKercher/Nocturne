@@ -553,6 +553,53 @@ class Base(GObject.Object):
         # currently only used in jellyfin.py
         pass
 
+    def getListenBrainzTopSongs(self, artist_id, count=20) -> list:
+        # ListenBrainz
+        if model := self.loaded_models.get(artist_id):
+            if mb_id := model.get_property("musicBrainzId"):
+                if token := secret.get_plain_password("listenbrainz"):
+                    headers = {
+                        "Authorization": f"Token {token}",
+                        "User-Agent": f"com.jeffser.Nocturne/{get_nocturne_version()} ( https://github.com/MattKercher/Nocturne )",
+                        "Content-Type": "application/json"
+                    }
+                    try:
+                        response = requests.get(f"https://api.listenbrainz.org/1/popularity/top-recordings-for-artist/{mb_id}", headers=headers)
+                    except Exception as e:
+                        print(e)
+
+                    listenbrainz_songs = response.json()
+                    local_songs = self.getTopSongs(artist_id, count=500)
+
+                    album_lookup = {
+                        (
+                            (song.get("name") or "").lower(),
+                            (song.get("album") or "").lower()
+                        ):
+                        song.get("id") for song in local_songs
+                    }
+                    title_lookup = {song['name']: song['id'] for song in local_songs}
+
+                    top_songs = []
+                    for track in listenbrainz_songs:
+                        if len(top_songs) >= count: break
+
+                        # Check for exact title and album match before checking only the title
+                        # Avoids a lot of live music clutter
+                        album_key = (
+                            (track.get("recording_name") or "").lower(),
+                            (track.get("release_name") or "").lower()
+                        )
+                        title_key = (track.get("recording_name") or "").lower()
+
+                        if album_key in album_lookup:
+                            top_songs.append(album_lookup.get(album_key))
+                        elif title_key in title_lookup:
+                            print(f"Couldn't find album for key: {album_key}")
+                            top_songs.append(title_lookup.get(title_key))
+
+                    return top_songs
+
     def scrobble(self, model_id:str, submission:bool=True):
         # the id is for a Song, this is how views are stored
         # called when a song is played
