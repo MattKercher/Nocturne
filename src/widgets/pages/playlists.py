@@ -59,13 +59,11 @@ class PlaylistsPage(Adw.NavigationPage):
         self.searching = True
 
         search_results = {}
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    query = None
-                    while query != self.search_entry.get_text(): # In case query changes whilst calling integration
-                        query = self.search_entry.get_text()
-                        search_results = integration.search(query=query, playlistCount=30, playlistOffset=self.offset)
+        integration = Gtk.Application.get_default().get_property('integration')
+        query = None
+        while query != self.search_entry.get_text(): # In case query changes whilst calling integration
+            query = self.search_entry.get_text()
+            search_results = integration.search(query=query, playlistCount=30, playlistOffset=self.offset)
 
         for playlist_id in search_results.get('playlist', []):
             results_list = [row for row in list(self.list_el) if row.id == playlist_id]

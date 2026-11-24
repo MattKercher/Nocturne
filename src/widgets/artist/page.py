@@ -1,7 +1,7 @@
 # page.py
 
 from gi.repository import GObject, Gtk, Gdk, Adw, GLib, Pango
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_ARTIST
 from ..containers import get_context_buttons_list
 from ..song import SongSmallRow
@@ -30,7 +30,7 @@ class ArtistPage(Adw.NavigationPage):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyArtist(self.id, True)
         super().__init__(
             model=integration.loaded_models.get(self.id)
@@ -101,10 +101,8 @@ class ArtistPage(Adw.NavigationPage):
             self.top_songs_wrapbox.set_widgets(widgets)
 
         top_songs = None
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    top_songs = integration.getTopSongs(self.id)
+        integration = Gtk.Application.get_default().get_property('integration')
+        top_songs = integration.getTopSongs(self.id)
         if top_songs:
             GLib.idle_add(configure)
         else:

@@ -14,11 +14,8 @@ class RadiosPage(Adw.NavigationPage):
     def load(self):
         # call in different thread
         GLib.idle_add(self.main_stack.set_visible_child_name, 'loading')
-        radios = []
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    radios = integration.getInternetRadioStations()
+        integration = Gtk.Application.get_default().get_property('integration')
+        radios = integration.getInternetRadioStations()
         GLib.idle_add(self.reset)
         for id in radios:
             GLib.idle_add(self.list_el.append, SongRow(id))

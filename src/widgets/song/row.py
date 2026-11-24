@@ -2,7 +2,7 @@
 
 from gi.repository import GObject, Gtk, Adw, Gdk, GLib, Pango, Gio
 from .queue import SongQueue
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ..containers import ContextContainer
 from ...constants import CONTEXT_SONG, get_display_time
 from urllib.parse import urlparse
@@ -29,7 +29,7 @@ class SongRow(Adw.ActionRow):
 
     def __init__(self, id:str, draggable:bool=False, removable:bool=False):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifySong(self.id, minimal=True)
         super().__init__(
             model=integration.loaded_models.get(self.id),
@@ -103,19 +103,13 @@ class SongRow(Adw.ActionRow):
                 listbox.remove(self)
 
     def generate_context_menu(self) -> ContextContainer:
-        integration = None
-        if root := self.get_root():
-            if app := root.get_application():
-                integration = app.get_property('integration')
-
+        integration = Gtk.Application.get_default().get_property('integration')
         context_dict = CONTEXT_SONG.copy()
         context_dict["select"]["connection"] = self.select_clicked
 
         currentSongId = ''
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    currentSongId = player.get_property('songId')
+        player = Gtk.Application.get_default().get_property('player')
+        currentSongId = player.get_property('songId')
 
         context_dict["play-next"]["sensitive"] = currentSongId != self.id
         context_dict["play-later"]["sensitive"] = currentSongId != self.id
@@ -259,12 +253,10 @@ class SongRow(Adw.ActionRow):
             if y > self.get_height() / 2: # bottom
                 index_target += 1
 
-            if root := self.get_root():
-                if app := root.get_application():
-                    if player := app.get_property('player'):
-                        queue_model = player.get_property('queueModel')
-                        queue_model.splice(index_source, 1, [])
-                        queue_model.splice(index_target, 0, [Gtk.StringObject.new(row.id)])
+            player = Gtk.Application.get_default().get_property('player')
+            queue_model = player.get_property('queueModel')
+            queue_model.splice(index_source, 1, [])
+            queue_model.splice(index_target, 0, [Gtk.StringObject.new(row.id)])
 
     @Gtk.Template.Callback()
     def on_drag_begin(self, drag_source, drag):

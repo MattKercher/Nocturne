@@ -10,17 +10,15 @@ class DownloadsQueueButton(Gtk.MenuButton):
     download_list_el = Gtk.Template.Child()
 
     def setup(self):
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    model = player.get_property('downloadQueueModel')
-                    self.download_list_el.get_parent().set_overflow(Gtk.Overflow.VISIBLE)
-                    self.download_list_el.bind_model(
-                        model,
-                        lambda model: DownloadRow(model)
-                    )
-                    model.connect('notify::n-items', lambda model, ud: self.downloadQueueModelChanged(model))
-                    self.downloadQueueModelChanged(model)
+        player = Gtk.Application.get_default().get_property('player')
+        model = player.get_property('downloadQueueModel')
+        self.download_list_el.get_parent().set_overflow(Gtk.Overflow.VISIBLE)
+        self.download_list_el.bind_model(
+            model,
+            lambda model: DownloadRow(model)
+        )
+        model.connect('notify::n-items', lambda model, ud: self.downloadQueueModelChanged(model))
+        self.downloadQueueModelChanged(model)
 
     def downloadQueueModelChanged(self, model):
         self.set_visible(len(model) > 0)

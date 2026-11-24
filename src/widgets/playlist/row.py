@@ -1,7 +1,7 @@
 # row.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_PLAYLIST
 from ..containers import ContextContainer
 
@@ -16,7 +16,7 @@ class PlaylistRow(Adw.ActionRow):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyPlaylist(self.id, minimal=True)
         super().__init__(
             model=integration.loaded_models.get(self.id)
@@ -44,12 +44,9 @@ class PlaylistRow(Adw.ActionRow):
 
     @Gtk.Template.Callback()
     def on_context_button_active(self, button, gparam):
-        context = CONTEXT_PLAYLIST.copy()
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if 'no-downloads' in integration.limitations:
-                        del context['download']
+        integration = Gtk.Application.get_default().get_property('integration')
+        if 'no-downloads' in integration.limitations:
+            del context['download']
         button.get_popover().set_child(ContextContainer(context, self.id))
 
     @Gtk.Template.Callback()
@@ -61,11 +58,9 @@ class PlaylistRow(Adw.ActionRow):
             rect.x, rect.y = args[1], args[2]
 
         context = CONTEXT_PLAYLIST.copy()
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if 'no-downloads' in integration.limitations:
-                        del context['download']
+        integration = Gtk.Application.get_default().get_property('integration')
+        if 'no-downloads' in integration.limitations:
+            del context['download']
 
         popover = Gtk.Popover(
             child=ContextContainer(context, self.id),

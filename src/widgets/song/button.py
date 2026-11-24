@@ -1,7 +1,7 @@
 # button.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_SONG, CONTEXT_ARTIST
 from ..containers import ContextContainer
 
@@ -19,7 +19,7 @@ class SongButton(Gtk.Box):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifySong(self.id, minimal=True)
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         super().__init__(
@@ -59,10 +59,7 @@ class SongButton(Gtk.Box):
             return True
 
     def generate_context_menu(self) -> ContextContainer:
-        integration = None
-        if root := self.get_root():
-            if app := root.get_application():
-                integration = app.get_property('integration')
+        integration = Gtk.Application.get_default().get_property('integration')
         context_dict = CONTEXT_SONG.copy()
         del context_dict["edit-radio"]
         del context_dict["delete-radio"]
@@ -70,10 +67,8 @@ class SongButton(Gtk.Box):
         del context_dict["select"]
 
         currentSongId = ''
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    currentSongId = player.get_property('songId')
+        player = Gtk.Application.get_default().get_property('player')
+        currentSongId = player.get_property('songId')
 
         context_dict["play-next"]["sensitive"] = currentSongId != self.id
         context_dict["play-later"]["sensitive"] = currentSongId != self.id
@@ -107,20 +102,18 @@ class SongButton(Gtk.Box):
 
     @Gtk.Template.Callback()
     def show_popover_artist(self, *args):
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if artist_id := integration.loaded_models.get(self.id).get_property('artistId'):
-                        rect = Gdk.Rectangle()
-                        if len(args) == 4:
-                            rect.x, rect.y = args[2], args[3]
-                        else:
-                            rect.x, rect.y = args[1], args[2]
+        integration = Gtk.Application.get_default().get_property('integration')
+        if artist_id := integration.loaded_models.get(self.id).get_property('artistId'):
+            rect = Gdk.Rectangle()
+            if len(args) == 4:
+                rect.x, rect.y = args[2], args[3]
+            else:
+                rect.x, rect.y = args[1], args[2]
 
-                        popover = Gtk.Popover(
-                            child=ContextContainer(CONTEXT_ARTIST, artist_id),
-                            pointing_to=rect,
-                            has_arrow=False
-                        )
-                        popover.set_parent(self.artist_el)
-                        popover.popup()
+            popover = Gtk.Popover(
+                child=ContextContainer(CONTEXT_ARTIST, artist_id),
+                pointing_to=rect,
+                has_arrow=False
+            )
+            popover.set_parent(self.artist_el)
+            popover.popup()

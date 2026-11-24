@@ -19,12 +19,10 @@ class Spectrum(Gtk.DrawingArea):
 
         self.set_draw_func(self.on_draw)
 
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    player.connect_to_state('buttonState', self.playback_changed)
-                    player.connect_to_state('positionSeconds', self.on_timestamp_changed)
-                    player.connect_to_state('accentColor', self.update_color)
+        player = Gtk.Application.get_default().get_property('player')
+        player.connect_to_state('buttonState', self.playback_changed)
+        player.connect_to_state('positionSeconds', self.on_timestamp_changed)
+        player.connect_to_state('accentColor', self.update_color)
 
         self.settings.bind(
             "show-visualizer",
@@ -38,12 +36,11 @@ class Spectrum(Gtk.DrawingArea):
     def on_timestamp_changed(self, timestamp:float):
         if self.stopped:
             self.target_magnitudes = [0] * self.settings.get_value('visualizer-bar-n').unpack()
-        elif root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    if magnitudes_dict := player.get_property('magnitudes'):
-                        if next_timestamp := min((k for k in magnitudes_dict if k >= timestamp), default=None):
-                            self.target_magnitudes = magnitudes_dict.get(next_timestamp)
+        else:
+            player = Gtk.Application.get_default().get_property('player')
+            if magnitudes_dict := player.get_property('magnitudes'):
+                if next_timestamp := min((k for k in magnitudes_dict if k >= timestamp), default=None):
+                    self.target_magnitudes = magnitudes_dict.get(next_timestamp)
 
     def on_tick(self):
         if self.get_visible():

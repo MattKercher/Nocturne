@@ -460,9 +460,7 @@ class NocturnePreferences(Adw.PreferencesDialog):
     def setup(self):
         # After it has been shown, called with glib.idle_add
         integration = None
-        if root := self.get_root():
-            if app := root.get_application():
-                integration = app.get_property('integration')
+        integration = Gtk.Application.get_default().get_property('integration')
         self.session_group_el.set_visible(integration)
         if integration:
             self.bitrate_el.set_visible('no-max-bitrate' not in integration.limitations)
@@ -470,32 +468,28 @@ class NocturnePreferences(Adw.PreferencesDialog):
             self.bitrate_el.set_visible(False)
 
     def update_instance_row(self):
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    data = integration.getServerInformation()
-                    GLib.idle_add(self.instance_el.set_title, data.get('username', ""))
+        integration = Gtk.Application.get_default().get_property('integration')
+        data = integration.getServerInformation()
+        GLib.idle_add(self.instance_el.set_title, data.get('username', ""))
 
-                    GLib.idle_add(self.instance_el.set_subtitle, data.get('title', ""))
+        GLib.idle_add(self.instance_el.set_subtitle, data.get('title', ""))
 
-                    GLib.idle_add(self.instance_el.set_tooltip_text, data.get('link'))
-                    GLib.idle_add(self.instance_el.set_action_target_value, GLib.Variant('s', data.get('link', '')))
-                    GLib.idle_add(self.instance_icon_el.set_visible, data.get('link'))
-                    GLib.idle_add(self.instance_el.set_activatable, data.get('link'))
+        GLib.idle_add(self.instance_el.set_tooltip_text, data.get('link'))
+        GLib.idle_add(self.instance_el.set_action_target_value, GLib.Variant('s', data.get('link', '')))
+        GLib.idle_add(self.instance_icon_el.set_visible, data.get('link'))
+        GLib.idle_add(self.instance_el.set_activatable, data.get('link'))
 
-                    GLib.idle_add(self.instance_avatar_el.set_custom_image, data.get('picture'))
-                    GLib.idle_add(self.instance_avatar_el.set_text, data.get('username', ''))
-                    GLib.idle_add(self.instance_el.set_visible, data)
+        GLib.idle_add(self.instance_avatar_el.set_custom_image, data.get('picture'))
+        GLib.idle_add(self.instance_avatar_el.set_text, data.get('username', ''))
+        GLib.idle_add(self.instance_el.set_visible, data)
 
     def append_library_row(self):
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    self.library_list, multiselect = integration.getLibraries()
-                    if len(self.library_list) > 1 and multiselect:
-                            self.show_library_expander_row()
-                    elif self.library_list and not multiselect:
-                            self.show_library_combo_row()
+        integration = Gtk.Application.get_default().get_property('integration')
+        self.library_list, multiselect = integration.getLibraries()
+        if len(self.library_list) > 1 and multiselect:
+                self.show_library_expander_row()
+        elif self.library_list and not multiselect:
+                self.show_library_combo_row()
 
     def show_library_expander_row(self):
         stored_ids = Gio.Settings(schema_id="com.jeffser.Nocturne").get_strv("library-ids")
@@ -633,10 +627,8 @@ class NocturnePreferences(Adw.PreferencesDialog):
         def instance_information_run():
             try:
                 data = {}
-                if root := self.get_root():
-                    if app := root.get_application():
-                        if integration := app.get_property('integration'):
-                            data = integration.getServerInformation()
+                integration = Gtk.Application.get_default().get_property('integration')
+                data = integration.getServerInformation()
                 if username := data.get('username'):
                     settings.set_string("welcome-user-home", username)
                     if profile_picture := data.get('picture'):

@@ -1,7 +1,7 @@
 # selector_row.py
 
 from gi.repository import GObject, Gtk, Adw, Gdk
-from ...integrations import get_current_integration, models
+from ...integrations import models
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/selector_row.ui')
 class PlaylistSelectorRow(Adw.ActionRow):
@@ -11,7 +11,7 @@ class PlaylistSelectorRow(Adw.ActionRow):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyPlaylist(self.id)
         super().__init__(
             model=integration.loaded_models.get(self.id)

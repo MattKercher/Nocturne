@@ -26,21 +26,17 @@ class SongQueue(Gtk.Box):
             if row.__gtype_name__ != 'NocturneDiscIndicator':
                 row.suffixes_stack_el.set_visible_child_name('select' if select else 'normal')
                 row.check_el.set_active(row == selected_row)
-                if root := self.get_root():
-                    if app := root.get_application():
-                        if player := app.get_property('player'):
-                            row.set_activatable(not select and row.id != player.get_property('songId'))
+                player = Gtk.Application.get_default().get_property('player')
+                row.set_activatable(not select and row.id != player.get_property('songId'))
 
         if select:
             self.remove_el.set_visible(selected_row.removable)
             self.play_el.set_visible(not selected_row.draggable)
             self.play_next_el.set_visible(not selected_row.draggable)
             self.play_later_el.set_visible(not selected_row.draggable)
-            if root := self.get_root():
-                if app := root.get_application():
-                    if integration := app.get_property('integration'):
-                        self.delete_download_el.set_visible(integration.__gtype_name__ == 'NocturneIntegrationOffline')
-                        self.download_el.set_visible('no-downloads' not in integration.limitations)
+            integration = Gtk.Application.get_default().get_property('integration')
+            self.delete_download_el.set_visible(integration.__gtype_name__ == 'NocturneIntegrationOffline')
+            self.download_el.set_visible('no-downloads' not in integration.limitations)
         self.toolbar_revealer_el.set_reveal_child(select)
 
     def get_selected_rows(self) -> list:
@@ -84,28 +80,27 @@ class SongQueue(Gtk.Box):
             for index in indexes:
                 self.list_el.remove(list(self.list_el)[index])
             self.main_stack.set_visible_child_name('content' if len(list(self.list_el)) > 0 else 'no-content')
-        elif root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    queue_model = player.get_property('queueModel')
-                    all_ids = [so.get_string() for so in list(queue_model)]
-                    selected_rows = self.get_selected_rows()
-                    selected_ids = [r.id for r in selected_rows]
-                    current_song_id = player.get_property('songId')
+        else:
+            player = Gtk.Application.get_default().get_property('player')
+            queue_model = player.get_property('queueModel')
+            all_ids = [so.get_string() for so in list(queue_model)]
+            selected_rows = self.get_selected_rows()
+            selected_ids = [r.id for r in selected_rows]
+            current_song_id = player.get_property('songId')
 
-                    if current_song_id in selected_ids: # handle changing song
-                        if len(selected_rows) == len(all_ids):
-                            new_id = None
-                        else:
-                            new_id = [s for s in all_ids if s not in selected_ids][0]
-                        player.set_property('songId', new_id)
+            if current_song_id in selected_ids: # handle changing song
+                if len(selected_rows) == len(all_ids):
+                    new_id = None
+                else:
+                    new_id = [s for s in all_ids if s not in selected_ids][0]
+                player.set_property('songId', new_id)
 
-                    indexes_to_be_removed = []
-                    for i, song_id in enumerate(all_ids):
-                        if song_id in selected_ids:
-                            indexes_to_be_removed.append(i)
-                    for index in reversed(indexes_to_be_removed):
-                        queue_model.remove(index)
+            indexes_to_be_removed = []
+            for i, song_id in enumerate(all_ids):
+                if song_id in selected_ids:
+                    indexes_to_be_removed.append(i)
+            for index in reversed(indexes_to_be_removed):
+                queue_model.remove(index)
 
         self.close_selector()
 

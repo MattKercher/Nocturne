@@ -106,11 +106,9 @@ class PlayingCoverArt(Gtk.Box, Adw.Swipeable):
     def setup(self):
         self.spectrum_el.setup()
 
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.player:
-                    if video_sink := player.gst.get_property('video-sink'):
-                        self.video_el.set_paintable(video_sink.get_property('paintable'))
+        player = Gtk.Application.get_default().get_property('player')
+        if video_sink := player.gst.get_property('video-sink'):
+            self.video_el.set_paintable(video_sink.get_property('paintable'))
 
     @Gtk.Template.Callback()
     def format_cover_paintable(self, obj, paintable:Gdk.Paintable) -> Gdk.Paintable:
