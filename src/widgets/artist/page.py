@@ -47,10 +47,7 @@ class ArtistPage(Adw.NavigationPage):
         self.top_songs_wrapbox.list_el.set_justify_last_line(True)
         self.top_songs_wrapbox.list_el.set_child_spacing(5)
         self.top_songs_wrapbox.list_el.set_line_spacing(5)
-
-    def do_showing(self):
         threading.Thread(target=self.update_top_songs, daemon=True).start()
-        Adw.NavigationPage.do_showing(self)
 
 
     @Gtk.Template.Callback()

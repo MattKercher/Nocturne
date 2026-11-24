@@ -50,12 +50,9 @@ class AlbumPage(Adw.NavigationPage):
         for btn in context_buttons:
             if btn.get_name() != 'show-artist':
                 self.context_wrap_el.append(btn)
-
-    def do_showing(self):
         integration = Gtk.Application.get_default().get_property('integration')
         integration.connect_to_model(self.id, 'song', self.update_song_list)
         self.song_list_el.list_el.set_sort_func(self.song_list_sort_func)
-        Adw.NavigationPage.do_showing(self)
 
     def song_list_sort_func(self, r1, r2):
         trackN1 = 0
