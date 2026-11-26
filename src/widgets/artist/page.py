@@ -1,8 +1,8 @@
 # page.py
 
 from gi.repository import GObject, Gtk, Gdk, Adw, GLib, Pango, Gio
-from ...integrations import get_current_integration, models, secret
-from ...constants import CONTEXT_ARTIST
+from ...integrations import models, secret
+from ...constants import CONTEXT_ARTIST, get_cover_art
 from ..containers import get_context_buttons_list
 from ..song import SongSmallRow
 from ..album import AlbumButton
@@ -34,7 +34,7 @@ class ArtistPage(Adw.NavigationPage):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyArtist(self.id, True)
         super().__init__(
             model=integration.loaded_models.get(self.id)
@@ -81,9 +81,7 @@ class ArtistPage(Adw.NavigationPage):
         else:
             self.top_songs_source = "instance"
 
-    def do_showing(self):
         threading.Thread(target=self.update_top_songs, daemon=True).start()
-        Adw.NavigationPage.do_showing(self)
 
     @Gtk.Template.Callback()
     def format_action_target(self, obj, value, variant) -> GLib.Variant:
@@ -170,19 +168,17 @@ class ArtistPage(Adw.NavigationPage):
         top_songs = None
         success = True
         source = self.top_songs_source
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if source == "instance":
-                        if not self.instance_top_songs:
-                            GLib.idle_add(self.top_songs_wrapbox.remove_all, True)
-                            self.instance_top_songs = integration.getTopSongs(self.id, count=30)
-                        top_songs = self.instance_top_songs
-                    elif source == "listenbrainz":
-                        if not self.listenbrainz_top_songs:
-                            GLib.idle_add(self.top_songs_wrapbox.remove_all, True)
-                            success, self.listenbrainz_top_songs = integration.getListenBrainzTopSongs(self.id, count=30)
-                        top_songs = self.listenbrainz_top_songs
+        integration = Gtk.Application.get_default().get_property('integration')
+        if source == "instance":
+            if not self.instance_top_songs:
+                GLib.idle_add(self.top_songs_wrapbox.remove_all, True)
+                self.instance_top_songs = integration.getTopSongs(self.id, count=30)
+            top_songs = self.instance_top_songs
+        elif source == "listenbrainz":
+            if not self.listenbrainz_top_songs:
+                GLib.idle_add(self.top_songs_wrapbox.remove_all, True)
+                success, self.listenbrainz_top_songs = integration.getListenBrainzTopSongs(self.id, count=30)
+            top_songs = self.listenbrainz_top_songs
         GLib.idle_add(configure)
 
     def update_background(self, raw_bytes:bytes):

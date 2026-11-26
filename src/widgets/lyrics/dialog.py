@@ -25,22 +25,18 @@ class LyricEditRow(Adw.EntryRow):
     def go_to_timestamp(self, button):
         GLib.idle_add(button.get_ancestor(Gtk.Popover).popdown)
         nanoseconds = int(self.ms/1000 * Gst.SECOND)
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    player.gst.seek_simple(
-                        Gst.Format.TIME,
-                        Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
-                        nanoseconds
-                    )
+        player = Gtk.Application.get_default().get_property('player')
+        player.gst.seek_simple(
+            Gst.Format.TIME,
+            Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
+            nanoseconds
+        )
 
     @Gtk.Template.Callback()
     def set_current_timestamp(self, button=None):
         ps = 0
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    ps = player.get_property('positionSeconds')
+        player = Gtk.Application.get_default().get_property('player')
+        ps = player.get_property('positionSeconds')
         self.ms = int(ps * 1000)
         self.invalid_ms = False
         if button:
@@ -83,11 +79,9 @@ class LyricsDialog(Adw.Dialog):
         GLib.idle_add(self.main_stack.set_visible_child_name, 'loading')
         GLib.idle_add(self.lrc_list_el.remove_all)
         lyrics_type, raw_content = '', ''
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if player := app.get_property('player'):
-                        lyrics_type, raw_content = integration.getLyrics(player.get_property('songId'), True)
+        integration = Gtk.Application.get_default().get_property('integration')
+        player = Gtk.Application.get_default().get_property('player')
+        lyrics_type, raw_content = integration.getLyrics(player.get_property('songId'), True)
         if lyrics_type == 'lrc':
             content = prepare_lrc(raw_content)
             for line in content:
@@ -148,10 +142,8 @@ class LyricsDialog(Adw.Dialog):
     @Gtk.Template.Callback()
     def add_line(self, button):
         ps = 0
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    ps = player.get_property('positionSeconds')
+        player = Gtk.Application.get_default().get_property('player')
+        ps = player.get_property('positionSeconds')
         row = LyricEditRow(
             ms=int(ps * 1000),
             content=""
@@ -187,12 +179,9 @@ class LyricsDialog(Adw.Dialog):
             lines.append((row.get_title(), row.get_text()))
 
         content = '\n'.join(['[{}] {}'.format(ms, content) for ms, content in lines])
-
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if player := app.get_property('player'):
-                        integration.saveLyrics(player.get_property('songId'), content, 'lrc')
+        integration = Gtk.Application.get_default().get_property('integration')
+        player = Gtk.Application.get_default().get_property('player')
+        integration.saveLyrics(player.get_property('songId'), content, 'lrc')
 
         Gio.Settings(schema_id="com.jeffser.Nocturne").set_string('playback-mode', self.playback_mode_backup)
         self.close()

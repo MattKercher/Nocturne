@@ -1,7 +1,6 @@
 # details_dialog.py
 
 from gi.repository import Gtk, Adw, GLib
-from ...integrations import get_current_integration
 from ...constants import get_display_time, get_cover_art
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/song/details_dialog.ui')
@@ -14,7 +13,7 @@ class SongDetailsDialog(Adw.Dialog):
 
     def __init__(self, model_id:str):
         self.id = model_id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         super().__init__()
 
         value_transformations = {

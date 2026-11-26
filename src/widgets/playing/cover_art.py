@@ -1,7 +1,7 @@
 # coverArt.py
 
 from gi.repository import GObject, Adw, Gtk, Gdk, GLib
-from ...constants import get_cover_art
+from ...constants import get_cover_art, get_cover_size
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playing/cover_art.ui')
 class PlayingCoverArt(Gtk.Box, Adw.Swipeable):
@@ -107,11 +107,9 @@ class PlayingCoverArt(Gtk.Box, Adw.Swipeable):
     def setup(self):
         self.spectrum_el.setup()
 
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.player:
-                    if video_sink := player.gst.get_property('video-sink'):
-                        self.video_el.set_paintable(video_sink.get_property('paintable'))
+        player = Gtk.Application.get_default().get_property('player')
+        if video_sink := player.gst.get_property('video-sink'):
+            self.video_el.set_paintable(video_sink.get_property('paintable'))
 
     @Gtk.Template.Callback()
     def format_cover_paintable(self, obj, has_paintable:bool, model_id:str, size:str) -> Gdk.Paintable:

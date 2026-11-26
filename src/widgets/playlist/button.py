@@ -1,7 +1,7 @@
 # button.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_PLAYLIST, get_cover_art, get_cover_size
 from ..containers import ContextContainer
 
@@ -21,7 +21,7 @@ class PlaylistButton(Gtk.Box):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyPlaylist(self.id, minimal=True)
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         super().__init__(
@@ -85,11 +85,9 @@ class PlaylistButton(Gtk.Box):
             rect.x, rect.y = args[1], args[2]
 
         context = CONTEXT_PLAYLIST.copy()
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if 'no-downloads' in integration.limitations:
-                        del context['download']
+        integration = Gtk.Application.get_default().get_property('integration')
+        if 'no-downloads' in integration.limitations:
+            del context['download']
 
         popover = Gtk.Popover(
             child=ContextContainer(context, self.id),

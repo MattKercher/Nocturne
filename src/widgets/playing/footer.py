@@ -53,10 +53,8 @@ class PlayingFooter(Adw.BreakpointBin):
                 nanoseconds
             )
 
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    value = scale_el.get_adjustment().get_value()
-                    player.set_property('seeking', True)
-                    GLib.timeout_add(500, lambda v=value, p=player: change_time(p, v) if v == scale_el.get_adjustment().get_value() else None)
+        player = Gtk.Application.get_default().get_property('player')
+        value = scale_el.get_adjustment().get_value()
+        player.set_property('seeking', True)
+        GLib.timeout_add(500, lambda v=value, p=player: change_time(p, v) if v == scale_el.get_adjustment().get_value() else None)
 

@@ -2,7 +2,6 @@
 
 from gi.repository import Gtk, Adw, GLib
 from .selector_row import PlaylistSelectorRow
-from ...integrations import get_current_integration
 import re
 
 @Gtk.Template(resource_path='/com/jeffser/Nocturne/playlist/dialog.ui')
@@ -16,7 +15,7 @@ class PlaylistDialog(Adw.Dialog):
 
     def __init__(self, song_list:list):
         self.song_list = song_list
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         super().__init__()
         for id in integration.getPlaylists():
             row = PlaylistSelectorRow(id)

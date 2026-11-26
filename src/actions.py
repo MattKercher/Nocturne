@@ -5,7 +5,7 @@ import random, threading, os, shutil, pathlib
 from datetime import datetime, timedelta
 from . import widgets as Widgets
 from gi.repository import Gio, Adw, Gtk, GLib, Gst
-from .constants import DATA_DIR, BASE_NAVIDROME_DIR, DOWNLOADS_DIR
+from .constants import DATA_DIR, BASE_NAVIDROME_DIR, DOWNLOADS_DIR, get_cover_art
 
 # -- HELPER --
 

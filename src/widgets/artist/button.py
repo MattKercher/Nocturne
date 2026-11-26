@@ -1,7 +1,7 @@
 # button.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_ARTIST, get_cover_art
 from ..containers import ContextContainer
 
@@ -17,7 +17,7 @@ class ArtistButton(Gtk.Button):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyArtist(self.id, minimal=True)
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         super().__init__(

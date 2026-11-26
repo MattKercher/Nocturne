@@ -1,7 +1,7 @@
 # button.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_ALBUM, CONTEXT_ARTIST, get_cover_art, get_cover_size
 from ..containers import ContextContainer
 
@@ -20,7 +20,7 @@ class AlbumButton(Gtk.Box):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyAlbum(self.id, minimal=True)
         self.settings = Gio.Settings(schema_id="com.jeffser.Nocturne")
         self.settings.connect("changed::button-size", lambda *_: GLib.idle_add(self.update_size))
@@ -90,11 +90,9 @@ class AlbumButton(Gtk.Box):
             rect.x, rect.y = args[1], args[2]
 
         context = CONTEXT_ALBUM.copy()
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if 'no-downloads' in integration.limitations:
-                        del context['download']
+        integration = Gtk.Application.get_default().get_property('integration')
+        if 'no-downloads' in integration.limitations:
+            del context['download']
 
         if model_id := self.get_property('model').get_property('id'):
             popover = Gtk.Popover(
@@ -114,11 +112,9 @@ class AlbumButton(Gtk.Box):
             rect.x, rect.y = args[1], args[2]
 
         context = CONTEXT_ALBUM.copy()
-        if root := self.get_root():
-            if app := root.get_application():
-                if integration := app.get_property('integration'):
-                    if 'no-downloads' in integration.limitations:
-                        del context['download']
+        integration = Gtk.Application.get_default().get_property('integration')
+        if 'no-downloads' in integration.limitations:
+            del context['download']
 
         if model_id := self.get_property('model').get_property('id'):
             popover = Gtk.Popover(

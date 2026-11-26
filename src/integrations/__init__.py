@@ -24,10 +24,6 @@ def get_available_integrations() -> dict:
         integrations[cls.__gtype_name__] = cls
     return integrations
 
-def get_current_integration():
-    global integration
-    return integration
-
 def set_current_integration(new_integration):
     global integration
     integration = new_integration

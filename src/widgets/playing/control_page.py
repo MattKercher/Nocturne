@@ -76,12 +76,10 @@ class PlayingControlPage(Adw.NavigationPage):
             )
             player.set_property('positionSeconds', val)
 
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    value = scale_el.get_adjustment().get_value()
-                    player.set_property('seeking', True)
-                    GLib.timeout_add(500, lambda v=value, p=player: change_time(p, v) if v == scale_el.get_adjustment().get_value() else None)
+        player = Gtk.Application.get_default().get_property('player')
+        value = scale_el.get_adjustment().get_value()
+        player.set_property('seeking', True)
+        GLib.timeout_add(500, lambda v=value, p=player: change_time(p, v) if v == scale_el.get_adjustment().get_value() else None)
 
     @Gtk.Template.Callback()
     def show_content_clicked(self, button):
@@ -93,14 +91,12 @@ class PlayingControlPage(Adw.NavigationPage):
 
     @Gtk.Template.Callback()
     def change_rating(self, button):
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    target_value = GLib.Variant('a{sv}', {
-                        'model_id': GLib.Variant('s', player.get_property('songId')),
-                        'rating': GLib.Variant('i', int(button.get_name()))
-                    })
-                    root.activate_action("app.set_rating", target_value)
+        player = Gtk.Application.get_default().get_property('player')
+        target_value = GLib.Variant('a{sv}', {
+            'model_id': GLib.Variant('s', player.get_property('songId')),
+            'rating': GLib.Variant('i', int(button.get_name()))
+        })
+        root.activate_action("app.set_rating", target_value)
 
     @Gtk.Template.Callback()
     def format_radio_homepage(self, obj, radioStreamUrl:str, return_variant:bool) -> GLib.Variant | str:

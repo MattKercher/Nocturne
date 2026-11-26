@@ -1,7 +1,7 @@
 # small_row.py
 
 from gi.repository import GObject, Gtk, Adw, Gdk, GLib
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ..containers import ContextContainer
 from ...constants import CONTEXT_SONG, get_cover_art, get_cover_size
 
@@ -18,7 +18,7 @@ class SongSmallRow(Gtk.Button):
 
     def __init__(self, id:str, show_album_name:bool=False):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifySong(self.id, minimal=True)
         super().__init__(
             model=integration.loaded_models.get(self.id),
@@ -61,10 +61,7 @@ class SongSmallRow(Gtk.Button):
                 wrapbox.remove(self)
 
     def generate_context_menu(self) -> ContextContainer:
-        integration = None
-        if root := self.get_root():
-            if app := root.get_application():
-                integration = app.get_property('integration')
+        integration = Gtk.Application.get_default().get_property('integration')
         context_dict = CONTEXT_SONG.copy()
         del context_dict["edit-radio"]
         del context_dict["delete-radio"]
@@ -75,10 +72,8 @@ class SongSmallRow(Gtk.Button):
             context_dict['rating']['value'] = integration.loaded_models.get(self.id).get_property('userRating')
 
         currentSongId = ''
-        if root := self.get_root():
-            if app := root.get_application():
-                if player := app.get_property('player'):
-                    currentSongId = player.get_property('songId')
+        player = Gtk.Application.get_default().get_property('player')
+        currentSongId = player.get_property('songId')
 
         context_dict["play-next"]["sensitive"] = currentSongId != self.id
         context_dict["play-later"]["sensitive"] = currentSongId != self.id

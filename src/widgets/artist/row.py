@@ -1,7 +1,7 @@
 # row.py
 
 from gi.repository import GObject, Gtk, Adw, GLib, Gdk, Gio
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_ARTIST, get_cover_art
 from ..containers import ContextContainer
 
@@ -16,7 +16,7 @@ class ArtistRow(Adw.ActionRow):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyArtist(self.id, minimal=True)
         super().__init__(
             model=integration.loaded_models.get(self.id)

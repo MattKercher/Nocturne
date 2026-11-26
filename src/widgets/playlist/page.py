@@ -1,7 +1,7 @@
 # page.py
 
 from gi.repository import GObject, Gtk, Gdk, Adw, GLib
-from ...integrations import get_current_integration, models
+from ...integrations import models
 from ...constants import CONTEXT_PLAYLIST, get_display_time, get_cover_art, get_cover_size
 from ..containers import get_context_buttons_list
 from ..song import SongRow
@@ -25,7 +25,7 @@ class PlaylistPage(Adw.NavigationPage):
 
     def __init__(self, id:str):
         self.id = id
-        integration = get_current_integration()
+        integration = Gtk.Application.get_default().get_property('integration')
         integration.verifyPlaylist(self.id, True)
         super().__init__(
             model=integration.loaded_models.get(self.id)
