@@ -84,6 +84,10 @@ class ArtistPage(Adw.NavigationPage):
         threading.Thread(target=self.update_top_songs, daemon=True).start()
 
     @Gtk.Template.Callback()
+    def format_page_title(self, obj, default_title, value) -> GLib.Variant:
+        return default_title if not value else value
+
+    @Gtk.Template.Callback()
     def format_action_target(self, obj, value, variant) -> GLib.Variant:
         return GLib.Variant(variant, value)
 
