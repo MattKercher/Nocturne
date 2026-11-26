@@ -102,7 +102,6 @@ class AlbumsAllPage(Adw.NavigationPage):
     def on_search(self, search_entry):
         self.offset = 0
         self.searching = False
-        print('on_search')
         for widget in list(self.list_el) + list(self.wrapbox_el):
             widget.set_visible(False)
         self.end_stack.set_visible_child_name('loading')
